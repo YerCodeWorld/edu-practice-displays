@@ -1,0 +1,327 @@
+@tx = renders input element, type = text
+@nm = renders input element, type = number
+@dt = renders input element, type = date
+@tm = renders input element, type = time
+@rn = renders input element, type = range
+@sw = renders input element, type = "checkBox"
+@cl = renders colors picker API
+@sl = renders select element
+@lt = renders custom element letter picker
+
+@dp = renders droppable area
+@dg = adds draggable element to draggable toolbox
+
+
+---------------------------------------
+
+*nm:6|10*
+*nm:54*
+
+*tx:some|text*
+*tx:some|other*
+
+*rn:0|10=7|8*
+*rn:0|100=90*
+
+*cl=blue|red*
+
+*lt=*
+
+
+
+
+@categorize {
+
+    <colors>
+
+    BLUE = [sky] | blueberry | ocean | ice;
+    RED  = strawberry | [Rose] | Blood | cherry;
+    GREEN = [Plants] | Grass | Camaleon | pears;
+    @EXTRA = eyes | apple | animals;
+
+}
+
+
+@categorize {
+
+    <single>
+
+    Present Simple =
+
+    I am a piano player |
+    We like to practice in the park;
+
+    Past Simple =
+
+    She was the first to finish |
+    We were not ready yet;
+
+    Future Simple =
+
+    I am going to tell her |
+    The president will take action;
+
+    @EXTRA = I have been there before | We would've finished much earlier;
+
+}
+
+
+@ordering {
+
+    # Present continuous
+    We | are | going | to | buy | a | new | car | [country];
+
+    And | and | Pedro | are | studying | together;
+
+    [Who] | Where | is | your | father | working | ?;
+
+    My | family | is | cooking | good | today | [tomorrow | yesterday];
+
+    # Where?
+    She's | going | to | the | two | of | us!;
+
+}
+
+@ordering {
+
+    <words>
+
+    # The place we all go to swim
+    Beach*;
+
+    # The place we all go to eat
+    Restaurant;
+
+    # Doing the shopping?
+    Supermarket;
+
+    # Studying in our teens...
+    School;
+
+    # This is where we live...
+    Home;
+
+    # Getting fit!
+    GYM;
+
+}
+
+@timeline {
+
+    # What happened first?
+    The creationg of the universe |
+    The birth of earth |
+    Death of dinosors |
+    Fall of the roman empire |
+    Discovery of the American continent |
+    WWI;
+
+    // ...
+}
+
+@select {
+
+    # Select all adjectives
+
+}
+
+@select {
+
+    # Categorize singular and plural nouns
+
+    We are a family of five. My mom being the head,
+    going through difficult times was never easy. My sister
+    is never going to understand it, but me and my brother always
+    will. It's not like some butterflies will pass by and
+    cause a disaster.;
+
+    // ...
+
+}
+
+@select {
+
+    <image>
+
+}
+
+@wordsCompletion {
+
+    # The place we all go to swim
+    B*e*a*ch*;
+
+    # The place we all go to eat
+    R*est*au*rant*;
+
+    # Doing the shopping?
+    Su*permar*ket;
+
+    # Studying in our teens...
+    *S*c*hool*;
+
+    # This is where we live...
+    *Home*;
+
+    # Getting fit!
+    *GYM*;
+
+}
+
+@matching {
+
+    apple = red;
+    pear  = green;
+    grapes = purple;
+    banana = yellow;
+    orange = orange;
+    @EXTRA = [brown | white];
+
+}
+
+@matching {
+
+    <wheels>
+
+    apple = red;
+    pear  = green;
+    grapes = purple;
+    banana = yellow;
+    orange = orange;
+    @EXTRA = [brown | white];
+
+}
+
+
+@matching {
+
+    <spread>
+
+
+
+}
+
+@mcq {
+
+    # What is the capital of Tokyo?
+    USA | Paris | Shangai | Seoul | [Tokyo];
+
+    # What is the personality of someone from the UK?
+    English | [British] | Scotish | Dutch;
+
+    # Who is the current president of the US?
+    [Trump] | Harry | Mike Pence | Biden;
+
+    # Which of the following colors are in the chinise flag?
+    [Red | Yellow] | Green | Black | White;
+
+}
+
+
+@q&a {
+
+    @HINTS {
+        1: MILLIONS;
+        4: En...;
+        10: 00...;
+    }
+
+    # On average, how many people died in WWII?
+    @nm(10)(people);
+
+    # What country does English come from?
+    @tx(England);
+
+    # How many is 60°F inn Celcius?
+    @rn(14|16)(°C);
+
+    # Is Spanish the most spoken language in the world?
+    @cb(false);
+
+    # What is the main color of the brazilian flag?
+    @cl(green)(color);
+
+    # Abbreviation of "United States of America":
+    @lt(USA);
+
+    # What year was Dominican Republic's independence?
+    @dt(1844/02/27);
+
+    # What time does the morning start?
+    @tm(12:00am);
+}
+
+@manual {
+
+    # Enter 5 verbs
+    lib.verbs;
+
+    # Enter 5 adjectives
+    lib.adjectives;
+
+    # Enter 5 nouns
+    lib.nouns;
+
+    # Enter 5 adverbs
+    lib.adverbs;
+
+}
+
+// html generator
+@text {
+
+    I @bl(am|'m) some who never considers things that @bl(are|'re) out of my control.
+    @sl([Where]|When|Who) is the place that people go when things are bad?
+
+    I *tx:am|'m* some who never considers things that *tx:are|'re* out of my control.
+    *sl:[Where]|When|Who* is the place that people go when things are bad?
+}
+
+// games
+// ...
+
+
+
+<p>
+
+    Hello <input type="text" aria-describedby="blank-ix">, how are you doing today?
+
+
+
+</p>
+
+
+
+
+
+
+
+---------------------------
+
+
+model Exercise {
+
+    id
+    type
+    difficulty
+    title
+
+    theme?
+
+    config?
+    rawEduScript?
+    generatedJSON?
+
+    createdAt
+    updatedAt
+
+}
+
+
+
+
+
+
+
+
+
+

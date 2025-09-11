@@ -1,0 +1,1 @@
+export { conceptsExerciseRenderer } from "./script";

@@ -1,0 +1,35 @@
+<!-- We are creating the section in the script instead of
+hardcoding it here (as well as all our components)-->
+
+<header class="navigation">
+  <div class="mtc-single-dots" id="mtc-single-dots"></div>
+  <button class="hint" id="mtc-single-hint-btn" title="Show hint">💡</button>
+</header>
+
+<main class="layout">
+  <aside class="answer-holder">
+    <h4>Drop your answer</h4>
+    <div class="holder-dropzone" id="dropzone">
+      <div class="holder-content" id="mtc-single-holder"></div>
+    </div>
+  </aside>
+
+  <div class="question-container">
+    <label class="question" id="mtc-single-question">…</label>
+    <div class="hint-text" id="mtc-single-hint"></div>
+
+    <div class="bank">
+      <h5>Answer bank</h5>
+      <div class="bank-grid" id="mtc-single-bank"></div>
+    </div>
+
+    <div class="nav-buttons">
+      <button id="mtc-single-prevBtn">Previous</button>
+      <button id="mtc-single-nextBtn" class="primary">Next</button>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <button id="mtc-single-check" class="mtc-single-check">Check</button>
+</footer>

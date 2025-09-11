@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matching Exercise Demo</title>
+    <style>
+        body {
+            place-items: center;
+            margin: 20%;
+        }
+
+        .demo-container {
+            display: block;
+            padding: 16px;
+        }
+
+        /* fixed "frame" for components */
+        #component-container {
+
+            display: flex;
+            flex-direction: column;
+
+            width: 50%px;        /* pick your desired width */
+            height: 50%px;       /* pick your desired height */
+
+            padding: 20px;
+            border: 2px solid var(--border, #ccc);
+            border-radius: 12px;
+            background: var(--card, #fff);
+
+            gap: 30px;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <div id="component-container"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+    <script type="module">
+        import {
+            conceptsExerciseRenderer,
+            matchingWheelsRenderer,
+            trueFalseRenderer,
+            matchingPageRenderer,
+            matchingSingleRenderer
+        } from './dist/index.js';
+
+        const wheelsData = {
+            content: [
+                { left: '🇫🇷 France', right: 'Paris' },
+                { left: '🇩🇪 Germany', right: 'Berlin' },
+                { left: '🇪🇸 Spain', right: 'Madrid' },
+                { left: '🇮🇹 Italy', right: 'Rome' },
+                { left: '🇬🇧 UK', right: 'London' }
+            ],
+            distractors: ['Vienna', 'Prague', 'Amsterdam']
+        }
+
+        // Sample datasets for different difficulties
+        const conceptsData = {
+            content: [
+                {left: "Misinformation", right: "Telling something that is false as if it was true"},
+                {left: "Fraternity", right: "The idea of union of man and fellowship of the people"},
+                {left: "Destroy", right: "Riping something apart to make it non-functionable"},
+                {left: "Intelligence", right: "Concept that represents intelectual capacity"},
+            ],
+            distractors: ["State of deep sadness during long times", "Hurting someone deeply"]
+        };
+
+        const trueFalseData = [
+            { q: "The sun is really big", a: "T" },
+            { q: "The sky is not blue", a: "F" },
+            { q: "Everybody is beautiful", a: "N" },
+            { q: "Bananas are usually purple", a: "F" }
+        ];
+
+        const originalData = {
+            content: [
+                { left: '🍎 Apple', right: 'Red' },
+                { left: '🍌 Banana', right: 'Yellow' },
+                { left: '🍇 Grape', right: 'Purple' },
+                { left: '🍊 Orange', right: 'Orange' }
+            ],
+            distractors: ['Blue', 'Green'],
+            leftColumnName: "Fruits",
+            rightColumnName: "Colors"
+        };
+
+        const singleData = {
+            content: [
+                { left: '🍎 Apple', right: 'Red', hint: 'none' },
+                { left: '🍌 Banana', right: 'Yellow', hint: 'none2' },
+                { left: '🍇 Grape', right: 'Purple', hint: 'none3' },
+                { left: '🍊 Orange', right: 'Orange', hint: 'none4' }
+            ],
+            distractors: ['Blue', 'Green']
+        }
+
+
+        // Get DOM elements
+        const container = document.getElementById('component-container');
+
+        function createExerciseBlock(renderer, data) {
+            const block = document.createElement("section");
+            const title = document.createElement("h2");
+            const des = document.createElement("p");
+
+            block.append(title, des);
+            container.append(block);
+
+            const r = renderer(
+                block,
+                data,
+                {
+                    shuffle: true,
+                    allowRetry: true,
+                    resultHandler: () => {
+                        confetti({
+                            particleCount: 100,
+                            spread: 70,
+                            origin: { y: 0.6 },
+                        });
+                    }
+                }
+            );
+            title.textContent = r.componentData.name;
+            des.textContent = r.componentData.description;
+        }
+
+        createExerciseBlock(matchingWheelsRenderer, wheelsData);
+        createExerciseBlock(conceptsExerciseRenderer, conceptsData);
+        createExerciseBlock(trueFalseRenderer, trueFalseData);
+        createExerciseBlock(matchingPageRenderer, originalData);
+        createExerciseBlock(matchingSingleRenderer, singleData);
+
+    </script>
+</body>
+</html>

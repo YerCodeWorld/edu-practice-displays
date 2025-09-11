@@ -1,0 +1,246 @@
+:host{
+    --bg:#eef6ff;
+    --card:#f6fbff;
+    --ink:#0f172a;
+    --muted:#64748b;
+    --accent:#2563eb;
+    --accent2:#14b8a6;
+    --accent3:#1f9edb;
+    --border: color-mix(in oklab, var(--ink) 28%, transparent);
+
+    --accent2-soft: color-mix(in oklch, var(--accent) 10%, white);
+}
+
+.mtc-single-wrapper {
+    width:min(1040px,96vw);
+    background:var(--card);
+    border:2px solid var(--accent2);
+    border-radius:20px; padding:16px 18px 18px;
+}
+
+/* Top nav */
+.navigation{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:10px 4px 14px;
+    border-bottom:1.5px solid var(--border)
+}
+
+.mtc-single-dots {display:flex;gap:12px}
+
+.circle{
+    width:14px;
+    aspect-ratio:1/1;
+    border: 1px solid var(--ink);
+    border-radius:999px;
+    background:transparent;
+    cursor:pointer;
+}
+
+.circle:hover{
+    transform:scale(1.5);
+    background:color-mix(in oklab, var(--ink) 18%, transparent)
+}
+.circle.is-active{ background:var(--accent2) }
+
+.hint{
+    margin-left:auto;
+    aspect-ratio: 1/1;
+    border-radius:99px;
+    border:1.5px solid var(--accent3);
+    background:transparent;
+    display:grid;
+    place-items:center;
+    cursor:pointer;
+
+}
+.hint:hover{
+    transform:scale(1.5);
+    background:color-mix(in oklab, var(--ink) 14%, transparent)
+}
+
+/* ==== */
+.layout{
+    display:grid;
+    grid-template-columns:minmax(220px,260px) 1fr;
+    gap:18px;
+    padding-top:16px;
+}
+
+@media (max-width:780px){ .layout{ grid-template-columns:1fr } }
+
+/* Answer holder */
+.answer-holder{
+    padding:12px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.04), 0 5px 12px rgba(0,0,0,.35);
+    display:flex;
+    flex-direction:column;
+}
+
+.answer-holder h4 {
+    margin:10px; font-size:13px; color:var(--muted); letter-spacing:.3px;
+}
+
+.holder-dropzone {
+    flex:1;
+    border:1.5px dashed var(--accent3);
+    border-radius:10px;
+    padding:10px;
+    display: grid;
+    place-items:center;
+}
+
+/* Question & hint */
+.question {
+    display:block;
+    font-weight:700;
+    margin:6px 0 10px;
+    font-size:clamp(1.6rem,3.4vw,2.2rem);
+    color: var(--ink);
+}
+
+.hint-text{
+    max-height:0;
+    opacity:0;
+    overflow:hidden;
+    color:var(--muted);
+    border-left: 4px solid var(--ink);
+    margin:.25rem 0 1rem;
+    font-style:italic;
+    padding-left: 10px;
+    transition: max-height 1s ease, opacity .8s ease;
+}
+.hint-text.is-open{
+    max-height:140px; opacity:1;
+}
+
+/* Answer bank */
+.bank{ margin-top:.5rem; }
+.bank h5 { margin:10px 0 8px; color:var(--muted); }
+
+.bank-grid{
+    display: grid;
+    grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+    gap:10px;
+}
+
+/* Tiles */
+.tile{
+    background: var(--accent2-soft);
+    color:var(--ink);
+    border:1.6px solid var(--border);
+    border-radius:16px;
+    padding:10px 12px;
+    cursor:pointer;
+    user-select: none;
+    border-color: var(--border);
+
+    transition:
+        transform .12s ease,
+        border-color .12s ease,
+        opacity .12s ease;
+    will-change: transform;
+}
+
+.tile.disabled {
+    color:var(--ink);
+    border:1.6px solid var(--border);
+    border-radius:16px;
+    padding:10px 12px;
+    cursor:pointer;
+    transform-style: preserve-3d;
+    user-select: none;
+    border-color: var(--border);
+    transition:
+        transform .12s ease,
+        box-shadow .12s ease,
+        border-color .12s ease,
+        opacity .12s ease;
+    will-change: transform;
+}
+
+.tile:hover{
+    transform:translateY(-2px) scale(.94);
+}
+
+.tile:active{
+    transform:translateY(0) scale(.98)
+}
+
+.correct{
+    border-color:var(--accent2);
+    box-shadow:0 0 0 2px color-mix(in oklab, var(--accent2) 35%, transparent)
+}
+.wrong{
+    border-color:#ef4444;
+    box-shadow:0 0 0 2px color-mix(in oklab, #ef4444 35%, transparent)
+}
+
+/* Bottom nav */
+.nav-buttons {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    margin-top:14px;
+    padding-top:14px;
+    border-top:1.5px solid var(--border)
+}
+.nav-buttons button {
+    padding:10px 14px;
+    border-radius:12px;
+    cursor:pointer;
+    background:transparent;
+    border:1.6px solid var(--border);
+    color:var(--ink);
+    transition:transform .12s ease, background .12s ease, border-color .12s ease;
+}
+
+.nav-buttons button:hover {
+    transform:translateY(-1px);
+    background:color-mix(in oklab, var(--ink) 10%, transparent)
+}
+.nav-buttons .primary {
+    background:var(--accent);
+    border-color:var(--accent); color:#fff
+}
+.nav-buttons .primary:disabled {
+    opacity:.5;
+    cursor:not-allowed
+}
+
+footer {
+    display: grid;
+    place-items: center;
+    margin: 20px;
+    padding: 10px;
+}
+.mtc-single-check {
+    cursor: pointer;
+    width: 100%;
+    padding: 10px 12px;
+    background: none;
+    border-color: var(--border);
+    color: var(--ink);
+}
+
+.mtc-single-check:hover {
+    background-color: var(--accent2-soft);
+}
+
+/* Misc */
+@keyframes fadeSlide{
+    from{ opacity:0; transform:translateY(30px) }
+    to{ opacity:1; transform:none }
+}
+
+.animate-fadeSlide {
+    animation:fadeSlide .22s ease both;
+}
+
+/* Stagger-in animation */
+@keyframes tileIn {
+    from{ opacity:0; transform:translateY(6px) scale(.98) }
+    to{ opacity:1; transform:none }
+}

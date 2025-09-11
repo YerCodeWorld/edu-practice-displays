@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matching Exercise Demo</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .demo-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .demo-header h1 {
+            margin: 0 0 0.5rem 0;
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        .demo-header p {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .demo-controls {
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .control-group label {
+            font-weight: 600;
+            color: #475569;
+            font-size: 0.875rem;
+        }
+
+        .demo-button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.875rem;
+        }
+
+        .demo-button--primary {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .demo-button--primary:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+        }
+
+        .demo-button--secondary {
+            background: white;
+            color: #475569;
+            border: 1px solid #d1d5db;
+        }
+
+        .demo-button--secondary:hover {
+            background: #f1f5f9;
+        }
+
+        .demo-button--theme {
+            padding: 0.5rem 1rem;
+            font-size: 0.75rem;
+            min-width: 80px;
+        }
+
+        .demo-button--theme.active {
+            background: #10b981;
+            color: white;
+        }
+
+        #matching-container {
+            min-height: 600px;
+            padding: 0;
+        }
+
+        .results-panel {
+            background: #f1f5f9;
+            border-top: 1px solid #e2e8f0;
+            padding: 1.5rem;
+            display: none;
+        }
+
+        .results-panel.show {
+            display: block;
+        }
+
+        .results-panel h3 {
+            margin: 0 0 1rem 0;
+            color: #1e293b;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .result-card {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .result-card h4 {
+            margin: 0 0 0.5rem 0;
+            color: #1e293b;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .result-card .value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #3b82f6;
+        }
+
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #10b981;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .demo-controls {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <div class="demo-header">
+            <h1>🎯 Matching Exercise Demo</h1>
+            <p>Interactive educational component showcase</p>
+        </div>
+
+        <letter-picker></letter-picker>
+
+        <div class="demo-controls">
+            <div class="control-group">
+                <label>Theme</label>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button class="demo-button demo-button--theme" data-theme="original">Original</button>
+                    <button class="demo-button demo-button--theme active" data-theme="modern">Modern</button>
+                    <button class="demo-button demo-button--theme" data-theme="sunset">Sunset</button>
+                    <button class="demo-button demo-button--theme" data-theme="ocean">Ocean</button>
+                    <button class="demo-button demo-button--theme" data-theme="forest">Forest</button>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label>Difficulty</label>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button class="demo-button demo-button--secondary" data-difficulty="easy">Easy</button>
+                    <button class="demo-button demo-button--secondary" data-difficulty="medium">Medium</button>
+                    <button class="demo-button demo-button--secondary" data-difficulty="hard">Hard</button>
+                </div>
+            </div>
+
+            <button class="demo-button demo-button--primary" id="new-exercise">
+                🔄 New Exercise
+            </button>
+        </div>
+
+        <div id="matching-container"></div>
+
+        <div class="results-panel" id="results-panel">
+            <h3>📊 Exercise Results</h3>
+            <div class="results-grid">
+                <div class="result-card">
+                    <h4>Score</h4>
+                    <div class="value" id="result-score">0/0</div>
+                </div>
+                <div class="result-card">
+                    <h4>Accuracy</h4>
+                    <div class="value" id="result-accuracy">0%</div>
+                </div>
+                <div class="result-card">
+                    <h4>Attempts</h4>
+                    <div class="value" id="result-attempts">0</div>
+                </div>
+                <div class="result-card">
+                    <h4>Time</h4>
+                    <div class="value" id="result-time">--</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast">
+        <span id="toast-message">Exercise completed!</span>
+    </div>
+
+    <script type="module">
+        import { matchingPageRenderer } from './dist/index.js';
+
+        // Sample datasets for different difficulties
+        const datasets = {
+            easy: {
+                data: {
+                    content: [
+                        { left: '🍎 Apple', right: 'Red' },
+                        { left: '🍌 Banana', right: 'Yellow' },
+                        { left: '🍇 Grape', right: 'Purple' },
+                        { left: '🍊 Orange', right: 'Orange' }
+                    ],
+                    distractors: ['Blue', 'Green'],
+                    leftColumnName: "Fruits",
+                    rightColumnName: "Colors"
+                },
+                metadata: {
+                    title: '🎨 Colors & Fruits',
+                    instruction: 'Match each fruit with its typical color. Some colors are distractors!',
+                    difficulty: 'Easy'
+                }
+            },
+            medium: {
+                data: {
+                    content: [
+                        { left: '🇫🇷 France', right: 'Paris' },
+                        { left: '🇩🇪 Germany', right: 'Berlin' },
+                        { left: '🇪🇸 Spain', right: 'Madrid' },
+                        { left: '🇮🇹 Italy', right: 'Rome' },
+                        { left: '🇬🇧 UK', right: 'London' }
+                    ],
+                    distractors: ['Vienna', 'Prague', 'Amsterdam'],
+                    leftColumnName: "Country",
+                    rightColumnName: "Capital"
+                },
+                metadata: {
+                    title: '🌍 European Capitals',
+                    instruction: 'Match each country with its capital city. Watch out for distractors!',
+                    difficulty: 'Medium'
+                }
+            },
+            hard: {
+                data: {
+                    content: [
+                        { left: 'H₂O', right: 'Water' },
+                        { left: 'CO₂', right: 'Carbon Dioxide' },
+                        { left: 'NaCl', right: 'Salt' },
+                        { left: 'O₂', right: 'Oxygen' },
+                        { left: 'CH₄', right: 'Methane' },
+                        { left: 'NH₃', right: 'Ammonia' }
+                    ],
+                    distractors: ['Nitrogen', 'Helium', 'Argon', 'Hydrogen']
+                },
+                metadata: {
+                    title: '⚗️ Chemical Formulas',
+                    instruction: 'Match chemical formulas with their common names. Advanced level!',
+                    difficulty: 'Hard'
+                }
+            }
+        };
+
+        // State management
+        let currentHandle = null;
+        let currentTheme = 'modern';
+        let startTime = null;
+
+        // Get DOM elements
+        const container = document.getElementById('matching-container');
+        const resultsPanel = document.getElementById('results-panel');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toast-message');
+
+        // Theme management
+        const themes = {
+            original: {
+                name: 'original',
+                cssVariables: {
+                    '--primary-color': '#2563eb',
+                    '--primary-hover': '#1d4ed8',
+                    '--success-color': '#16a34a',
+                    '--error-color': '#dc2626',
+                    '--background': '#ffffff',
+                    '--surface': '#f8fafc',
+                    '--border': '#e2e8f0',
+                    '--text-primary': '#1e293b',
+                    '--text-secondary': '#64748b',
+                    '--shadow': '0 1px 3px 0 rgba(0, 0, 0, 0.1)',
+                    '--radius': '0.375rem',
+                    '--font-family': 'system-ui, -apple-system, sans-serif'
+                }
+            },
+            modern: {
+                name: 'modern',
+                cssVariables: {
+                    '--primary-color': '#6366f1',
+                    '--primary-hover': '#4f46e5',
+                    '--success-color': '#10b981',
+                    '--error-color': '#f59e0b',
+                    '--background': '#0f172a',
+                    '--surface': '#1e293b',
+                    '--border': '#334155',
+                    '--text-primary': '#f1f5f9',
+                    '--text-secondary': '#cbd5e1',
+                    '--shadow': '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                    '--radius': '0.75rem',
+                    '--font-family': 'Inter, system-ui, sans-serif'
+                }
+            },
+            sunset: {
+                name: 'sunset',
+                cssVariables: {
+                    '--primary-color': '#f97316',
+                    '--primary-hover': '#ea580c',
+                    '--success-color': '#16a34a',
+                    '--error-color': '#dc2626',
+                    '--background': '#fff7ed',
+                    '--surface': '#ffffff',
+                    '--border': '#fed7aa',
+                    '--text-primary': '#1f2937',
+                    '--text-secondary': '#6b7280',
+                    '--shadow': '0 2px 4px 0 rgba(0, 0, 0, 0.06)',
+                    '--radius': '0.5rem',
+                    '--font-family': 'Inter, system-ui, sans-serif'
+                }
+            },
+            ocean: {
+                name: 'ocean',
+                cssVariables: {
+                    '--primary-color': '#0ea5e9',
+                    '--primary-hover': '#0284c7',
+                    '--success-color': '#22c55e',
+                    '--error-color': '#ef4444',
+                    '--background': '#0b1220',
+                    '--surface': '#0f172a',
+                    '--border': '#334155',
+                    '--text-primary': '#e2e8f0',
+                    '--text-secondary': '#94a3b8',
+                    '--shadow': '0 6px 12px -2px rgba(0, 0, 0, 0.5)',
+                    '--radius': '0.75rem',
+                    '--font-family': 'Inter, system-ui, sans-serif'
+                }
+            },
+
+            forest: {
+                name: 'forest',
+                cssVariables: {
+                    '--primary-color': '#16a34a',
+                    '--primary-hover': '#15803d',
+                    '--success-color': '#22c55e',
+                    '--error-color': '#b91c1c',
+                    '--background': '#0b1a13',
+                    '--surface': '#112a1f',
+                    '--border': '#1f3b2d',
+                    '--text-primary': '#e6f4ea',
+                    '--text-secondary': '#a7d7be',
+                    '--shadow': '0 4px 8px -2px rgba(0, 0, 0, 0.45)',
+                    '--radius': '0.75rem',
+                    '--font-family': 'Inter, system-ui, sans-serif'
+                }
+            }
+
+        };
+
+        // Utility functions
+        function showToast(message, type = 'success') {
+            toastMessage.textContent = message;
+            toast.style.background = type === 'success' ? '#10b981' : '#ef4444';
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        function updateResults(result) {
+            const accuracy = result.attempts > 0 ?
+                Math.round((result.correct / result.attempts) * 100) : 0;
+            const timeElapsed = startTime ?
+                Math.round((Date.now() - startTime) / 1000) : 0;
+
+            document.getElementById('result-score').textContent =
+                `${result.correct}/${result.total}`;
+            document.getElementById('result-accuracy').textContent = `${accuracy}%`;
+            document.getElementById('result-attempts').textContent = result.attempts;
+            document.getElementById('result-time').textContent = `${timeElapsed}s`;
+
+            resultsPanel.classList.add('show');
+        }
+
+        // Create new exercise
+        function createExercise(difficulty = 'easy') {
+            // Destroy current exercise if exists
+            if (currentHandle) {
+                currentHandle.destroy();
+                currentHandle = null;
+            }
+
+            // Hide results panel
+            resultsPanel.classList.remove('show');
+
+            // Clear container
+            container.innerHTML = '';
+
+            // Start timer
+            startTime = Date.now();
+
+            // Get dataset
+            const { data, metadata } = datasets[difficulty];
+
+            // Create new exercise
+            currentHandle = matchingPageRenderer(
+                container,
+                data,
+                {
+                    theme: themes[currentTheme],
+                    shuffle: true,
+                    allowRetry: true,
+                    resultHandler: (result) => {
+                        console.log('Exercise completed:', result);
+                        updateResults(result.detail);
+                        showToast(`Completed! Score: ${result.detail.score}/${result.detail.total}`);
+                    },
+                    ariaLabel: `${metadata.title} - ${metadata.difficulty} Level`
+                }
+            );
+
+            showToast(`New ${difficulty} exercise loaded!`);
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize with easy exercise
+            createExercise('easy');
+        });
+
+        // Theme switching
+        document.querySelectorAll('[data-theme]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const theme = btn.dataset.theme;
+                currentTheme = theme;
+
+                // Update active button
+                document.querySelectorAll('[data-theme]').forEach(b =>
+                    b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Apply theme to current exercise
+                if (currentHandle) {
+                    currentHandle.setTheme(themes[theme]);
+                }
+
+                showToast(`Theme changed to ${theme}`);
+            });
+        });
+
+        // Difficulty switching
+        document.querySelectorAll('[data-difficulty]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const difficulty = btn.dataset.difficulty;
+                createExercise(difficulty);
+
+                // Update active button
+                document.querySelectorAll('[data-difficulty]').forEach(b =>
+                    b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+
+        // New exercise button
+        document.getElementById('new-exercise').addEventListener('click', () => {
+            const activeDifficulty = document.querySelector('[data-difficulty].active');
+            const difficulty = activeDifficulty ?
+                activeDifficulty.dataset.difficulty : 'easy';
+            createExercise(difficulty);
+        });
+
+        // Listen for custom events
+        container.addEventListener('matching-complete', (event) => {
+            console.log('Custom event received:', event.detail);
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (event) => {
+            if (event.ctrlKey || event.metaKey) {
+                switch (event.key) {
+                    case 'r':
+                        event.preventDefault();
+                        if (currentHandle) currentHandle.reset();
+                        showToast('Exercise reset!');
+                        break;
+                    case 'n':
+                        event.preventDefault();
+                        document.getElementById('new-exercise').click();
+                        break;
+                }
+            }
+        });
+
+        // Expose for debugging
+        window.matchingDemo = {
+            getCurrentState: () => currentHandle ? currentHandle.getState() : null,
+            getCurrentHandle: () => currentHandle,
+            createExercise,
+            themes
+        };
+    </script>
+</body>
+</html>

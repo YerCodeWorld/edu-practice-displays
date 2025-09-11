@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>EduGlobal Demo</title>
+
+<style>
+  body { font-family: sans-serif; margin: 2rem; }
+  edu-global { margin-bottom: 2rem; display: block; max-width: 400px; }
+  .ex1 {
+    background: #1a1a1a;
+    color: #fff;
+    border-radius: 20px;
+  }
+
+</style>
+</head>
+<body>
+
+<h1>MatchingSingle Demo - Multiple Input Types</h1>
+
+<edu-global id="exText"></edu-global>
+<edu-global class="ex1" id="exNumber"></edu-global>
+<edu-global class="ex1" id="exSlider"></edu-global>
+<edu-global id="exDate"></edu-global>
+<edu-global id="exSelect"></edu-global>
+<edu-global id="exSwitch"></edu-global>
+
+<button id="checkBtn">Check Answers</button>
+
+
+<script type="module">
+
+import { EduGlobalInput } from "./dist/index.js";
+
+if (!customElements.get(EduGlobalInput)) customElements.define("edu-global", EduGlobalInput);
+
+const exText = document.getElementById("exText");
+const exNumber = document.getElementById("exNumber");
+const exSlider = document.getElementById("exSlider");
+const exDate = document.getElementById("exDate");
+const exSelect = document.getElementById("exSelect");
+const exSwitch = document.getElementById("exSwitch");
+
+// Text
+exText.data = { prompt: "What's your name?", answer: "John", inputType: "text" };
+exText.theme = {
+  cssVariables: {
+    '--primary': '#ff6b6b',         // soft red button
+    '--bg': '#fff5e6',              // warm background
+    '--muted-transparent': '#ff6b6b10', // stripe accent
+    '--border': '#ffb88c',          // border
+    '--text': '#7f3f00'             // text color
+  }
+}
+
+// Number
+exNumber.data = { prompt: "Enter your age", answer: "20", inputType: "number", answerHint: "years old" };
+exNumber.theme = {
+  cssVariables: {
+    '--primary': '#03dac6',          // teal button
+    '--bg': '#0a1f2e',               // very dark blue background
+    '--muted-transparent': '#03dac610', // subtle stripe overlay
+    '--border': '#13475f',           // darker border
+    '--text': '#e0f7fa'              // light cyan text
+  }
+}
+
+// Slider
+exSlider.data = { prompt: "How hot is it during the summer?", answer: "80", inputType: "slider", answerHint: "°C" };
+exSlider.theme = {
+  cssVariables: {
+    '--primary': '#bb86fc',          // violet button
+    '--bg': '#121212',               // dark background
+    '--muted-transparent': '#bb86fc10', // subtle stripe
+    '--border': '#333333',           // border
+    '--text': '#e0e0e0'              // light gray text
+  }
+}
+
+// Date
+exDate.data = { prompt: "What is the date for Dominican Republic's independence?", answer: "2000-01-01", inputType: "date", hint: "18..." };
+exDate.theme = {
+    cssVariables: {
+    '--primary': '#0288d1',         // ocean blue button
+    '--bg': '#e0f7fa',              // light aqua background
+    '--muted-transparent': '#0288d110',
+    '--border': '#81d4fa',          // border
+    '--text': '#01579b'             // dark blue text
+  }
+}
+
+// Select
+exSelect.data = { prompt: "What color is blod?", answer: "Red", inputType: "select", selectOptions: ["Red", "Green", "Blue"] };
+
+// Switch
+exSwitch.data = { prompt: "Enable notifications?", answer: "true", inputType: "switch" };
+
+// Check button
+document.getElementById("checkBtn").addEventListener("click", () => {
+  console.log("Text:", exText.answer);
+  console.log("Number:", exNumber.answer);
+  console.log("Slider:", exSlider.answer);
+  console.log("Date:", exDate.answer);
+  console.log("Select:", exSelect.answer);
+  console.log("Switch:", exSwitch.answer);
+  alert(
+    `Text: ${exText.answer.isCorrect ? "✅" : "❌"} | ` +
+    `Number: ${exNumber.answer.isCorrect ? "✅" : "❌"} | ` +
+    `Slider: ${exSlider.answer.isCorrect ? "✅" : "❌"} | ` +
+    `Date: ${exDate.answer.isCorrect ? "✅" : "❌"} | ` +
+    `Select: ${exSelect.answer.isCorrect ? "✅" : "❌"} | ` +
+    `Switch: ${exSwitch.answer.isCorrect ? "✅" : "❌"}`
+  );
+});
+</script>
+
+</body>
+</html>
