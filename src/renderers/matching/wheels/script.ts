@@ -8,6 +8,7 @@ import {
 import {
     Pair,
     MatchData,
+    ThemeName,
 
     MatchingRendererOptions,
     MatchingRendererHandle,
@@ -19,26 +20,16 @@ import {
 import {
     items,
     distractors,
-    answerKey
+    answerKey,
+    parseMatching
 } from '../utils';
+
+import { ContractType } from "../../types";
+
+import { themes } from './themes';
 
 import baseHTML from "./index.html";
 import baseCSS from "./styles.css";
-
-const themes: Record<string, QuizTheme> = {
-    original: {
-        name: 'original',
-        cssVariables: {
-            "--bg": "#f5f9f4",          // main background (white as required)
-            "--card": "#fff",        // card surface, soft green tint
-            "--text": "#1b2616",        // dark greenish ink
-            "--muted": "#7a8f7a",       // muted text, desaturated green-gray
-            "--accent": "#2f855a",      // forest green
-            "--accent-2": "#b7791f",    // earthy golden-brown secondary
-            "--border": "color-mix(in oklch, var(--text) 18%, transparent)"
-        }
-    }
-};
 
 export function matchingWheelsRenderer(
     mount: HTMLElement,
@@ -51,17 +42,16 @@ export function matchingWheelsRenderer(
       description: "A component in each pairs of separate data are displayed one by one."
     };
 
-    injectStyle("matching-wheels-style", baseCSS);
-
     const {
-        theme = themes.original,
+        theme = themes.moonSet,
         shuffle: doShuffle = true,
         allowRetry = true,
         resultHandler,
         ariaLabel = "Matching Wheels"
     } = options;
 
-    const root = createSection("mtc-wheels-wrap", ariaLabel);
+    const root = createSection("mtc-wheels-wrap", ariaLabel);    
+    injectStyle("matching-wheels-style", baseCSS);
     applyTheme(root, theme);
 
     const $ = sel => root.querySelector(sel);
@@ -133,16 +123,16 @@ export function matchingWheelsRenderer(
             topPool = topPool.filter(x => x !== top);
 
             iT = (iT) % topPool.length;
-            update();
+            update();            
 
             if (topPool.length === 0) {
                 finish();
                 return;
             }
 
-        } else {
+        } else {            
 
-            lives.textContent = lives.textContent.replace("❤️", "🤍");
+            lives.textContent = lives.textContent.replace("❤️", "🤍");            
 
             root.classList.remove("shake-animation");
             void root.offsetWidth;
@@ -170,7 +160,7 @@ export function matchingWheelsRenderer(
         bottomLabel = $('#bottomLabel');
         bottomLabel.textContent = bottomPool[iB];
 
-        lives = root.querySelector("#lives") as HTMLLabelElement;        
+        lives = root.querySelector("#mtc-wheels-lives") as HTMLLabelElement;        
 
         solvedList = $("#solvedList");
         barFill = $('#barFill');
@@ -225,3 +215,61 @@ export function matchingWheelsRenderer(
     }
 
 }
+
+function matchingWheelsValidator(data: any): boolean { return true; }
+
+export const MatchingWheelsContract: ContractType = {
+    name: "Matching Wheels",
+    description: "Move objects in a rotating still in a top and bottom container to match them.",
+    
+    themes,
+    version: 1.0,
+    parserVersion: 1.0,
+
+    category: "relational",
+    tags: ["relation", "binary-choice", "concept-tying"],
+
+    usage: [
+        "...",
+        "...",
+        "..."
+    ],
+    wrong: [
+        "...",
+        "...",
+        "..."
+    ],
+
+    grammarExample: [
+      `
+       apple = red;
+       pear = green;
+       grapes = purple;
+       banana = yellow;
+       @EXTRA = [white | black]`,        
+      `
+       USA :: Washington DC;
+       DR :: Santo Domingo;
+       Japan :: Tokyo;
+       Spain :: Madrid;
+       Argentina :: Buenos Aires;
+       @EXTRA :: [Ottowa | London | Moscow];
+       `
+    ],
+
+    defaultOptions: {
+        shuffle: true,
+        allowRetry: false,
+        ariaLabel: "Matching Wheels Exercise"
+    },
+
+    implementation: {
+        renderer: matchingWheelsRenderer,
+        parser: parseMatching,
+        validator: matchingWheelsValidator
+    },
+
+    html: baseHTML,
+    css: baseCSS
+}
+

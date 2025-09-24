@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matching Exercise Demo</title>
+    <style>
+        body {
+            place-items: center;
+            margin: 20%;
+            background-color: #d3d3d3;
+        }
+
+        .demo-container {
+            display: block;
+            padding: 16px;
+        }
+
+        /* fixed "frame" for components */
+        #component-container {
+
+            display: flex;
+            flex-direction: column;
+
+            width: 50%px;        /* pick your desired width */
+            height: 50%px;       /* pick your desired height */
+
+            padding: 20px;
+            border: 2px solid var(--border, #ccc);
+            border-radius: 12px;
+            background: var(--card, #D3D3D3);
+
+            gap: 30px;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <div id="component-container"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+    <script type="module">
+        import {
+            MatchingContract as Contract            
+        } from './dist/index.js';
+
+        // Get DOM elements
+        const container = document.getElementById('component-container');
+
+        function createExerciseBlock(renderer, data) {
+        
+            const block = document.createElement("section");
+            const title = document.createElement("h2");
+            const des = document.createElement("p");
+
+            block.append(title, des);
+            container.append(block);
+
+            const r = renderer(
+                block,
+                data,
+                {
+                    shuffle: true,
+                    allowRetry: true,
+                    resultHandler: () => {
+                        confetti({
+                            particleCount: 100,
+                            spread: 70,
+                            origin: { y: 0.6 },
+                        });
+                    }
+                }
+            );
+            
+            title.textContent = Contract.name;
+            des.textContent = Contract.description;
+        }
+
+        const code = Contract.grammarExample[0];
+
+        console.log(code);
+
+        const parser = Contract.implementation.parser;
+        const validator = Contract.implementation.validator; 
+        const renderer = Contract.implementation.renderer;                
+
+        const parsed = parser(code);
+        const validated = validator(parsed);           
+        
+        // do something like if (validated) {} else {}
+        createExerciseBlock(renderer, parsed.content);
+
+    </script>
+</body>
+</html>

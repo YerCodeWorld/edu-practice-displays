@@ -1,0 +1,1 @@
+export { ManualContract } from './script';

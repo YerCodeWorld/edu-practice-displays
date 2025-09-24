@@ -1,0 +1,120 @@
+.edu-manual {
+  --bg:#0b1220;
+  --surface:#0f172a;
+  --chip-bg:#111827;
+  --chip-text:#e5e7eb;
+  --chip-border:#1f2937;
+  --accent:#6366f1;
+  --muted:#94a3b8;
+  --shadow:0 10px 25px rgba(0,0,0,.25);
+  --radius:12px;
+  --maxw:min(100%, 720px);
+  --text:#f8fafc;
+}
+
+.edu-manual {
+  display: grid;
+  place-items: center;
+  
+  background-image: url('https://promova.com/_next/image?url=https%3A%2F%2Fpromova.com%2Fcontent%2Fdays_of_the_week_in_chinese_b0bfc416b0.png&w=1920&q=75&dpl=dpl_9gd2o8tjy6xfifwZT6VFAnGNRiow');  
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  
+  height: 100vh;  
+}
+
+.manual-wrap { 
+  min-height: 90%;
+  width: 90%;  
+  padding:24px;   
+  
+  background-color: var(--bg);  
+  opacity: 0.9;
+  
+  color:var(--text); 
+  
+  font:500 16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif; 
+  
+  display:grid; 
+  place-items:center; 
+  gap:14px;  
+}
+
+.manual-wrap header {  
+  display:flex;
+  flex-direction: column;     
+  place-items: center; 
+  gap:12px;
+}
+.manual-wrap h2 { margin:0; font-size:2.1rem;}
+.manual-wrap .manual-counter { margin:0; font-size:2.1rem; color: var(--accent); }
+
+.manual-wrap .chips {
+  width:var(--maxw);
+  min-height:60%;
+  padding:10px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  border:1px solid var(--chip-border);
+  border-radius:var(--radius);
+  background:var(--surface);
+  box-shadow:var(--shadow);
+  overflow:auto;
+  scroll-snap-type:x proximity;
+}
+.manual-wrap .chips::-webkit-scrollbar{ height:10px }
+.manual-wrap .chips::-webkit-scrollbar-thumb{ background:#cbd5e1; border-radius:10px }
+
+.manual-wrap .chip{
+  scroll-snap-align:start;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 12px;
+  background:var(--chip-bg);
+  color:var(--chip-text);
+  border:1px solid var(--chip-border);
+  border-radius:999px;
+  box-shadow:0 6px 18px rgba(0,0,0,.12);
+  font-size:14px;
+  white-space:nowrap;
+  animation:pop .15s ease;
+}
+.manual-wrap .chip::before{
+  content:"";
+  inline-size:8px; block-size:8px; border-radius:999px;
+  background:currentColor; opacity:.9;
+}
+.manual-wrap .chip button{
+  border:0; background:transparent; color:#64748b;
+  font-size:16px; line-height:1; padding:0 2px; cursor:pointer;
+}
+.manual-wrap .chip:hover{ transform:translateY(-1px) }
+
+.manual-wrap .controls{
+  width:var(--maxw);
+  display:grid;
+  grid-template-columns:1fr auto auto;
+  gap:10px;
+}
+.manual-wrap .controls input,
+.manual-wrap .controls button{
+  padding:12px 14px; border-radius:10px; border:1px solid #e2e8f0; background:var(--surface); color:var(--text);
+}
+.manual-wrap .controls input:focus{
+  outline:none; border-color:var(--accent);
+  box-shadow:0 0 0 4px rgba(99,102,241,.15);
+}
+.manual-wrap .controls button{ cursor:pointer; transition:transform .12s ease,border-color .12s ease }
+.manual-wrap .controls button:hover{ transform:translateY(-1px); border-color:var(--accent) }
+
+
+@media (max-width:560px){
+  .manual-wrap{ padding:16px }
+  .manual-wrap .controls{ grid-template-columns:1fr; }
+}
+
+@keyframes pop{ from{opacity:0; transform:translateY(6px) scale(.96)} to{opacity:1; transform:none} }

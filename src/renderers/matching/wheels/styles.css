@@ -1,14 +1,15 @@
-:host{
+.matching-wheels-wrap {
     --bg:   #0a0a14;
     --card: #141327;
     --text: #eeeaff;
     --muted:#b4b0d4;
-    --accent:  #8b5cf6; /* violet */
-    --accent-2:#7dd3fc; /* icy blue */
+    --accent:  #8b5cf6; 
+    --accent-2:#7dd3fc; 
     --border: color-mix(in oklch, var(--text) 15%, transparent);
     color-scheme: dark;
 }
-[data-theme="light"]{
+
+[data-theme="light"] {
     --bg:   #f2f6f9;  /* pale misty blue */
     --card: #e6eef4;  /* soft cool panel */
     --text: #1e293b;  /* deep slate */
@@ -23,6 +24,27 @@
     box-sizing:border-box
 }
 
+.mtc-wheels-wrap {
+
+    display: grid;
+    place-items: center;
+    
+    background-image: url('https://media.licdn.com/dms/image/v2/D5612AQFZcZCOD6olCw/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1700549159934?e=2147483647&v=beta&t=F30JEd72k-HOGg4ryPedv7FKad-gZSK5fXYWF5imL5A');  
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    
+    height: 60vh;  
+}
+
+section.mtc-wheels-card {
+    
+    min-width: 80vw;    
+    color: var(--text);
+}
+
+
 .mtc-wheels-obj {
     flex: 1;
     display: flex;
@@ -34,18 +56,6 @@
     border: 1px dashed var(--accent-2);
     background: color-mix(in oklch, var(--card) 96%, transparent);
     margin: 20px;
-}
-
-section.mtc-wheels-card {
-    min-height: 80vh;  /* always at least full viewport height */
-}
-
-.mtc-wheels-wrap {
-    width: 100%;
-    heigth:100%;
-    display:grid;
-    gap:14px;
-    color:var(--text);
 }
 
 /** ================== CUSTOM BUTTON ============================ **/

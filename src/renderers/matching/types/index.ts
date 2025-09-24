@@ -19,13 +19,13 @@ export type Pair = {
     hint?: string;
 }
 
-interface ParseResult {
+export interface ParseResult {
     ok: boolean;
-    content?: MatchingContent;
+    content?: MatchData;
     errors?: string;
 }
 
-interface GeneralContent {    
+export interface GeneralContent {    
     content: Array<Pair>;
     distractors?: string[];
     points?: number;

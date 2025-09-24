@@ -11,26 +11,38 @@ export type Themes =
 | 'bright'
 | 'neon';
 
-export type Theme = { name: Themes; cssVariables: Record<string, string> };
+export type QuizTheme = { name: Themes; cssVariables: Record<string, string> };
 
-type options = {
-    shuffle: Boolean;
-    allowRetry: Boolean;
-    ariaLabel: string;
+export type RendererOptions = {
+    theme?: QuizTheme;
+    shuffle?: boolean;
+    allowRetry?: boolean;
+    resultHandler?: (r: any) => void;
+    ariaLabel?: string;
 }
 
-type Implementation = {
-    renderer: () => any;
-    validator: () => string[];
-    parser: () => string;
+export type Implementation = {
+    renderer: (
+        mount: HTMLElement,
+        data: any,
+        options?: RendererOptions
+    ) => RendererHandle;
+    validator: (data: any) => boolean;
+    parser: (code: string) => any;
 };
+
+export type RendererHandle = {
+    destroy(): void;
+    setTheme(newTheme: QuizTheme): void;
+    finish(): void;
+}
 
 export interface ContractType {
 
     name: string;
     description: string;
 
-    themes: Record<string, Theme>;
+    themes: Record<Themes, QuizTheme>;
     version: number;
     parserVersion: number;
 
@@ -41,11 +53,12 @@ export interface ContractType {
     wrong: string[];
 
     grammarExample: string[];
-    defaultOptions: options;
+    defaultOptions?: any;
 
-    implementation: implementation;
+    implementation: Implementation;
 
     html: string;
     css: string;
 
 }
+

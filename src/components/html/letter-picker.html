@@ -1,32 +1,67 @@
-<style>:host {
---accent: var(--accent-color, var(--focus-color, #6666ff));
---border: var(--border-color, #ccc);
---bg: var(--bg-color, #fff);
---text: var(--text-color, #222);
---shadow: var(--shadow, rgba(0,0,0,.2));
---font-size: 3.5rem;
-display: inline-block;
-font: inherit;}
+<style>
+
+:host {
+  --accent: var(--accent-color, var(--focus-color, #6666ff));
+  --border: var(--border-color, #ccc);
+  --bg: var(--bg-color, #fff);
+  --text: var(--text-color, #222);
+  --shadow: var(--shadow, rgba(0,0,0,.2));
+  --font-size: 1.5rem;
+  display: inline-block;
+  font: inherit;
+}
 .wrapper { position: relative; }
 .display {
-cursor: pointer; padding: 16px 20px; color: var(--text); outline: none;
-user-select: none; font-size: var(--font-size);
+  cursor: pointer; 
+  padding: 16px 20px; 
+  color: var(--text); 
+  outline: none;
+  user-select: none; 
+  font-size: var(--font-size);
 }
 .display.placeholder { opacity: .6; }
+
 :host([mode="simple"]) .display { border-bottom: 2px solid var(--border); }
 :host([mode="simple"]:focus-within) .display { border-bottom-color: var(--accent); }
+
 :host([mode="box"]) .display {
 border: 2px solid var(--border); border-radius: 8px; min-width: 60px;
 text-align: center; background: var(--bg); box-shadow: 0 2px 6px var(--shadow);
-}:host([mode="box"]:focus-within) .display { border-color: var(--accent); }
-.picker {position: absolute; top: calc(100% + 6px); left: 0; display: none;
-grid-template-columns: repeat(7, 1fr); gap: 4px; padding: 8px;
-background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
-box-shadow: 0 6px 14px var(--shadow); z-index: 1000;
-}.picker button {
-border: none; background: #f4f4f4; padding: 6px; border-radius: 4px;
-cursor: pointer; font-weight: 700;
-}.picker button:hover, .picker button:focus { background: var(--accent); color: #fff; outline: none; }
+}
+
+:host([mode="box"]:focus-within) .display { 
+  border-color: var(--accent); 
+}
+
+.picker {
+  position: absolute; 
+  top: calc(100% + 6px); 
+  left: 0; 
+  display: none;
+  grid-template-columns: repeat(7, 1fr); 
+  gap: 4px; 
+  padding: 8px;
+  background: var(--bg); 
+  border: 1px solid var(--border); 
+  border-radius: 8px;
+  box-shadow: 0 6px 14px var(--shadow); 
+  z-index: 1000;
+}
+
+.picker button {
+  border: none;   
+  background: #f4f4f4; 
+  padding: 6px; 
+  border-radius: 4px;
+  cursor: pointer; 
+  font-weight: 700;
+}
+
+.picker button:hover, .picker button:focus { 
+  background: var(--accent); 
+  color: #fff; 
+  outline: none; 
+}
 
 </style>
 <div class="wrapper" id="wrap">

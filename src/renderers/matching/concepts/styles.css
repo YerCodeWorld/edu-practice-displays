@@ -49,18 +49,14 @@
 }
 
 .concepts-container {
-    width: 100%;
+   
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 15px 0;
-    border-radius: 12px;
+    margin: 10px;    
     padding: 10px 14px;
     transition: border .1s ease;
-}
-
-.concepts-container:nth-child(odd) {
-    background-color: var(--concepts-odd-bg);
+    border: 2px solid var(--concepts-label);
 }
 
 .concepts-incorrect {

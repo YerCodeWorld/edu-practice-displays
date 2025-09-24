@@ -1,1 +1,1 @@
-export { matchingWheelsRenderer } from "./script";
+export { matchingWheelsRenderer, MatchingWheelsContract } from "./script";

@@ -1,10 +1,20 @@
 export {
     matchingPageRenderer,
     MatchingContract,
+    
     matchingWheelsRenderer,
+    MatchingWheelsContract,
+    
     trueFalseRenderer,
     TrueFalseContract,
-    MatchingSingleContract,
+    
     matchingSingleRenderer,
-    conceptsExerciseRenderer
+    MatchingSingleContract,
+    
+    conceptsExerciseRenderer,
+    ConceptsDefinitionContract
 } from "./matching";
+
+export {
+    ManualContract
+} from './manual';

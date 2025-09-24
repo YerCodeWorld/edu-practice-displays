@@ -2,49 +2,148 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>EduGlobal Demo</title>
-
+<title>EduGlobal Carousel Exercise</title>
 <style>
-  body { font-family: sans-serif; margin: 2rem; }
-  edu-global { margin-bottom: 2rem; display: block; max-width: 400px; }
-  .ex1 {
-    background: #1a1a1a;
-    color: #fff;
-    border-radius: 20px;
+  body {
+    margin: 0;
+    font-family: system-ui, sans-serif;
+    background: #f8fafc;
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
   }
 
+  .carousel {
+    width: min(560px, 94vw);
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0,0,0,.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  .nav-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px;
+  }
+  .nav-dots button {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: none;
+    background: #cbd5e1;
+    cursor: pointer;
+    transition: background .3s;
+  }
+  .nav-dots button.active {
+    background: #2563eb;
+  }
+
+  .carousel-body {
+    flex: 1;
+    padding: 16px;
+    display: grid;
+    place-items: center;
+  }
+
+  .carousel-controls {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-top: 1px solid #e2e8f0;
+  }
+  .carousel-controls button {
+    border: none;
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform .2s, background .2s;
+  }
+  .carousel-controls button:hover {
+    transform: translateY(-2px);
+    background: #f1f5f9;
+  }
+
+  .winning {
+    text-align: center;
+    padding: 40px 20px;
+  }
+  .winning h2 { font-size: 1.6rem; margin-bottom: 12px; }
+  .winning p { font-size: 1.2rem; }
 </style>
 </head>
 <body>
 
-<h1>MatchingSingle Demo - Multiple Input Types</h1>
+<div class="carousel" id="carousel">
+  <div class="nav-dots" id="dots"></div>
+  <div class="carousel-body" id="body"></div>
+  <div class="carousel-controls">
+    <button id="prevBtn">⬅ Prev</button>
+    <button id="nextBtn">Next ➡</button>
+  </div>
+</div>
 
-<edu-global id="exText"></edu-global>
-<edu-global class="ex1" id="exNumber"></edu-global>
-<edu-global class="ex1" id="exSlider"></edu-global>
-<edu-global id="exDate"></edu-global>
-<edu-global id="exSelect"></edu-global>
-<edu-global id="exSwitch"></edu-global>
-
-<button id="checkBtn">Check Answers</button>
-
-
-<script type="module">
+<script type='module'>
 
 import { EduGlobalInput } from "./dist/index.js";
 
 if (!customElements.get(EduGlobalInput)) customElements.define("edu-global", EduGlobalInput);
 
-const exText = document.getElementById("exText");
-const exNumber = document.getElementById("exNumber");
-const exSlider = document.getElementById("exSlider");
-const exDate = document.getElementById("exDate");
-const exSelect = document.getElementById("exSelect");
-const exSwitch = document.getElementById("exSwitch");
+// ----------------- DATA -----------------
+const data = [
+  { q: "When is Dominican Republic's Independence? ", hint: "18...", answer: "1844-02-27", input: "date", helper: "" },
+  { q: "How many planets does the solar system have?", hint: "Do not count pluto!", answer: 8, input: "number", helper: "planets" },
+  { q: "What's the name of this fruit: 🍍", hint: "apple?", answer: "pineapple", input: "text", helper: "" },
+  { q: "What price range are the latest iPhones in?", hint: "+k", answer: "1000..2000", input: "number", helper: "USD" },
+  { q: "Is the Earth squared?", hint: "Maybe?", answer: false, input: "checkbox", helper: "" },
+  { q: "What color is the sun?", hint: "Not red's friend!", answer: "white", input: "select", helper: ["Black","Red","Yellow"] }
+];
 
-// Text
-exText.data = { prompt: "What's your name?", answer: "John", inputType: "text" };
-exText.theme = {
+let current = 0;
+let userAnswers = Array(data.length).fill(null);
+
+const body = document.getElementById("body");
+const dots = document.getElementById("dots");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+
+// Create nav dots
+data.forEach((_,i)=>{
+  const b = document.createElement("button");
+  if(i===0) b.classList.add("active");
+  b.addEventListener("click",()=>goTo(i));
+  dots.appendChild(b);
+});
+
+// Render initial
+renderQuestion();
+
+// Controls
+prevBtn.addEventListener("click",()=> goTo(current-1));
+nextBtn.addEventListener("click",()=>{
+  if(current < data.length-1) goTo(current+1);
+  else checkWinning();
+});
+
+// ----------------- RENDER -----------------
+function renderQuestion() {
+  const d = data[current];
+  body.innerHTML = "";
+  const ex = document.createElement("edu-global");
+  ex.data = {
+    prompt: d.q,
+    answer: d.answer,
+    hint: d.hint,
+    inputType: mapInput(d.input),
+    selectOptions: d.input==="select"?[d.answer, ...d.helper]:[],
+    answerHint: typeof d.helper === "string"?d.helper:""
+  };
+  ex.theme = {
   cssVariables: {
     '--primary': '#ff6b6b',         // soft red button
     '--bg': '#fff5e6',              // warm background
@@ -54,66 +153,78 @@ exText.theme = {
   }
 }
 
-// Number
-exNumber.data = { prompt: "Enter your age", answer: "20", inputType: "number", answerHint: "years old" };
-exNumber.theme = {
-  cssVariables: {
-    '--primary': '#03dac6',          // teal button
-    '--bg': '#0a1f2e',               // very dark blue background
-    '--muted-transparent': '#03dac610', // subtle stripe overlay
-    '--border': '#13475f',           // darker border
-    '--text': '#e0f7fa'              // light cyan text
+  body.appendChild(ex);
+
+  updateDots();
+}
+
+function goTo(i) {
+  if(i<0||i>=data.length) return;
+  saveAnswer();
+  current=i;
+  renderQuestion();
+}
+
+function updateDots(){
+  [...dots.children].forEach((b,idx)=>{
+    b.classList.toggle("active",idx===current);
+  });
+}
+
+// ----------------- CHECK -----------------
+function saveAnswer(){
+  const ex = body.querySelector("edu-global");
+  if(ex) userAnswers[current]=ex.answer;
+}
+
+function checkWinning(){
+  saveAnswer();
+  let correct=0;
+
+  data.forEach((d,i)=>{
+    const ans=userAnswers[i];
+    if(!ans) return;
+    if(validate(d,ans)) correct++;
+  });
+
+  body.innerHTML=`
+    <div class="winning">
+      <h2>Exercise Finished 🎉</h2>
+      <p>You got ${correct} / ${data.length} correct.</p>
+    </div>`;
+  dots.style.display="none";
+  prevBtn.style.display="none";
+  nextBtn.style.display="none";
+}
+
+function validate(d,ans){
+  const val = ans.answer;
+  switch(d.input){
+    case "number": {
+      if(typeof d.answer==="string" && d.answer.includes("..")){
+        const [min,max]=d.answer.split("..").map(Number);
+        return Number(val)>=min && Number(val)<=max;
+      }
+      return Number(val)===Number(d.answer);
+    }
+    case "checkbox":
+      return Boolean(val)===Boolean(d.answer);
+    case "date":
+      return String(val)===String(d.answer);
+    case "select":
+      return String(val).toLowerCase()===String(d.answer).toLowerCase();
+    default:
+      return String(val).trim().toLowerCase()===String(d.answer).toLowerCase();
   }
 }
 
-// Slider
-exSlider.data = { prompt: "How hot is it during the summer?", answer: "80", inputType: "slider", answerHint: "°C" };
-exSlider.theme = {
-  cssVariables: {
-    '--primary': '#bb86fc',          // violet button
-    '--bg': '#121212',               // dark background
-    '--muted-transparent': '#bb86fc10', // subtle stripe
-    '--border': '#333333',           // border
-    '--text': '#e0e0e0'              // light gray text
-  }
+function mapInput(type){
+  if(type==="checkbox") return "switch";
+  if(type==="range") return "number"; // range handled via validation
+  return type;
 }
-
-// Date
-exDate.data = { prompt: "What is the date for Dominican Republic's independence?", answer: "2000-01-01", inputType: "date", hint: "18..." };
-exDate.theme = {
-    cssVariables: {
-    '--primary': '#0288d1',         // ocean blue button
-    '--bg': '#e0f7fa',              // light aqua background
-    '--muted-transparent': '#0288d110',
-    '--border': '#81d4fa',          // border
-    '--text': '#01579b'             // dark blue text
-  }
-}
-
-// Select
-exSelect.data = { prompt: "What color is blod?", answer: "Red", inputType: "select", selectOptions: ["Red", "Green", "Blue"] };
-
-// Switch
-exSwitch.data = { prompt: "Enable notifications?", answer: "true", inputType: "switch" };
-
-// Check button
-document.getElementById("checkBtn").addEventListener("click", () => {
-  console.log("Text:", exText.answer);
-  console.log("Number:", exNumber.answer);
-  console.log("Slider:", exSlider.answer);
-  console.log("Date:", exDate.answer);
-  console.log("Select:", exSelect.answer);
-  console.log("Switch:", exSwitch.answer);
-  alert(
-    `Text: ${exText.answer.isCorrect ? "✅" : "❌"} | ` +
-    `Number: ${exNumber.answer.isCorrect ? "✅" : "❌"} | ` +
-    `Slider: ${exSlider.answer.isCorrect ? "✅" : "❌"} | ` +
-    `Date: ${exDate.answer.isCorrect ? "✅" : "❌"} | ` +
-    `Select: ${exSelect.answer.isCorrect ? "✅" : "❌"} | ` +
-    `Switch: ${exSwitch.answer.isCorrect ? "✅" : "❌"}`
-  );
-});
 </script>
 
 </body>
 </html>
+

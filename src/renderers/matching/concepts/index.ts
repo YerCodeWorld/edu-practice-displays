@@ -1,1 +1,1 @@
-export { conceptsExerciseRenderer } from "./script";
+export { conceptsExerciseRenderer, ConceptsDefinitionContract } from "./script";

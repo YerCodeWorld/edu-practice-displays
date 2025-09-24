@@ -6,58 +6,30 @@
     <title>Matching Exercise Demo</title>
     <style>
         body {
-            place-items: center;
-            margin: 20%;
-            background-color: #d3d3d3;
+            margin: 0;                    
         }
-
-        .demo-container {
-            display: block;
-            padding: 16px;
-        }
-
-        /* fixed "frame" for components */
-        #component-container {
-
-            display: flex;
-            flex-direction: column;
-
-            width: 50%px;        /* pick your desired width */
-            height: 50%px;       /* pick your desired height */
-
-            padding: 20px;
-            border: 2px solid var(--border, #ccc);
-            border-radius: 12px;
-            background: var(--card, #D3D3D3);
-
-            gap: 30px;
-        }
-
-
     </style>
 </head>
 <body>
-    <div class="demo-container">
-        <div id="component-container"></div>
-    </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
     <script type="module">
         import {
-            MatchingContract as Contract            
+            ManualContract,
+            MatchingContract,
+            MatchingWheelsContract
         } from './dist/index.js';
 
         // Get DOM elements
-        const container = document.getElementById('component-container');
+
+        let currentHandler;
+     
 
         function createExerciseBlock(renderer, data) {
         
             const block = document.createElement("section");
-            const title = document.createElement("h2");
-            const des = document.createElement("p");
-
-            block.append(title, des);
-            container.append(block);
+            document.documentElement.append(block);
 
             const r = renderer(
                 block,
@@ -74,24 +46,55 @@
                     }
                 }
             );
-            
-            title.textContent = Contract.name;
-            des.textContent = Contract.description;
+
+    
+            currentHandler = r; 
         }
 
-        const code = Contract.grammarExample[0];
+        function getContractInfo(contract) {
+            
+            const code = contract.grammarExample[0];          
 
-        console.log(code);
+            const parser = contract.implementation.parser;        
+            
+            const validator = contract.implementation.validator; 
+            const renderer = contract.implementation.renderer;                
 
-        const parser = Contract.implementation.parser;
-        const validator = Contract.implementation.validator; 
-        const renderer = Contract.implementation.renderer;                
+            const parsed = parser(code);
 
-        const parsed = parser(code);
-        const validated = validator(parsed);           
-        
-        // do something like if (validated) {} else {}
-        createExerciseBlock(renderer, parsed.content);
+            createExerciseBlock(renderer, parsed.content);
+        }
+
+        function removeStyleTags() {
+            const styleTags = document.getElementsByTagName('style');
+
+            // Loop in reverse to avoid issues with live NodeList updates
+            for (let i = styleTags.length - 1; i >= 0; i--) {
+                const styleTag = styleTags[i];
+                styleTag.parentNode.removeChild(styleTag);
+            }
+        }
+
+
+        document.documentElement.addEventListener('keydown', e => {
+            if (e.key === 'q') {
+                if (currentHandler) currentHandler.destroy();
+                removeStyleTags();
+                getContractInfo(MatchingContract);
+            }
+
+            if (e.key === 'w') {
+                if (currentHandler) currentHandler.destroy();
+                removeStyleTags();
+                getContractInfo(ManualContract);
+            }
+
+            if (e.key === 'e') {
+                if (currentHandler) currentHandler.destroy();
+                removeStyleTags();
+                getContractInfo(MatchingWheelsContract);
+            }
+        });
 
     </script>
 </body>

@@ -1,28 +1,46 @@
-:host {
-    '--primary-color': '#f97316',
-    '--primary-hover': '#ea580c',
-    '--success-color': '#16a34a',
-    '--error-color': '#dc2626',
-    '--background': '#fff7ed',
-    '--surface': '#ffffff',
-    '--border': '#fed7aa',
-    '--text-primary': '#1f2937',
-    '--text-secondary': '#6b7280',
-    '--shadow': '0 2px 4px 0 rgba(0, 0, 0, 0.06)',
-    '--radius': '0.5rem',
-    '--font-family': 'Inter, system-ui, sans-serif'
+.edu-matching {
+    --primary-color: #f97316;
+    --primary-hover: #ea580c;
+    --success-color: #16a34a;
+    --error-color: #dc2626;
+    --background: #fff7ed;
+    --surface: #ffffff;
+    --border: #fed7aa;
+    --text-primary: #1f2937;
+    --text-secondary: #6b7280;
+    --shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+    --radius: 0.5rem;
+    --font-family: Inter, system-ui, sans-serif;
+    --maxw:min(100%, 720px);
 }
 
 .edu-matching {
+  display: grid;
+  place-items: center;
+  
+  background-image: url('https://cdn.buttercms.com/4K8jEMQIT7i9aguOhqlL');  
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  
+  height: 100vh;    
+}
+
+.matching-wrap {
+    
     font-family: var(--font-family, system-ui);
     background: var(--background, #ffffff);
     color: var(--text-primary, #1e293b);
     border-radius: var(--radius, 0.375rem);
     padding: 2rem;
-    min-width: 70vh;    
+
+    min-width: 50vw;
+            
     margin: 5% auto;
     box-shadow: var(--shadow, 0 1px 3px 0 rgba(0, 0, 0, 0.1));
     border: 3px solid var(--primary-color);
+    
 }
 
 .edu-match__indicators {
@@ -100,7 +118,9 @@
 
 /* Mobile optimizations - keep columns side by side */
 @media (max-width: 768px) {
+
     .edu-matching {
+        height: 97.2vh;
         padding: 1rem;
         max-width: 100%;
     }

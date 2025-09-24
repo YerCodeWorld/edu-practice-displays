@@ -7,7 +7,7 @@ type ParseResult = {
 
 const grammar = {
     tx: parseTX,
-    nm: parseNM
+    nm: parseNM,
     sl: parseSL
 } as const;
 
@@ -201,7 +201,7 @@ function testSystem() {
     I @tx(am|'m) your best friend.
     I am @tx(21|20) years old.
     We @tx(are|'re) a family. I am @nm(11 | 15 | 20..24)
-    years old. She @sl([is|'s] | are | am) a great person.
+    years old. She @sl([is|'s] | are | am) a great person.    
     `;
 
     const parsed = parseCode(code);
@@ -221,13 +221,11 @@ function shuffle<T>(array: T[]): T[] {
     let currentIndex = array.length;
     let randomIndex: number;
 
-    // While there remain elements to shuffle.
     while (currentIndex !== 0) {
-        // Pick a remaining element.
+        
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex--;
-
-        // And swap it with the current element.
+        
         [array[currentIndex], array[randomIndex]] = [
             array[randomIndex],
             array[currentIndex],
@@ -245,3 +243,5 @@ export const parserContract = {
     test: testSystem
 
 }
+
+
