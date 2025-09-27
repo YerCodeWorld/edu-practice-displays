@@ -1,53 +1,19 @@
-import {
-    injectStyle,
-    applyTheme,
-    shuffle,
-    createSection
-} from "../../../utils/utils";
-
-import {
-    MatchData,
-
-    MatchingState,
-    MatchingResultDetail,
-    MatchingResult,
-
-    MatchingRendererOptions,
-    MatchingRendererHandle,
-
-    QuizTheme,
-    ComponentData
-} from '../types';
-
-import {
-    ContractType
-} from "../../types";
-
-import {
-    items,
-    distractors,
-    answerKey,
-    parseMatching
-} from "../utils";
+import { MatchData } from '../types';
+import { injectStyle, shuffle, createSection } from "../../../utils/utils";
+import { RendererOptions, RendererHandle, ContractType} from '../../types';
+import { items, distractors, answerKey, parseMatching } from "../utils";
 
 import baseHTML from "./index.html";
 import baseCSS from "./styles.css";
-import { themes } from './themes';
 
 export function matchingPageRenderer(
     mount: HTMLElement,
     data: MatchData,
-    options: MatchingRendererOptions = {},
+    options: RendererOptions = {},
     overrideCSS?: string
-): MatchingRendererHandle {
+): RendererHandle {
 
-    const componentData: ComponentData = {
-        name: "Matching",
-        description: "The classic matching exercise, ideal for short words matching"
-    };    
-
-    const {
-        theme = themes.ocean,
+    const {        
         shuffle: doShuffle = true,
         allowRetry = true,
         resultHandler,
@@ -55,8 +21,7 @@ export function matchingPageRenderer(
     } = options;
 
     const root = createSection("edu-matching", ariaLabel)    
-    injectStyle('edu-manual-style', baseCSS);
-    applyTheme(root, theme);
+    injectStyle('edu-matching-style', baseCSS);    
 
     // bundle data using builder helpers
     const answers = answerKey(data);
@@ -68,7 +33,7 @@ export function matchingPageRenderer(
 
     // keeps track of the whole exercise play, without it we wouldn't be able to track
     // anything
-    let state: MatchingState = {
+    let state = {
         matches: {},
         pendingMatches: {},
         selectedLeft: null,
@@ -139,7 +104,7 @@ export function matchingPageRenderer(
                     delete state.pendingMatches[leftId];
 
                     const oldLeft = document.getElementById(leftId);
-                    const oldRight = document.getElementById(rightId);
+                    const oldRight = document.getElementById(String(rightId));
                     if (oldLeft) oldLeft.style.backgroundColor = "";
                     if (oldRight) oldRight.style.backgroundColor = "";
                 }
@@ -314,7 +279,7 @@ export function matchingPageRenderer(
 
         disableAll();
 
-        const result: MatchingResult = {
+        const result = {
             detail: {
                 correct: state.score,
                 total: data.content.length,
@@ -345,15 +310,9 @@ export function matchingPageRenderer(
             mount.removeChild(root);
         },
 
-        setTheme(newTheme: QuizTheme): void {
-            applyTheme(root, newTheme);
-        },
+        styleTag: MatchingContract.styleTag,
 
-        getState(): MatchingState {
-            return { ...state };
-        },
-
-        componentData,
+        name: MatchingContract.name,
 
         finish
     };
@@ -365,8 +324,7 @@ function matchingValidator(data: MatchData): boolean { return true; }
 export const MatchingContract: ContractType = {
     name: "Matching",
     description: "...",
-    
-    themes,
+       
     version: 1.0,
     parserVersion: 1.0,
 
@@ -384,8 +342,9 @@ export const MatchingContract: ContractType = {
         "..."
     ],
 
+    // reminder to support naming the columns
     grammarExample: [
-      `
+      `       
        apple = red;
        pear = green;
        grapes = purple;
@@ -413,6 +372,8 @@ export const MatchingContract: ContractType = {
         parser: parseMatching,
         validator: matchingValidator
     },
+
+    styleTag: 'edu-matching-style',
 
     html: baseHTML,
     css: baseCSS

@@ -1,46 +1,36 @@
 .edu-matching {
-    --primary-color: #f97316;
-    --primary-hover: #ea580c;
-    --success-color: #16a34a;
-    --error-color: #dc2626;
-    --background: #fff7ed;
-    --surface: #ffffff;
-    --border: #fed7aa;
-    --text-primary: #1f2937;
-    --text-secondary: #6b7280;
-    --shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.06);
-    --radius: 0.5rem;
-    --font-family: Inter, system-ui, sans-serif;
-    --maxw:min(100%, 720px);
-}
-
-.edu-matching {
-  display: grid;
-  place-items: center;
-  
-  background-image: url('https://cdn.buttercms.com/4K8jEMQIT7i9aguOhqlL');  
+  /* background */
+  background-image: url('https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExN2kyemVxOHQwamd1N3ljeGY2ZDZzNXUwbGNwN2c1cHd6aTc0b2Z5YyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/xT9IgN8YKRhByRBzMI/giphy.webp');
   background-size: cover;
   background-repeat: no-repeat;
-  background-position: center center;
-  background-attachment: fixed;
-  
-  height: 100vh;    
+  background-position: center center;  
+  background-attachment: scroll;
+
 }
 
-.matching-wrap {
-    
-    font-family: var(--font-family, system-ui);
-    background: var(--background, #ffffff);
-    color: var(--text-primary, #1e293b);
-    border-radius: var(--radius, 0.375rem);
-    padding: 2rem;
+.matching-wrap {  
+  
+  /* ensure it grows with parent */
+  inline-size: 100%;
+  min-block-size: 100%;         /* fill parent’s min-height, not shrink */
+  background-color: rgb(var(--edu-first-accent) / 0.90);
 
-    min-width: 50vw;
-            
-    margin: 5% auto;
-    box-shadow: var(--shadow, 0 1px 3px 0 rgba(0, 0, 0, 0.1));
-    border: 3px solid var(--primary-color);
-    
+}
+
+.matching-card {
+  
+  font-family: var(--font-family, system-ui);
+  background: rgb(var(--edu-bg) / 0.85);
+  color: rgb(var(--edu-ink));    
+  
+  border-radius: var(--edu-radius);
+  padding: 2rem;
+  
+  box-shadow: var(--shadow, 0 1px 3px 0 rgba(0, 0, 0, 0.1));
+  
+  border: 3px solid rgb(var(--edu-first-accent));
+  border-top: 15px solid rgb(var(--edu-first-accent)); 
+  border-bottom: 15px solid rgb(var(--edu-first-accent));   
 }
 
 .edu-match__indicators {
@@ -51,8 +41,8 @@
 .edu-match__indicators h3 {
     font-weight: 600;
     padding-bottom: 0.5rem;
-    border-bottom: 2px solid var(--border);
-    color: var(--text-primary);
+    border-bottom: 2px solid rgb(var(--edu-border));
+    color: rgb(var(--edu-ink));
     width: 100%;
     text-align: center;
 }
@@ -64,16 +54,18 @@
     align-items: center;
 }
 .edu-matching__column {
-    witdh: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.75rem;
-} .edu-matching__item {
+} 
+
+.edu-matching__item {
     padding: 0.75rem 1rem;
-    background: var(--surface, #f8fafc);
-    border: 2px solid var(--border, #e2e8f0);
-    border-radius: var(--radius);
+    background: rgb(var(--edu-card));
+    border: 2px solid rgb(var(--edu-border));
+    border-radius: var(--edu-radius);
     transition: all 0.2s ease;
     font-weight: 500;
     text-align: center;
@@ -82,19 +74,24 @@
     hyphens: auto;
     overflow-wrap: anywhere;
     margin: 0.75rem auto;
-} .edu-matching__item:hover {
-    border-color: var(--primary-color);
+    color: rgb(var(--edu-ink));
+} 
+
+.edu-matching__item:hover {
+    border-color: rgb(var(--edu-first-accent));
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-} .edu-matching__item--selected {
-    border-color: var(--primary-color);
-    background: var(--primary-color);
+} 
+
+.edu-matching__item--selected {
+    border-color: rgb(var(--edu-first-accent));
+    background: rgb(var(--edu-first-accent));
     color: white;
     transform: scale(1.05);
 }
 .edu-matching__item--matched {
-    border-color: var(--success-color);
-    background: var(--success-color);
+    border-color: rgb(var(--edu-success));
+    background: rgb(var(--edu-success));
     color: white;
     cursor: not-allowed;
     transform: scale(0.95);
@@ -102,8 +99,8 @@
 
 /* Confirmed matches turn green and scale down */
 .edu-matching__item--confirmed {
-    border-color: var(--success-color) !important;
-    background: var(--success-color) !important;
+    border-color: rgb(var(--edu-success)) !important;
+    background: rgb(var(--edu-success)) !important;
     color: white !important;
     transform: scale(0.95) !important;
     opacity: 0.9;
@@ -119,8 +116,7 @@
 /* Mobile optimizations - keep columns side by side */
 @media (max-width: 768px) {
 
-    .edu-matching {
-        height: 97.2vh;
+    .edu-matching {        
         padding: 1rem;
         max-width: 100%;
     }

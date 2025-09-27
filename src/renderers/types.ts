@@ -32,8 +32,9 @@ export type Implementation = {
 };
 
 export type RendererHandle = {
-    destroy(): void;
-    setTheme(newTheme: QuizTheme): void;
+    destroy(): void;    
+    styleTag: string;     
+    name: string;
     finish(): void;
 }
 
@@ -41,8 +42,9 @@ export interface ContractType {
 
     name: string;
     description: string;
+    image?: string; // URL 
 
-    themes: Record<Themes, QuizTheme>;
+    themes?: Record<Themes, QuizTheme>;
     version: number;
     parserVersion: number;
 
@@ -56,6 +58,9 @@ export interface ContractType {
     defaultOptions?: any;
 
     implementation: Implementation;
+
+    styleTag?: string;
+    sectionTag?: string;
 
     html: string;
     css: string;

@@ -1,21 +1,19 @@
 import {
     injectStyle,
-    applyTheme,
     shuffle,
     createSection
 } from "../../../utils/utils";
 
 import {
     Pair,
-    MatchData,
-    ThemeName,
-
-    MatchingRendererOptions,
-    MatchingRendererHandle,
-
-    ComponentData,
-    QuizTheme
+    MatchData    
 } from '../types';
+
+import {    
+  RendererOptions,
+  RendererHandle,
+  ContractType
+} from '../../types';
 
 import {
     items,
@@ -24,26 +22,16 @@ import {
     parseMatching
 } from '../utils';
 
-import { ContractType } from "../../types";
-
-import { themes } from './themes';
-
 import baseHTML from "./index.html";
 import baseCSS from "./styles.css";
 
 export function matchingWheelsRenderer(
     mount: HTMLElement,
     data: MatchData,
-    options: MatchingRendererOptions = {}
-): Omit<MatchingRendererHandle, "getState"> {
+    options: RendererOptions = {}
+): RendererHandle {
 
-    const componentData: ComponentData = {
-      name: "Wheels Matching",
-      description: "A component in each pairs of separate data are displayed one by one."
-    };
-
-    const {
-        theme = themes.moonSet,
+    const {        
         shuffle: doShuffle = true,
         allowRetry = true,
         resultHandler,
@@ -51,8 +39,7 @@ export function matchingWheelsRenderer(
     } = options;
 
     const root = createSection("mtc-wheels-wrap", ariaLabel);    
-    injectStyle("matching-wheels-style", baseCSS);
-    applyTheme(root, theme);
+    injectStyle("matching-wheels-style", baseCSS);    
 
     const $ = sel => root.querySelector(sel);
 
@@ -120,15 +107,15 @@ export function matchingWheelsRenderer(
             pushSolved(topPool[iT], bottomPool[iB]);
 
             // remove - no dealing with infinite matching lol
-            topPool = topPool.filter(x => x !== top);
-
-            iT = (iT) % topPool.length;
-            update();            
+            topPool = topPool.filter(x => x !== top);         
 
             if (topPool.length === 0) {
                 finish();
                 return;
             }
+            
+            iT = (iT) % topPool.length;
+            update();   
 
         } else {            
 
@@ -149,10 +136,7 @@ export function matchingWheelsRenderer(
         const tpl = document.createElement('template');
         tpl.innerHTML = baseHTML.trim();
 
-        const style = document.createElement('style');
-        style.textContent = baseCSS;
-
-        root.replaceChildren(tpl.content, style);
+        root.replaceChildren(tpl.content);
 
         topLabel = $('#topLabel');
         topLabel.textContent = topPool[iT];
@@ -198,17 +182,16 @@ export function matchingWheelsRenderer(
 
     init();
     mount.appendChild(root);
+    
     return {
 
         destroy(): void {
             mount.removeChild(root);
         },
 
-        setTheme(newTheme: QuizTheme): void {
-            applyTheme(root, newTheme);
-        },
+        styleTag: MatchingWheelsContract.styleTag,
 
-        componentData,
+        name: MatchingWheelsContract.name,
 
         finish
 
@@ -221,8 +204,7 @@ function matchingWheelsValidator(data: any): boolean { return true; }
 export const MatchingWheelsContract: ContractType = {
     name: "Matching Wheels",
     description: "Move objects in a rotating still in a top and bottom container to match them.",
-    
-    themes,
+        
     version: 1.0,
     parserVersion: 1.0,
 
@@ -242,11 +224,11 @@ export const MatchingWheelsContract: ContractType = {
 
     grammarExample: [
       `
-       apple = red;
-       pear = green;
-       grapes = purple;
-       banana = yellow;
-       @EXTRA = [white | black]`,        
+       apple 🍎 = red 🔴;
+       pear 🍐 = green 🟢;
+       grapes 🍇 = purple 🟣;  
+       banana 🍌 = yellow 🟡;
+       @EXTRA = [white ⚪ | black ⚫]`,        
       `
        USA :: Washington DC;
        DR :: Santo Domingo;
@@ -268,6 +250,8 @@ export const MatchingWheelsContract: ContractType = {
         parser: parseMatching,
         validator: matchingWheelsValidator
     },
+
+    styleTag: 'matching-wheels-style',
 
     html: baseHTML,
     css: baseCSS

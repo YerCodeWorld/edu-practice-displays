@@ -1,6 +1,5 @@
 import {
-  injectStyle,
-  applyTheme,
+  injectStyle,  
   createSection
 } from '../../utils/utils';
 
@@ -15,12 +14,12 @@ import {
   ContractType
 } from '../types';
 
-import { themes } from './themes';
-
 interface ManualData {
   instruction: string;
   words: string[]
 }
+
+const styleTag = 'edu-manual-style';
 
 function manualExerciseRenderer(
   mount: HTMLElement,
@@ -28,17 +27,14 @@ function manualExerciseRenderer(
   options: RendererOptions
 ): RendererHandle {
 
-  const {
-    theme = themes.ocean, 
+  const {    
     allowRetry = true, 
     resultHandler,
     ariaLabel = 'Manual Exercise'
   } = options;  
 
-  const root = createSection('edu-manual', ariaLabel);  
-    
-  injectStyle('edu-manual-style', baseCSS);
-  applyTheme(root, theme);
+  const root = createSection('edu-manual', ariaLabel);      
+  injectStyle(styleTag, baseCSS);  
 
   console.log(data);
   const MAX = data.words.length;   
@@ -139,9 +135,9 @@ function manualExerciseRenderer(
       mount.removeChild(root);
     },
 
-    setTheme(newTheme: QuizTheme): void {
-      applyTheme(root, newTheme);
-    },
+    styleTag: styleTag, 
+
+    name: 'Manual',
 
     finish
   }
@@ -175,8 +171,7 @@ function validateManual(data: ManualData): boolean { return true; }
 export const ManualContract: ContractType = {
     name: "Manual",
     description: "...",
-    
-    themes,
+        
     version: 1.0,
     parserVersion: 1.0,
 
@@ -218,6 +213,8 @@ export const ManualContract: ContractType = {
         parser: parseManual,
         validator: validateManual
     },
+
+    styleTag: styleTag,  
 
     html: baseHTML,
     css: baseCSS

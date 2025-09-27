@@ -1,25 +1,17 @@
 import {
     injectStyle,
-    applyTheme,
     shuffle,
     createSection
 } from "../../../utils/utils";
 
-import {
-    MatchingRendererHandle,
-    MatchingRendererOptions,
-    QuizTheme,
-    ComponentData    
-} from "../types";
-
-import {
-    ContractType
-} from "../../types";
+import {    
+  RendererOptions,
+  RendererHandle,
+  ContractType
+} from '../../types';
 
 import baseHTML from "./index.html";
 import baseCSS from "./styles.css";
-
-import { themes } from "./themes";
 
 type trueFalseData = Array<{
     q: string,
@@ -30,21 +22,11 @@ export function trueFalseRenderer(
 
     mount: HTMLElement,
     data: trueFalseData,
-    options: MatchingRendererOptions
+    options: RendererOptions
 
-): Omit<MatchingRendererHandle, "getState"> {
+): RendererHandle {
 
-    // leaving this here for the moment since the main example page uses it
-    // will be replaced with 'componentMetadata' structure 
-    const componentData: ComponentData = {
-        name: "True, False or Neutral",
-        description: "A nicer version or true/false exercise, cute styling and neutral option"
-    };
-
-    injectStyle("tnf-style", baseCSS);
-
-    const {
-        theme = themes.ocean,
+    const {        
         shuffle: doShuffle = true,
         allowRetry = false,
         resultHandler,
@@ -52,8 +34,8 @@ export function trueFalseRenderer(
     } = options;
 
     const questions = shuffle(data);
-    const root = createSection("tnf-wrapper", ariaLabel);
-    applyTheme(root, theme);
+    const root = createSection("tnf-root", ariaLabel);
+    injectStyle("tnf-style", baseCSS);    
 
     let answerMap: Record<string, string> = {};
 
@@ -64,6 +46,7 @@ export function trueFalseRenderer(
     let list: HTMLElement;
     let picker: HTMLDialogElement;
     let checkAll: HTMLButtonElement;
+    let dialogLabel: HTMLElement; 
     let points = 0;
 
     const label = v => v === 'T' ? 'True' : v === 'F' ? 'False' : 'Neutral';
@@ -115,23 +98,14 @@ export function trueFalseRenderer(
             prompt.className = "prompt";
             prompt.textContent = row.q;
 
-            const btn = document.createElement("button");
-            btn.className = 'choose';
-            btn.textContent = 'Select';
-
-            btn.addEventListener('click', e => {
-                e.stopPropagation();
-                activeIndex = i;
-                picker.showModal();
-            })
-
             el.addEventListener('click', e => {
                 e.stopPropagation();
-                activeIndex = i;
+                activeIndex = i;               
+                dialogLabel.textContent = row.q; 
                 picker.showModal();
             })
 
-            el.append(chip, prompt, btn);
+            el.append(prompt, chip);
             list.appendChild(el);
 
         });
@@ -143,6 +117,7 @@ export function trueFalseRenderer(
         list = root.querySelector("#list");
         picker = root.querySelector("#picker");
         checkAll = root.querySelector("#checkAll");
+        dialogLabel = root.querySelector("#dialog-text");
 
         picker.addEventListener('close', () => {
             const val = picker.returnValue;
@@ -185,11 +160,9 @@ export function trueFalseRenderer(
             mount.removeChild(root);
         },
 
-        setTheme(newTheme: QuizTheme): void {
-            applyTheme(root, newTheme);
-        },
+        styleTag: TrueFalseContract.styleTag,
 
-        componentData,
+        name: TrueFalseContract.name,
 
         finish
     }
@@ -290,10 +263,10 @@ export function validateTrueFalse(data: trueFalseData): boolean {
 
 // type -> : ExerciseContract<trueFalseData>
 export const TrueFalseContract: ContractType = {
+
     name: "True, False or Neutral",
     description: "A nicer version of a true/false exercise, with cute styling and a neutral option.",
-    
-    themes,
+        
     version: 1.0,
     parserVersion: 1.0,
 
@@ -334,6 +307,8 @@ export const TrueFalseContract: ContractType = {
         parser: parseTrueFalse,
         validator: validateTrueFalse
     },
+
+    styleTag: 'tnf-style',
 
     html: baseHTML,
     css: baseCSS

@@ -1,26 +1,19 @@
 import {
-    injectStyle,
-    applyTheme,
+    injectStyle,    
     shuffle,
     createSection
 } from "../../../utils/utils";
 
 import {
-
     Pair,
-    MatchData,
-
-    MatchingRendererOptions,
-    MatchingRendererHandle,
-
-    QuizTheme,
-    ComponentData
-
+    MatchData
 } from "../types";
 
-import {
-    ContractType
-} from "../../types";
+import {    
+  RendererOptions,
+  RendererHandle,
+  ContractType
+} from '../../types';
 
 import {
     items,
@@ -31,33 +24,24 @@ import {
 
 import baseHTML from "./index.html";
 import baseCSS from "./styles.css";
-import { themes } from "./themes";
 
 export function matchingSingleRenderer(
 
     mount: HTMLElement,
     data: MatchData,
-    options: MatchingRendererOptions = {}
+    options: RendererOptions = {}
 
-): Omit<MatchingRendererHandle, "getState"> {    
+): RendererHandle {    
 
-    const componentData: ComponentData = {
-        name: "Single Matching",
-        description: "A custom... renders all possible answers to all questions"
-    };
-
-    injectStyle("mtc-single-style", baseCSS);
-
-    const {
-        theme = themes.moonSet,
+    const {        
         shuffle: doShuffle = true,
         allowRetry = true,
         resultHandler,
         ariaLabel = "Matching Single Exercise"
     } = options;
 
-    const root = createSection("mtc-single-wrapper", ariaLabel);
-    applyTheme(root, theme);
+    const root = createSection("mtc-single", ariaLabel);
+    injectStyle("mtc-single-style", baseCSS);    
 
     const resultMap = answerKey(data);
     const questions = shuffle(items(data, "left"));
@@ -281,11 +265,11 @@ export function matchingSingleRenderer(
 
     return {
 
-        destroy(): void {  mount.removeChild(root) },
+        destroy(): void {  mount.removeChild(root) },        
 
-        setTheme(): void {},
+        styleTag: MatchingSingleContract.styleTag,
 
-        componentData,
+        name: MatchingSingleContract.name,
 
         finish
     }
@@ -297,7 +281,6 @@ export const MatchingSingleContract: ContractType = {
     name: "Matching Single",
     description: "Exploring questions and assigning answers with a single available pool of options.",
     
-    themes,
     version: 1.0,
     parserVersion: 1.0,
 
@@ -339,6 +322,8 @@ export const MatchingSingleContract: ContractType = {
         parser: parseMatching,
         validator: validateMatchingSingle
     },
+
+    styleTag: 'mtc-single-style',
 
     html: baseHTML,
     css: baseCSS

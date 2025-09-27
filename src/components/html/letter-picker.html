@@ -1,39 +1,33 @@
 <style>
 
-:host {
-  --accent: var(--accent-color, var(--focus-color, #6666ff));
-  --border: var(--border-color, #ccc);
-  --bg: var(--bg-color, #fff);
-  --text: var(--text-color, #222);
-  --shadow: var(--shadow, rgba(0,0,0,.2));
-  --font-size: 1.5rem;
-  display: inline-block;
-  font: inherit;
-}
-.wrapper { position: relative; }
-.display {
+.letter-picker-wrapper { position: relative; }
+
+.letter-picker-wrapper .display {
   cursor: pointer; 
   padding: 16px 20px; 
-  color: var(--text); 
+  color: rgb(var(--edu-first-accent)); 
   outline: none;
   user-select: none; 
-  font-size: var(--font-size);
+  font-size: 1.5rem;
 }
-.display.placeholder { opacity: .6; }
 
-:host([mode="simple"]) .display { border-bottom: 2px solid var(--border); }
-:host([mode="simple"]:focus-within) .display { border-bottom-color: var(--accent); }
+.letter-picker-wrapper .display.placeholder { opacity: .6; }
 
-:host([mode="box"]) .display {
-border: 2px solid var(--border); border-radius: 8px; min-width: 60px;
-text-align: center; background: var(--bg); box-shadow: 0 2px 6px var(--shadow);
+:host([mode="simple"]) .display { border-bottom: 2px solid rgb(var(--edu-border)); }
+:host([mode="simple"]:focus-within) .display { border-bottom-color: rgb(var(--edu-first-accent)); }
+
+:host([mode="box"]) .letter-picker-wrapper .display {
+  border: 2px solid rgb(var(--edu-border)); border-radius: 8px; min-width: 60px;
+  text-align: center; 
+  background: rgb(var(--edu-bg)); 
+  box-shadow: 0 2px 6px rgb(var(--edu-muted));
 }
 
 :host([mode="box"]:focus-within) .display { 
-  border-color: var(--accent); 
+  border-color: rgb(var(--edu-first-accent)); 
 }
 
-.picker {
+.letter-picker-wrapper .picker {
   position: absolute; 
   top: calc(100% + 6px); 
   left: 0; 
@@ -41,31 +35,32 @@ text-align: center; background: var(--bg); box-shadow: 0 2px 6px var(--shadow);
   grid-template-columns: repeat(7, 1fr); 
   gap: 4px; 
   padding: 8px;
-  background: var(--bg); 
-  border: 1px solid var(--border); 
+  background: rgb(var(--edu-bg)); 
+  border: 1px solid rgb(var(--edu-border)); 
   border-radius: 8px;
-  box-shadow: 0 6px 14px var(--shadow); 
+  box-shadow: 0 6px 14px rgb(var(--edu-muted));
   z-index: 1000;
 }
 
-.picker button {
+.letter-picker-wrapper .picker button {
   border: none;   
-  background: #f4f4f4; 
+  background: rgb(var(--edu-card)); 
+  color: rgb(var(--edu-ink));
   padding: 6px; 
   border-radius: 4px;
   cursor: pointer; 
   font-weight: 700;
 }
 
-.picker button:hover, .picker button:focus { 
-  background: var(--accent); 
-  color: #fff; 
+.letter-picker-wrapper .picker button:hover, .letter-picker-wrapper .picker button:focus {   
+  background: rgb(var(--edu-first-accent)); 
+  color: rgb(var(--edu-ink)); 
   outline: none; 
 }
-
 </style>
-<div class="wrapper" id="wrap">
-<div class="display" id="display" part="display" role="button" aria-haspopup="listbox" aria-expanded="false" tabIndex="0"></div>
-<div class="picker" id="picker" part="picker" role="listbox">
+
+<div class="letter-picker-wrapper" id="wrap">
+  <div class="display" id="display" part="display" role="button" aria-haspopup="listbox" aria-expanded="false" tabIndex="0"></div>
+  <div class="picker" id="picker" part="picker" role="listbox">
 </div>
 

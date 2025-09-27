@@ -1,0 +1,1 @@
+export { BlanksSingleContract } from './script';

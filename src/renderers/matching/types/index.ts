@@ -60,8 +60,7 @@ export type MatchingResult = {
     timestamp: number;
 }
 
-export type MatchingRendererOptions = {
-    theme?: QuizTheme;
+export type MatchingRendererOptions = {    
     shuffle?: boolean;
     allowRetry?: boolean;
     resultHandler?: (r: MatchingResult) => void;
@@ -75,9 +74,6 @@ export type ComponentData = {
 
 export type MatchingRendererHandle = {
     destroy(): void;
-    setTheme(theme: QuizTheme): void;
-    getState(): MatchingState;
+    setTheme(theme: QuizTheme): void;    
     finish(): void;
-
-    componentData?: ComponentData;
 }

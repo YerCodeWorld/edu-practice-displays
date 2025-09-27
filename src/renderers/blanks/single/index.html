@@ -1,13 +1,20 @@
-<div class="card">
-  <div class="top">
-    <div class="instruction" id="instruction">Instruction</div>
-    <div class="progress" id="progress">1 / 1</div>
-  </div>
+<div class="blanks-single-wrap">
+  <div class="blanks-single-card">
+  
+    <header class="top">      
+      <div class="progress" id="blanks-single-progress">1 / 1</div>
+      <div style="display: flex; gap: 10px;">
+        <label>Hint </label>
+        <div class="instruction" id="blanks-single-instruction">Instruction</div>      
+      </div>
+    </header>
 
-  <div class="word" id="word"></div>
+    <div class="word" id="blanks-single-word"></div>
 
-  <div class="controls">
-    <button class="btn" id="prev">◀ Prev</button>
-    <button class="btn" id="next">Next ▶</button>
+    <footer>
+      <button id="blanks-single-prev">◀ Prev</button>
+      <button id="blanks-single-reveal">Check</button>
+      <button id="blanks-single-next">Next ▶</button>
+    </footer>
   </div>
 </div>

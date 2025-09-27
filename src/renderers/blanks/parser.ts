@@ -1,14 +1,18 @@
 type ParseError = { pos: number; msg: string };
 type ParseResult = {
     ok: Boolean;
-    html: string;
+    content?: {
+        html: string;
+        answerMap: Map<string, any>;
+    };
     errors: ParseError[];
 }
 
 const grammar = {
     tx: parseTX,
     nm: parseNM,
-    sl: parseSL
+    sl: parseSL,
+    img: parseIMG
 } as const;
 
 // id and answer management
@@ -80,11 +84,10 @@ function parseCode(code: string): ParseResult {
 
     }
 
-    if (errors.length > 0) return { ok: false, html: '', errors: errors };
-    return { ok: true, html: textBuf, errors: errors }
+    if (errors.length > 0) return { ok: false, errors: errors };
+    return { ok: true, content: { html: textBuf.replace(/\n/g, "<br>"), answerMap: answerMap }, errors: errors }
 }
 
-function checkAnswers() {}
 
 /* -------------------- Grammars Parsers -------------------- */
 
@@ -106,7 +109,7 @@ function parseTX(content: string, pos: number): string {
     answerMap.set(id, answers);
 
     elsCounter++;
-    return `<input type="text" id='id-${id}'>`;
+    return `<input type="text" id='${id}' autocomplete="off">`;
 }
 
 /**
@@ -184,6 +187,28 @@ function parseSL(content: string, pos: number) {
     return `<select id='${id}'>${optsHTML}</select>`;
 }
 
+/**
+  * Accepts @img(url) or @img(url | alt)
+  * @img(url) → <img src="url" alt="image">
+  * @img(url | alt text) → <img src="url" alt="alt text">
+ **/
+
+function parseIMG(content: string, pos: number): string {
+  // allow: url | optional alt
+  const [rawUrl, rawAlt] = splitPipes(content);
+  const url = (rawUrl ?? "").trim().replace(/^["']|["']$/g, "");
+  const altRaw = (rawAlt ?? "image").trim();
+
+  if (!url) throw new Error(`@img: missing URL. Pos ${pos}.`);
+
+  // very small allowlist: http(s) and data URLs; extend if needed
+  const ok = /^(https?:\/\/|data:image\/[a-zA-Z]+;base64,)/.test(url);
+  if (!ok) throw new Error(`@img: invalid or unsupported URL '${url}'. Pos ${pos}.`);
+
+  const alt = altRaw.replace(/"/g, "&quot;"); // basic escape for attribute
+  return `<img src="${url}" alt="${alt}">`;
+}
+
 /* --------------------Helpers -------------------- */
 
 function splitPipes(s: string): string[] {
@@ -194,14 +219,96 @@ function dedupe<T>(arr: T[]): T[] {
     return [...new Set(arr)];
 }
 
+function validateData(data: any): boolean { return true; }
+
+// Returns overall score and per-item details.
+function checkAnswers(answerMap: Map<string, any>) {
+
+  const details: Record<string, any> = {};
+  let total = 0, correct = 0;
+
+  const getEl = (id: string) => document.getElementById(id);
+
+  answerMap.forEach((spec, id) => {
+    total++;
+    const el = getEl(id);
+    if (!el) { details[id] = { ok: false, error: "Element not found" }; return; }
+
+    let ok = false, got: any;
+
+    if (Array.isArray(spec)) {
+      // @tx → spec: string[]
+      got = (el as HTMLInputElement).value.trim();
+      ok = spec.some(a => a.toLowerCase() === got.toLowerCase());
+      details[id] = { type: "tx", ok, expectedAnyOf: spec, got };
+
+    } else if ("single" in spec && "ranges" in spec) {
+      // @nm → spec: { single: number[], ranges: {min,max}[] }
+      const v = Number((el as HTMLInputElement).value);
+      got = v;
+      const isInt = Number.isInteger(v);
+      const inSingles = isInt && spec.single.includes(v);
+      const inRanges = isInt && spec.ranges.some((r: any) => v >= r.min && v <= r.max);
+      ok = inSingles || inRanges;
+      details[id] = { type: "nm", ok, expected: spec, got };
+
+    } else if ("correct" in spec) {
+      // @sl → spec: { correct: string[], options: string[] (distractors) }
+      got = (el as HTMLSelectElement).value;
+      ok = spec.correct.includes(got);
+      details[id] = { type: "sl", ok, expectedAnyOf: spec.correct, got };
+
+    } else {
+      details[id] = { ok: false, error: "Unknown spec shape" };
+    }
+
+    if (ok) {
+      correct++
+      el.style.borderBottom = "2px solid color-mix(in oklab, rgb(var(--edu-success)) 45%, transparent)";
+    } else el.style.borderBottom = "2px solid color-mix(in oklab, rgb(var(--edu-error)) 45%, transparent)";
+    
+  });
+
+  console.log('TOTAL', total);
+  console.log('CORRECT', correct);
+  console.log('DETAILS', details);
+
+  return { total, correct, details };
+}
+
+
 /* -------------------- Test -------------------- */
 
 function testSystem() {
     const code = `
-    I @tx(am|'m) your best friend.
-    I am @tx(21|20) years old.
-    We @tx(are|'re) a family. I am @nm(11 | 15 | 20..24)
-    years old. She @sl([is|'s] | are | am) a great person.    
+      @img(https://picsum.photos/seed/market/640/360 | A bustling city market)
+
+      Saturday Morning at the Market
+
+      On a @tx(sunny | rainy) morning, Lina and Joel arrived at the old city market around @nm(7..9) AM.
+      They planned to buy @nm(2..4) kinds of produce and a small gift for their friend’s birthday.
+
+      First, they stopped at a booth selling @sl([fresh fruits] | electronics | winter coats | phone cases).
+      Lina pointed at oranges and asked, “Are these @tx(sweet | sour | fresh) today?”
+      The vendor smiled and said, “Try one!”
+
+      After tasting, Joel decided to get @nm(3 | 5 | 7) oranges and @nm(1..2) pineapple(s).
+      They also compared two jars of jam:
+      - Label A: “Harvest Blend — @tx(homemade | organic | imported)”
+      - Label B: “City Classic — @tx(homemade | organic | imported)”
+
+      @img(https://picsum.photos/seed/jam-stand/640/360 | Jam stand with glass jars)
+
+      Next, they browsed the craft aisle to pick a present.
+      They considered a bracelet, a notebook, and a mug. The notebook caught their eye because its cover read:
+      “@@Make it happen.” 
+
+      At checkout, the clerk asked: “Paper or @sl([reusable bag] | plastic bag | no bag)?”
+      They paid exactly @nm(10 | 12 | 15..18) dollars (including a small discount) and left before @nm(10..11) o’clock.
+
+      Back home, Joel typed a quick review:
+      “The market was @tx(clean | lively | crowded), prices were @tx(fair | high), and the vendors were @tx(kind | helpful).”
+      They promised to return next @sl(Monday | [Saturday] | Thursday) to try new fruits and jam flavors.     
     `;
 
     const parsed = parseCode(code);
@@ -209,7 +316,7 @@ function testSystem() {
     if (!parsed.ok) {
         console.log(parsed.errors);
     } else {
-        const p = `<p>${parsed.html}</p>`;
+        const p = `<p>${parsed.content.html.replace(/\n/g, "<br>")}</p>`;
         console.log(p);
         // document.body.innerHTML = p;
     }
@@ -239,9 +346,9 @@ export const parserContract = {
 
     dslParser: parseCode,
     grammarParsers: grammar,
+    validator: validateData,
     checkAnswers: checkAnswers,
     test: testSystem
 
 }
-
 

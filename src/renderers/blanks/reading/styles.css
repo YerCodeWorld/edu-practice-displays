@@ -1,0 +1,168 @@
+/* =============== Notebook Card =============== */
+#blanks-reading-wrapper {
+
+  font-family: system-ui, Segoe UI, Roboto, sans-serif;
+  color: rgb(var(--edu-ink));
+  
+  background-color: rgb(var(--edu-bg));
+  background-size:
+    100% 100%, /* holes 1 */
+    100% 100%, /* holes 2 */
+    100% 100%, /* holes 3 */
+    100% 100%; /* rules */
+    
+  border: 1px solid rgb(var(--edu-border));
+ 
+  max-width: 760px;
+  margin: 24px auto;
+  padding: 20px 20px 16px 52px; /* left pad for gutter */
+  box-shadow: 0 10px 30px rgb(var(--edu-muted) / 0.25);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* left gutter line */
+#blanks-reading-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 40px;
+  width: 2px;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in oklab, rgb(var(--edu-first-accent)) 65%, transparent),
+    color-mix(in oklab, rgb(var(--edu-first-accent)) 50%, transparent)
+  );
+  border-radius: 2px;
+}
+
+/* Header: notebook label tab */
+#blanks-reading-wrapper header {
+  padding-bottom: 8px;
+  border-bottom: 1px dashed color-mix(in oklab, rgb(var(--edu-ink)) 35%, transparent);
+}
+
+#blanks-reading-wrapper h2 {
+  margin: 0;
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.2px;
+  display: inline-block;
+  padding: 6px 10px;
+
+  background: color-mix(in oklab, rgb(var(--edu-first-accent)) 16%, transparent);
+  box-shadow: inset 0 -2px 0 color-mix(in oklab, rgb(var(--edu-first-accent)) 28%, transparent);
+}
+
+/* Main content */
+#blanks-reading-container {
+  line-height: 1.9;
+  padding: 6px 0;
+}
+
+/* Footer */
+#blanks-reading-wrapper footer {
+  padding-top: 10px;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  border-top: 1px dashed color-mix(in oklab, rgb(var(--edu-ink)) 28%, transparent);
+}
+
+/* Button with accent */
+#blanks-reading-wrapper button {
+  background: color-mix(in oklab, rgb(var(--edu-first-accent)) 22%, rgb(var(--edu-bg)));
+  color: rgb(var(--edu-ink));
+  border: 1px solid color-mix(in oklab, rgb(var(--edu-first-accent)) 50%, rgb(var(--edu-border)));
+  border-radius: 10px;
+  padding: 8px 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform .06s ease, filter .15s ease, box-shadow .15s ease;
+  box-shadow: 0 2px 0 color-mix(in oklab, rgb(var(--edu-first-accent)) 40%, transparent);
+}
+#blanks-reading-wrapper button:hover {
+  filter: brightness(1.03);
+}
+#blanks-reading-wrapper button:active {
+  transform: translateY(1px);
+}
+
+/* =============== Inline Exercise Paragraph =============== */
+.exercise-paragraph {
+  line-height: 2.1;                 /* airy like lines on paper */
+  font-size: 1.06rem;
+  color: rgb(var(--edu-ink));
+  background: rgb(var(--edu-card));          /* let ruled bg show through */    
+  padding: 14px 16px;
+  max-width: 720px;
+  position: relative;
+}
+
+/* Inputs blend like blanks on ruled paper */
+.exercise-paragraph input[type="text"],
+.exercise-paragraph input[type="number"],
+.exercise-paragraph select {
+  display: inline-block;
+  min-width: 7ch;
+  max-width: 22ch;
+  margin: 0 4px;
+  padding: 2px 4px 3px;
+  font: inherit;
+  color: rgb(var(--edu-ink));
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid color-mix(in oklab, rgb(var(--edu-first-accent)) 45%, transparent);
+  outline: none;
+  vertical-align: baseline;
+  transition: box-shadow .15s ease, border-color .15s ease, background .15s ease;
+}
+
+/* Focus = highlighted line */
+.exercise-paragraph input:focus,
+.exercise-paragraph select:focus {
+  border-bottom-color: rgb(var(--edu-first-accent));
+  box-shadow: 0 2px 0 -1px rgb(var(--edu-first-accent));
+  background: color-mix(in oklab, rgb(var(--edu-first-accent)) 10%, transparent);
+}
+
+/* Select arrow, notebooky */
+.exercise-paragraph select {
+  appearance: none;
+  padding-right: 1.5rem;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 20 20' fill='%236b7280'><path d='M5 7l5 5 5-5'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 0.15rem center;
+  background-size: 1rem;
+}
+
+/* Placeholder tone */
+.exercise-paragraph input::placeholder {
+  color: color-mix(in oklab, rgb(var(--edu-ink)) 40%, transparent);
+  font-style: italic;
+}
+
+.exercise-paragraph img {
+  display: block;
+  max-width: 100%;
+  margin: 14px auto;
+  border-radius: 10px;
+  border: 3px solid color-mix(in oklab, rgb(var(--edu-first-accent)) 45%, transparent);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+  background: #fff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Hover pop effect */
+.exercise-paragraph img:hover {
+  transform: scale(1.015) rotate(-0.4deg);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+}
+
+/* Small screens */
+@media (max-width: 520px) {
+  #blanks-reading-wrapper { padding-left: 46px; }
+  .exercise-paragraph { font-size: 1rem; }
+}
+

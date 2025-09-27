@@ -4,6 +4,7 @@ import innerHtml from "./html/letter-picker.html";
 type Mode = "simple" | "grid";
 
 export class LetterPicker extends HTMLElement {
+
   static get observedAttributes() {
     return ["value", "mode", "placeholder", "disabled"] as const;
   }
@@ -64,12 +65,6 @@ export class LetterPicker extends HTMLElement {
 
     // Toggle/open/close
     this._display.addEventListener("click", () => this.toggle());
-
-    // Base ARIA
-    this.setAttribute("role", "combobox");
-    this._display.setAttribute("aria-expanded", "false");
-    this._display.setAttribute("tabindex", "0");
-
     this._syncDisplay();
   }
 
@@ -178,5 +173,4 @@ export class LetterPicker extends HTMLElement {
   }
 }
 
-customElements.define("letter-picker", LetterPicker);
-
+if (!customElements.get('letter-picker')) customElements.define('letter-picker', LetterPicker);

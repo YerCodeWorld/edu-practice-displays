@@ -4,32 +4,119 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Matching Exercise Demo</title>
+    <link rel="stylesheet" href="styles.css"/>
     <style>
-        body {
-            margin: 0;                    
-        }
-    </style>
+/* 1) Reset default margins that cause phantom overflow */
+body, h1, h2, h3, h4, h5, h6, p { margin: 0; }
+
+html, body { height: 100%; }
+* { box-sizing: border-box; }
+
+/* Page layout: header | app | footer */
+body {
+  min-height: 100svh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  overflow: hidden;               /* window never scrolls */
+  background-color: black;  
+}
+
+/* 2) App row can actually shrink and not force overflow */
+#app {
+  min-height: 0;                  /* critical for grid children */
+  overflow: hidden;               /* prevent its own scrollbar if you want */
+  border: 2px dashed black;
+  display: contents;              /* lets the wrapper fill the row cleanly */
+}
+
+/* 3) A dedicated viewport inside #app that handles any overflow from renders */
+.app-viewport {
+  min-height: 0;
+  max-height: 100%;
+  overflow: auto;                 /* only this scrolls */
+}
+
+/* 4) Make the rendered root behave (whatever you insert) */
+.app-viewport > * {
+  min-height: 0;
+  max-height: 100%;
+  overflow: auto;                 /* if the component is taller, it scrolls internally */
+  padding: 20px;
+}
+
+/* (Optional) Kill components that insist on 100vh inside the container */
+.app-viewport * {
+  /* Override aggressive full-viewport sizing if present */
+  --vh: 1svh;
+}
+
+#switch-container {
+  display: flex;
+  justify-content: space-between; 
+}
+
+
+</style>
 </head>
-<body>
-
-
+<body>    
+    <div id="switch-container"></div>  
+    <div id="app" class="container"></div>
+    <h5>Just some copyrights warnings</h5>  
     <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
     <script type="module">
         import {
             ManualContract,
             MatchingContract,
-            MatchingWheelsContract
+            MatchingWheelsContract,
+            MatchingSingleContract,
+            ConceptsDefinitionContract,
+            TrueFalseContract,
+            BlanksSingleContract,
+            BlanksReadingContract
         } from './dist/index.js';
 
-        // Get DOM elements
+        const container = document.getElementById('app');
+        const viewport = document.createElement('div');
+        viewport.className = 'app-viewport';
+        
+        const switcher = document.getElementById('switch-container');
+        const block = document.createElement("section");
+        viewport.append(block);
+        container.append(viewport);
+
+        const menu = {
+          1: ManualContract,
+          2: MatchingContract,
+          3: MatchingWheelsContract,
+          4: MatchingSingleContract,
+          5: ConceptsDefinitionContract,
+          6: TrueFalseContract,
+          7: BlanksSingleContract,
+          8: BlanksReadingContract
+        }
 
         let currentHandler;
-     
+
+        const accents = ['99 102 241', '245 158 11', '236 72 153', '59 130 246', '16 185 129', '249 115 22'];
+        
+        for (const col of accents) {
+          const btn = document.createElement('button');
+          btn.id = `btn-${col}`;                    
+          btn.style.backgroundColor = `rgb(${col})`;
+          btn.style.color = "rgb(var(--edu-ink))";   // optional: set text color for contrast
+          btn.style.border = "none";  // optional: remove border
+          btn.style.padding = "0.5rem 1rem";
+          btn.style.width = "100%";
+          btn.addEventListener('click', () => { 
+            document.documentElement.style.setProperty('--edu-first-accent', `${col}`);
+          });
+
+          switcher.appendChild(btn);
+        }
 
         function createExerciseBlock(renderer, data) {
-        
-            const block = document.createElement("section");
-            document.documentElement.append(block);
+
+            block.innerHTML = '';
 
             const r = renderer(
                 block,
@@ -48,52 +135,45 @@
             );
 
     
-            currentHandler = r; 
+            currentHandler = r;             
         }
 
         function getContractInfo(contract) {
             
             const code = contract.grammarExample[0];          
-
             const parser = contract.implementation.parser;        
-            
-            const validator = contract.implementation.validator; 
+            // const validator = contract.implementation.validator; 
             const renderer = contract.implementation.renderer;                
-
             const parsed = parser(code);
 
+            console.log(parsed);
+            
             createExerciseBlock(renderer, parsed.content);
         }
 
-        function removeStyleTags() {
-            const styleTags = document.getElementsByTagName('style');
+        function render(contract) {          
+        
+          if (currentHandler) {                        
+            if (currentHandler.name === contract.name) return; 
 
-            // Loop in reverse to avoid issues with live NodeList updates
-            for (let i = styleTags.length - 1; i >= 0; i--) {
-                const styleTag = styleTags[i];
-                styleTag.parentNode.removeChild(styleTag);
-            }
+            const style = document.getElementById(currentHandler.styleTag);
+            if (style) style.remove();                                          
+
+            currentHandler.destroy();            
+            
+          }
+
+          getContractInfo(contract);
         }
 
-
-        document.documentElement.addEventListener('keydown', e => {
-            if (e.key === 'q') {
-                if (currentHandler) currentHandler.destroy();
-                removeStyleTags();
-                getContractInfo(MatchingContract);
+        document.addEventListener('keydown', e => {              
+        
+            if (e.key === '0') {
+              if (currentHandler) currentHandler.destroy();
+              currentHandler = undefined;
             }
-
-            if (e.key === 'w') {
-                if (currentHandler) currentHandler.destroy();
-                removeStyleTags();
-                getContractInfo(ManualContract);
-            }
-
-            if (e.key === 'e') {
-                if (currentHandler) currentHandler.destroy();
-                removeStyleTags();
-                getContractInfo(MatchingWheelsContract);
-            }
+            
+            if (Object.keys(menu).includes(e.key)) render(menu[e.key]);        
         });
 
     </script>
