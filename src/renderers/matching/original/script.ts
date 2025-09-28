@@ -1,6 +1,6 @@
 import { MatchData } from '../types';
 import { injectStyle, shuffle, createSection } from "../../../utils/utils";
-import { RendererOptions, RendererHandle, ContractType} from '../../types';
+import { RendererOptions, RendererHandle, ContractType } from '../../types';
 import { items, distractors, answerKey, parseMatching } from "../utils";
 
 import baseHTML from "./index.html";
@@ -345,11 +345,12 @@ export const MatchingContract: ContractType = {
     // reminder to support naming the columns
     grammarExample: [
       `       
-       apple = red;
-       pear = green;
-       grapes = purple;
-       banana = yellow;
-       @EXTRA = [white | black]`,       
+apple = red;
+pear = green;
+grapes = purple;
+banana = yellow;
+@EXTRA = [white | black]
+       `,       
        
       `
        USA :: Washington DC;

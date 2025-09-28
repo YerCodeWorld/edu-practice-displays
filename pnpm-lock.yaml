@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      eduscript:
+        specifier: 'link:'
+        version: 'link:'
       inotifywait:
         specifier: ^1.8.3
         version: 1.8.3

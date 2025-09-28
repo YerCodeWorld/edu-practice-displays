@@ -1,1 +1,1 @@
-
+export { ColorCategorizeContract } from "./script";

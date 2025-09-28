@@ -8,16 +8,17 @@
 
 }
 
-.matching-wrap {  
-  
-  /* ensure it grows with parent */
-  inline-size: 100%;
-  min-block-size: 100%;         /* fill parent’s min-height, not shrink */
+.matching-wrap {       
   background-color: rgb(var(--edu-first-accent) / 0.90);
-
 }
 
 .matching-card {
+
+  display: flex;
+
+  padding:24px; 
+
+  flex-direction: column;
   
   font-family: var(--font-family, system-ui);
   background: rgb(var(--edu-bg) / 0.85);
@@ -53,6 +54,7 @@
     margin-bottom: 2rem;
     align-items: center;
 }
+
 .edu-matching__column {
     width: 100%;
     display: flex;

@@ -1,0 +1,29 @@
+<div class="edu-categorize" id="cca">
+  <header class="cca-header">    
+    <p class="edu-categorize-instruction" id="cca-instruction"></p>
+
+    <div class="edu-categorize-palette" id="cca-palette">
+      <button type="button" class="edu-categorize-chip" id="cca-none" aria-pressed="true" data-active="true">
+        <span class="edu-categorize-swatch" style="background:rgb(var(--edu-bg))"></span>
+        <span>None</span>
+      </button>
+      
+      <!-- Category painters injected here -->
+    </div>
+
+    <div class="edu-categorize-current" aria-live="polite">
+      <strong>Current:</strong>
+      <span class="edu-categorize-swatch" id="cca-current-swatch"></span>
+      <span id="cca-current-label">None</span>
+    </div>
+  </header>
+
+  <main class="edu-categorize-grid" id="cca-grid"></main>
+
+  <hr>
+
+  <footer class="edu-categorize-footer">
+    <button class="edu-categorize-btn" id="cca-check">Check</button>
+    <button class="edu-categorize-btn secondary" id="cca-reset">Reset</button>
+  </footer>
+</div>

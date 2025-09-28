@@ -17,7 +17,7 @@
     transition: background 0.3s, border-color 0.3s;
 }
 
-.tnf-root header{margin:6px 10px 0}
+
 .tnf-root header h2 {color: rgb(var(--edu-ink));}
 
 .tnf-root main {

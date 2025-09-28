@@ -224,11 +224,12 @@ export const MatchingWheelsContract: ContractType = {
 
     grammarExample: [
       `
-       apple 🍎 = red 🔴;
-       pear 🍐 = green 🟢;
-       grapes 🍇 = purple 🟣;  
-       banana 🍌 = yellow 🟡;
-       @EXTRA = [white ⚪ | black ⚫]`,        
+apple 🍎 = red 🔴;
+pear 🍐 = green 🟢;
+grapes 🍇 = purple 🟣;  
+banana 🍌 = yellow 🟡;
+@EXTRA = [white ⚪ | black ⚫]
+       `,        
       `
        USA :: Washington DC;
        DR :: Santo Domingo;

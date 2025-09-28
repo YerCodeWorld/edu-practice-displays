@@ -191,14 +191,14 @@ export const ManualContract: ContractType = {
 
     grammarExample: [
       `
-        # Enter the 7 days of the week
-        Monday;
-        Tuesday;
-        Wednesday;
-        Thursday;
-        Friday;
-        Saturday;
-        Sunday;
+# Enter the 7 days of the week
+Monday;
+Tuesday;
+Wednesday;
+Thursday;
+Friday;
+Saturday;
+Sunday;
        `
     ],
 

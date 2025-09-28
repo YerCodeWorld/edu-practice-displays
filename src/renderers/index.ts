@@ -8,3 +8,4 @@ export {
 
 export { ManualContract } from './manual';
 export { BlanksSingleContract, BlanksReadingContract } from "./blanks";
+export { ColorCategorizeContract } from "./categorize";

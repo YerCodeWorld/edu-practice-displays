@@ -2,12 +2,10 @@
   background-image:url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdGMmkyax8_nzanbfOGadHC03Nu_DqzJAQxQ&s');
   font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;
   color: rgb(var(--edu-ink));
-  /* comfortable scrolling space on small screens */  
 }
 
 .blanks-single-wrap {
   width: 100%;
-  
   margin-inline: auto;
   background: rgb(var(--edu-bg) / 0.80);
   border:2px solid rgb(var(--edu-border));

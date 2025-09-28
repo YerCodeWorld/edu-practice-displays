@@ -5,10 +5,6 @@
   <title>Exercise Playground (Scoped)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-
-    :root {
-      --current-color: rgb(var(--edu-first-accent) / 0.40);
-    }
   	
   	body {
   		margin: 0;
@@ -55,7 +51,6 @@
 
       --edu-radius:        0.375rem;
       --edu-shadow-color:  0 0 0;
-      
     }
 
     .edu-playground[data-theme="dark"] {
@@ -81,7 +76,6 @@
 
       --edu-radius:        0.375rem;
       --edu-shadow-color:  0 0 0;
-      
     }
 
     /* ----- HEADER ----- */
@@ -252,7 +246,7 @@
           <span>Light mode</span>
         </label>
       </div>
-      
+      <div class="pg-row" id="pg-accents" aria-label="Accent colors"></div>
     </header>
 
     <!-- App: controls | viewport -->
@@ -311,7 +305,7 @@
     const btnRender2 = $('#pg-render-2');
     const btnClear = $('#pg-clear');
     const themeToggle = $('#pg-theme');
-    
+    const accentsRow = $('#pg-accents');
     const quickRow = $('#pg-switcher');
 
     /** ------- MENU / CONTRACTS ------- **/
@@ -359,6 +353,7 @@
         // Set only on the playground container so variables cascade into renderers
         pg.style.setProperty('--edu-first-accent', col);
       });
+      accentsRow.appendChild(b);
       // mirror in the quick row (top of viewport)
       quickRow.appendChild(b.cloneNode(true)).addEventListener?.('click', () => {
         pg.style.setProperty('--edu-first-accent', col);
@@ -455,6 +450,4 @@
     renderOnce();         // initial render
   </script>
 </body>
-
 </html>
-

@@ -299,11 +299,17 @@ export const MatchingSingleContract: ContractType = {
     ],
 
     grammarExample: [
-      `It's the most famous fruit in the world = apple;
-       A lot of small circles, usually purple = grapes;
-       A tree + the other red fruit = pineapple;
-       5 letters. Sweet and kinda small, usually yellow = mango;
-       @EXTRA = [banana | orange]`,
+      `
+It's the most famous fruit in the world = apple;
+
+A lot of small circles, usually purple = grapes;
+
+A tree + the other red fruit = pineapple;
+
+5 letters. Sweet and kinda small, usually yellow = mango;
+
+@EXTRA = [banana | orange]
+        `,
        
       `The capital of France :: Paris;
        Biggest Dessert in the world :: Sahara;
