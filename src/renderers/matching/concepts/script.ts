@@ -95,6 +95,10 @@ export function conceptsExerciseRenderer(
 
     function createSelect(options) {
         const select = document.createElement("select");
+        const defaultEl = document.createElement("option");
+        defaultEl.textContent = "";
+        select.appendChild(defaultEl);
+        
         for (const opt of options) {
             const optEl = document.createElement("option");
             optEl.textContent = opt;
@@ -189,11 +193,15 @@ export const ConceptsDefinitionContract: ContractType = {
 
     grammarExample: [      
         `
-        Misinformation = Telling something that is false as if it was true;
-        Fraternity = The idea of union of man and fellowship of the people;
-        Destroy = Riping something apart to make it non-functionable;
-        Intelligence = Concept that represents intelectual capacity;
-        @EXTRA = [State of deep sadness during long times | Hurting someone deeply];
+Misinformation = Telling something that is false as if it was true;
+
+Fraternity = The idea of union of man and fellowship of the people;
+
+Destroy = Riping something apart to make it non-functionable;
+
+Intelligence = Concept that represents intelectual capacity;
+
+@EXTRA = [State of deep sadness during long times | Hurting someone deeply];
         `
     ],
 

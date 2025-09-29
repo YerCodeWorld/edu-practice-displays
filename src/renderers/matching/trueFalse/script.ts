@@ -285,10 +285,11 @@ export const TrueFalseContract: ContractType = {
     ],
 
     grammarExample: [
-      `The sun is really big = t;
-       Water is good for humans = t;
-       The earth does not rotate = f;
-       Love is good = n;
+      `
+The sun is really big = t;
+Water is good for humans = t;
+The earth does not rotate = f;
+Love is good = n;
       `,
       `Money is the most important thing in life :: neutral;
        Graduating from university ensures a good life :: false;

@@ -255,23 +255,23 @@ export const BlanksSingleContract: ContractType = {
 
     grammarExample: [
       `
-        # A day of the week... 
-        M[on]da[y];
+# A day of the week... 
+M[on]da[y];
 
-        # A month of the year... 
-        [De]cem[ber];
+# A month of the year... 
+[De]cem[ber];
 
-        # A part of the day
-        [Mor]n[ing];
+# A part of the day
+[Mor]n[ing];
 
-        # Saturday and Sunday?
-        We[eken]d
+# Saturday and Sunday?
+We[eken]d
 
-        # 100% Frequency
-        [Al]wa[ys];
+# 100% Frequency
+[Al]wa[ys];
 
-        # The Cold Season 
-        [Winter];                
+# The Cold Season 
+[Winter];                
        `
     ],
 

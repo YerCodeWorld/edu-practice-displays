@@ -104,18 +104,18 @@ export const BlanksReadingContract: ContractType = {
 
     grammarExample: [
       `
-        @img(https://picsum.photos/seed/city/640/360 | A morning street)
+@img(https://picsum.photos/seed/city/640/360 | A morning street)
 
-        It was a @tx(sunny | cloudy) morning when Anna left her apartment.  
-        She walked exactly @nm(200 | 250 | 300) meters to the café.
+It was a @tx(sunny | cloudy) morning when Anna left her apartment.  
+She walked exactly @nm(200 | 250 | 300) meters to the café.
 
-        @img(https://picsum.photos/seed/cafe/640/360 | Coffee shop)
+@img(https://picsum.photos/seed/cafe/640/360 | Coffee shop)
 
-        Inside, she ordered a @sl([coffee] | tea | juice)  
-        and sat by the window with her @tx(book).
+Inside, she ordered a @sl([coffee] | tea | juice)  
+and sat by the window with her @tx(book).
 
-        She spent @nm(1..2) hours there,  
-        feeling @tx(relaxed | inspired | tired).
+She spent @nm(1..2) hours there,  
+feeling @tx(relaxed | inspired | tired).
                 
      `
     ],
