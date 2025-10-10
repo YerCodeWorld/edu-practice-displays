@@ -1,0 +1,120 @@
+/* ===== MCQ — Scoped styles ===== */
+.edu-mcq-wrap {
+  display:grid; gap:16px;
+  background: rgb(var(--edu-bg));
+  color: rgb(var(--edu-ink));
+  border: 1px solid rgb(var(--edu-border));
+  border-radius: var(--edu-radius);
+  box-shadow: 0 10px 30px rgb(var(--edu-shadow-color) / .25);  
+  padding: 16px;
+}
+
+/* Header */
+.edu-mcq-wrap > header {
+  display:flex; align-items:center; justify-content:space-between;
+  padding: 8px 4px 12px;
+  border-bottom: 1px dashed rgb(var(--edu-border));
+}
+
+.edu-mcq-wrap .edu-mcq-title {
+  margin:0;
+  font-weight:800;
+  letter-spacing:.3px;
+  color: rgb(var(--edu-ink));
+}
+
+/* Grid container for dynamic <edu-mcq> blocks */
+.edu-mcq-wrap .edu-mcq-container {
+  display:flex; 
+  gap: 50px;
+  flex-direction: column;
+  justify-content: center;
+  counter-reset: mcq;
+  padding-block: 4px;
+}
+
+/* Card shell for each custom element (outer host only) */
+.edu-mcq-wrap .edu-mcq-container edu-mcq {
+  position: relative;
+  display:block;
+  background: rgb(var(--edu-card));
+  color: rgb(var(--edu-ink));
+  border: 1px solid rgb(var(--edu-border));
+  border-radius: calc(var(--edu-radius) + 2px);
+  padding: 14px;
+  box-shadow: 0 4px 16px rgb(var(--edu-shadow-color) / .18);
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;  
+  outline: none;
+}
+
+.edu-mcq-wrap .edu-mcq-container edu-mcq::before {
+  counter-increment: mcq; 
+  content: counter(mcq);
+  position:absolute; 
+  left:10px; top:15px; 
+  translate: 0 -10px;
+  width:28px; 
+  height:28px; display:grid; place-items:center;
+  font-weight:700; font-size:.9rem;
+  color:white;
+  background: rgb(var(--edu-first-accent) / 0.80);  
+  border-radius: 10px;
+
+}
+
+.edu-mcq-wrap .edu-mcq-container edu-mcq:hover {
+  transform: translateY(-1px);
+
+  border-color: rgb(var(--edu-first-accent));
+}
+
+.edu-mcq-wrap .edu-mcq-container edu-mcq:focus-visible,
+.edu-mcq-wrap .edu-mcq-container edu-mcq:focus-within{
+  box-shadow: 0 0 0 3px rgb(var(--edu-first-accent) / .35),
+              0 8px 22px rgb(var(--edu-shadow-color) / .22);
+  border-color: rgb(var(--edu-first-accent));
+}
+
+/* Footer / Check button */
+.edu-mcq-wrap > footer {
+  display:flex; 
+  justify-content:center;  
+  width: 100%; 
+  align-items:center; 
+  gap:8px;
+  padding-top: 8px;
+  border-top: 1px dashed rgb(var(--edu-border));
+}
+
+.edu-mcq-wrap .edu-mcq-check{
+  appearance:none; -webkit-appearance:none;
+  border: 1px solid rgb(var(--edu-first-accent));
+  background: linear-gradient(
+    0deg,
+    rgb(var(--edu-first-accent) / .18),
+    rgb(var(--edu-first-accent) / .28)
+  );
+  color: rgb(var(--edu--ink));
+  font-weight:700;
+  padding: 10px 14px;    
+  cursor:pointer;
+  width: 40%;
+  transition: transform .12s ease, filter .12s ease, box-shadow .15s ease;
+}
+
+.edu-mcq-wrap .edu-mcq-check:hover{
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+}
+
+.edu-mcq-wrap .edu-mcq-check:active{
+  transform: translateY(0);
+  box-shadow: 0 3px 12px rgb(var(--edu-shadow-color) / .18) inset;
+}
+
+.edu-mcq-wrap .edu-mcq-check:disabled{
+  opacity:.6; cursor:not-allowed;
+  filter: grayscale(.2);
+}
+
+

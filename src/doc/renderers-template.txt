@@ -1,0 +1,116 @@
+import {
+  injectStyle,
+  createSection
+} from "*/utils/utils";
+
+import {
+  RendererOptions,
+  RendererHandle,
+  ContractType
+} from '*/types';
+
+import baseHTML from './index.html';
+import baseCSS from './styles.css';
+
+type rendererData = {
+  
+};
+
+function renderRenderer(
+  mount: HTMLElement,
+  data: rendererData,
+  options: RendererOptions
+): RendererHandle {
+
+  const {    
+    allowRetry = true,
+    resultHandler,
+    ariaLabel = ''
+  } = options; 
+
+  const root = createSection('renderer-name', ariaLabel);
+  injectStyle('renderer-style', baseCSS);    
+
+  const $ = <T extends Element>(sel: string, r: ParentNode=root): T | null => 
+  r.querySelector<T>(sel);
+  onElement;  
+
+  // declare elements
+    
+  function init() {    
+
+    root.innerHTML = baseHTML;
+
+    // assign elements
+    
+  }
+
+  // correct screen 
+  function check() {}
+
+  function finish() {}
+
+  init();
+  mount.appendChild(root);
+
+  return {
+
+    destroy(): void { mount.removeChild(root); },
+  
+    styleTag: ,
+
+    name: ,
+
+    finish 
+  }
+
+}
+
+function rendererParser(code: string): rendererData {}
+function rendererValidator(data: rendererData): boolean { return true; }
+
+export const ComponentContract: ContractType = {
+    name: "",
+    description: "...",
+        
+    version: 1.0,
+    parserVersion: 1.0,
+
+    category: "",
+    tags: ["", "", ""],
+
+    usage: [
+        "...",
+        "...",
+        "..."
+    ],
+    wrong: [
+        "...",
+        "...",
+        "..."
+    ],
+
+    grammarExample: [
+      `
+                
+     `
+    ],
+
+    defaultOptions: {
+        shuffle: true,
+        allowRetry: false,
+        ariaLabel: ""
+    },
+
+    implementation: {
+        renderer: ,
+        parser: ,
+        validator: 
+    },
+
+    styleTag: '',
+
+    html: baseHTML,
+    css: baseCSS
+}; 
+

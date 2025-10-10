@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Exercise Playground (Scoped)</title>
+  <title>Eduguiders Playground</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" type="image/png" href="assets/eduguiders-logo.png">
+  <link rel="stylesheet" href="styles.css">
   <style>
 
     :root {
@@ -45,6 +46,7 @@
 
       --edu-success:       22 163 74;   /* green-600 */
       --edu-error:         220 38 38;   /* red-600 */
+      --edu-warning:       255 222 33;
       --edu-neutral:       14 165 233;  /* sky-500 */
 
       --edu-first-accent:  99 102 241;  /* indigo-500 */
@@ -72,6 +74,7 @@
       --edu-success:       34 197 94;   /* green-500 */
       --edu-error:         239 68 68;   /* red-500 */
       --edu-neutral:       56 189 248;  /* sky-400 */
+      --edu-warning:       255 222 33;
 
       --edu-first-accent:  129 140 248; /* indigo-400 */
       --edu-second-accent: 251 191 36;  /* amber-400 */
@@ -243,8 +246,7 @@
     <!-- Header: contract picker, theme toggle, quick actions -->
     <header class="pg-header">
       <div class="pg-row">
-        <select id="pg-contract" class="pg-select" aria-label="Exercise Type"></select>
-        <button id="pg-load-example" class="pg-button" title="Load example grammar">Load Example</button>
+        <select id="pg-contract" class="pg-select" aria-label="Exercise Type"></select>        
         <button id="pg-render" class="pg-button" title="Render exercise">Render</button>
       </div>
       <div class="pg-row">
@@ -285,8 +287,12 @@
     </footer>
   </section>
 
-  <!-- confetti (optional like your demo) -->
+  <dialog id="winning-screen"></dialog>
+
+  <!-- confetti -->
   <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+  <!-- icons -->
+  <script src="https://kit.fontawesome.com/7ba50c7472.js" crossorigin="anonymous"></script>
 
   <script type="module">
     import {
@@ -299,16 +305,19 @@
       BlanksSingleContract,
       BlanksReadingContract,
       ColorCategorizeContract,
-      CategorizeSingleContract
+      CategorizeSingleContract,
+      BlanksMultipleContract,
+      MCQContract
     } from './dist/index.js';
+
+    import { unlockAudio, preloadSounds, playSound } from './dist/index.js';
 
     /** ------- DOM ------- **/
     const $ = (sel, r = document) => r.querySelector(sel);
     const pg = $('#pg');
     const mount = $('#pg-mount');
     const codeEl = $('#pg-code');
-    const contractSel = $('#pg-contract');
-    const btnLoad = $('#pg-load-example');
+    const contractSel = $('#pg-contract');    
     const btnRender = $('#pg-render');
     const btnRender2 = $('#pg-render-2');
     const btnClear = $('#pg-clear');
@@ -326,9 +335,13 @@
       TrueFalseContract,
       BlanksSingleContract,
       BlanksReadingContract,
+      BlanksMultipleContract,
       ColorCategorizeContract,
-      CategorizeSingleContract
+      CategorizeSingleContract,      
+      MCQContract
     ];
+
+    const winning = document.getElementById("winning-screen");
 
     // Populate select
     for (const c of menu) {
@@ -409,6 +422,7 @@
       const renderer = c.implementation.renderer;
 
       const parsed = parser(codeEl.value); // your parser returns { content, ... }
+      
       // Create a fresh mount section for the renderer to own
       const section = document.createElement('section');
       section.setAttribute('role', 'region');
@@ -418,10 +432,20 @@
 
       const opts = {
         ...(c.defaultOptions ?? {}),
-        resultHandler: () => {
-          confetti({ particleCount: 90, spread: 65, origin: { y: 0.6 } });
+        resultHandler: (result) => {
+          
+          if (result.detail.correct === result.detail.total) {
+            confetti({ particleCount: 90, spread: 65, origin: { y: 0.6 } });            
+            playSound('victory', { volume: 0.8 });
+          } else playSound('failure', { volume: 0.8 });
+          
+          winning.innerHTML = '';          
+          winning.appendChild(result.winningEl);
+          winning.showModal();          
+          
         },
-        ariaLabel: `${c.name} Exercise`
+        ariaLabel: `${c.name} Exercise`,
+        checkBtn: true
       };
 
       // Render
@@ -435,10 +459,10 @@
           section.replaceWith(section.cloneNode(false));
         })
       };
+
     }
 
-    /** ------- Events ------- **/
-    btnLoad.addEventListener('click', loadExample);
+    /** ------- Events ------- **/    
     btnRender.addEventListener('click', renderOnce);
     btnRender2.addEventListener('click', renderOnce);
     btnClear.addEventListener('click', () => { codeEl.value = ''; });

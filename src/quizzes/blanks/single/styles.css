@@ -1,0 +1,128 @@
+.blanks-single {
+  background-image:url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdGMmkyax8_nzanbfOGadHC03Nu_DqzJAQxQ&s');
+  font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;
+  color: rgb(var(--edu-ink));
+}
+
+.blanks-single-card {
+  border: 2px solid rgb(var(--edu-border));
+  background-color: rgb(var(--edu-card) / 0.98);
+  padding-top: 40%;
+  padding-bottom: 40%;  
+}
+
+/* Grid centers safely at all sizes */
+.blanks-single-card .top {
+  display: grid;
+  place-items: center;
+  gap: clamp(6px, 1.6vw, 12px);
+}
+
+.blanks-single-card .top label {
+  font-weight: 600;
+  align-content: center;
+  border: 2px dashed rgb(var(--edu-first-accent));
+  padding: 4px;
+  transform: rotate(-3deg);
+}
+
+/* Fluid type scales */
+.blanks-single-card .instruction { 
+  font-weight: 600; 
+  font-size: clamp(1.1rem, 3.6vw, 2rem); 
+  line-height: 1.2;
+}
+.blanks-single-card .progress{ 
+  opacity: .75; 
+  font-size: clamp(1rem, 3.2vw, 1.8rem); 
+}
+
+/* Word row */
+.blanks-single-card .word {
+  margin-block: clamp(20px, 8vw, 40px);
+  display: flex;
+  gap: clamp(.35rem, 1.5vw, .7rem);
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Letters scale and wrap nicely */
+.blanks-single-card .letter {
+  min-width: 2ch;
+  text-align: center;
+  font-weight: 800;
+  letter-spacing: .02em;
+  font-size: clamp(1.2rem, 4.2vw, 1.8rem);
+  color: rgb(var(--edu-ink));
+  border-bottom: 2px solid rgb(var(--edu-ink));
+}
+
+/* Component accent inheritance */
+letter-picker{ --accent-color: rgb(var(--edu-first-accent)); }
+
+/* Visual feedback using the component's ::part(display) */
+letter-picker[data-state="correct"]::part(display) {
+  border-color: rgb(var(--edu-success)) !important;
+  box-shadow: 0 0 0 2px rgb(var(--edu-muted) / 0.50);
+}
+letter-picker[data-state="wrong"]::part(display) {
+  border-color: rgb(var(--edu-error)) !important;
+  box-shadow: 0 0 0 2px rgb(var(--edu-muted));
+}
+
+/* Footer actions */
+.blanks-single-card footer {
+  margin-top: clamp(12px, 3vw, 20px);
+  display: grid;  
+  gap: clamp(6px, 2vw, 12px);  
+  justify-content: center;  
+}
+
+.blanks-single-card footer hr {
+  width: 100%;
+}
+
+#bls-check-container {
+  display: grid;
+  width: 100%;
+  align-items: center;
+}
+
+.blanks-single-card footer button {
+  border:1px solid rgb(var(--edu-border));
+  background: rgb(var(--edu-bg));
+  color: rgb(var(--edu-ink));
+  padding: clamp(8px, 1.8vw, 12px) clamp(10px, 2.5vw, 16px);
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: clamp(.9rem, 2.6vw, 1rem);
+}
+.blanks-single-card footer button:disabled { opacity:.45; cursor:not-allowed }
+
+/* ========== Medium screens ========== */
+@media (min-width: 520px) {
+  .blanks-single-card .top label { transform: rotate(-4deg); }
+}
+
+/* ========== Large screens ========== */
+@media (min-width: 900px) {
+  .blanks-single-wrap { padding: clamp(24px, 3vw, 36px); }
+  .blanks-single-card { padding: clamp(20px, 2.5vw, 32px); }
+}
+
+/* ========== Very narrow tweaks ========== */
+@media (max-width: 420px) {
+  .blanks-single-card .letter { min-width: 1.7ch; }
+}
+
+/* ========== Motion & contrast considerations ========== */
+@media (prefers-reduced-motion: reduce) {
+  .blanks-single-card .top label { transform: none; }
+}
+@media (prefers-contrast: more) {
+  .blanks-single-card .letter { border-bottom-width: 3px; }
+  .blanks-single-card footer button { border-width: 2px; }
+}
+

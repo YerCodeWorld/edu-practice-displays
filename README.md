@@ -43,5 +43,6 @@ to use it in any framework since the components just need an HTMLElement to work
 the renderers also return helper function to destroy, apply theme, finish the exercise or most importantly, 
 return - and do something externally with the return result.
 
+REQUIRES 
 
-'Teacher bryan is explaining a class, until something not at all unexpected happens...'
+fontawesome5 (go to fontawesome.com to get your own code and add the script link as an external script).

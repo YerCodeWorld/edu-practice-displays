@@ -1,0 +1,39 @@
+<div class="categorize-single" id="cats-app">
+  <header class="categorize-single-head">
+    <p class="categorize-single-instruction" id="cats-instruction">Instruction</p>
+        
+    <div class="categorize-single-qmeta">      
+      <span id="cats-progress">0 / 0</span>
+    </div>
+  </header>
+
+  <main class="categorize-single-main">
+    
+    <div class="categorize-single-qwrap" aria-live="polite">
+      <p class="categorize-single-question" id="cats-question">Loading…</p>
+    </div>
+    
+    <div class="categorize-single-qnav">
+      <button class="categorize-single-btn" id="cats-prev">Prev</button>
+      <button class="categorize-single-btn" id="cats-next">Next</button>
+    </div>
+
+    <section class="categorize-single-grid" id="cats-grid" aria-label="Categories"></section>
+  </main>    
+
+  <footer id="ccs-footer" class="categorize-single-foot">
+    <hr>
+    <button class="categorize-single-btn" id="cats-check">Check</button>
+  </footer>
+</div>
+
+<!-- Per-category modal -->
+<dialog class="categorize-single-dialog" id="cats-dialog">
+  <div class="categorize-single-dhead">
+    <div class="categorize-single-dtitle" id="cats-dialog-title">Category</div>
+    <button class="categorize-single-btn" id="cats-dialog-close">Close</button>
+  </div>
+  <div class="categorize-single-dbody" id="cats-dialog-body"></div>
+</dialog>
+
+
