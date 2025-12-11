@@ -136,16 +136,16 @@ export function matchingWheelsRenderer(
 
         root.replaceChildren(tpl.content);
 
-        $topLabel = $('#$topLabel');
-        $topLabel.textContent = topPool[iT];
+        $topLabel = $('#topLabel');
+        $topLabel.textContent = topPool[iT];        
 
-        $bottomLabel = $('#$bottomLabel');
+        $bottomLabel = $('#bottomLabel');
         $bottomLabel.textContent = bottomPool[iB];
 
-        $lives = root.querySelector("#mtc-wheels-$lives") as HTMLLabelElement;        
+        $lives = root.querySelector("#mtc-wheels-lives") as HTMLLabelElement;        
 
-        $solvedList = $("#$solvedList");
-        $barFill = $('#$barFill');
+        $solvedList = $("#solvedList");
+        $barFill = $('#barFill');
 
         $('#prevTop').onclick = () => {
             iT = (iT - 1 + topPool.length) % topPool.length; update();
@@ -214,6 +214,7 @@ apple 🍎 = red 🔴;
 pear 🍐 = green 🟢;
 grapes 🍇 = purple 🟣;  
 banana 🍌 = yellow 🟡;
+coconut = brown;
 @EXTRA = [white ⚪ | black ⚫]
 `;
 

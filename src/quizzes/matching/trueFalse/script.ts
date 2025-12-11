@@ -295,8 +295,9 @@ Love is good = n;
 Money is the most important thing in life :: neutral;
 Graduating from university ensures a good life :: false;
 Not having friends is a good thing :: neutral;
-Helping others is generally good :: true;
 `]
+
+// Helping others is generally good :: true;
 
 export const TrueFalseContract: ContractType = {
 

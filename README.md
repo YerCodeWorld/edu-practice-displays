@@ -1,48 +1,133 @@
-Custom components 
+# EduScript
 
-For more convenience, some custom components are created to satisfy an specific renderer
-or more than one if possible. Between these:
+An interactive educational quiz and exercise framework for creating engaging learning experiences.
 
-- Letter Picker: Allows to select an ASCII letter uniquely
-- Color Picker: A super simple API with limited colors, avoiding the huge built-in API
-- Global: A simple [question, hint, input type] component to ask input in many different ways 
+## Overview
 
-The components are classes that extend the HTMLElement class. Each might be unique when it comes 
-to the attributes or properties it provides, and so each API has its unique application. 
+EduScript is a TypeScript-based library that provides customizable quiz components and interactive educational exercises. The library offers a variety of quiz types including multiple choice, matching, categorization, fill-in-the-blanks, and more.
 
-Exercise Displays
+## Features
 
-These are functions that follow a very clear structure, as can be seen in the folder structure.
+- **Multiple Quiz Types**: MCQ, matching, categorization, blanks, true/false, and manual input
+- **Custom Web Components**: Letter picker, color picker, and global input components
+- **Themeable**: Customizable CSS themes and styling
+- **Framework Agnostic**: Works with any frontend framework
+- **TypeScript Support**: Full type definitions included
+- **Audio Feedback**: Built-in sound effects for interactions
 
-- HTML fille (inner layout)
-- CSS stylesheet 
-- themes.ts (an object with all bodies with the different css variables)
-- script file with contract export 
+## Installation
 
-The script.ts file gets everything together and makes it shine, creating a root element, and 
-appending the innerHTML and applying the theme selected using helper functions. The style is 
-appended to the head of the document instead, which we need to becareful with. To remove these
-we need to remove the stylesheet with that particular ID, which we need to update in the contract
-to be able to have access to. 
+```bash
+npm install eduscript
+```
 
-The script contains a function with receives the parent html element (what the end client will be using),
-the data for the exercise and options. These last two would need to have separate logic to be
-handled, like providing a text area to input the grammar of an exercise and then render it, or a form
-for providing the necessary information for the exercise options or metadata. Each system might handle
-it differently.
+## Quick Start
 
-Once we have out themes, stylesheet, layout and options, the file also provides a default parser, so it
-can be used to take the code of the exercise and transform it into the correct data object. There's also
-a validator which returns a boolean if truthy. Finally, we have a big contract object of a global
-ContractType that contains in a single variable all the tooling needed for the usage of the exercise,
-like renderer, validator, parser, themes, html, css, name, example grammar, version, usage, avoid, 
-image, description, etc. 
+```typescript
+import { MCQContract, LetterPicker } from 'eduscript';
 
-The renderers use typescript only, transpiled to return the JS bundle. In theory, we should be able 
-to use it in any framework since the components just need an HTMLElement to work. As an extra note, 
-the renderers also return helper function to destroy, apply theme, finish the exercise or most importantly, 
-return - and do something externally with the return result.
+// Use a quiz contract
+const quizData = {
+  question: "What is 2 + 2?",
+  options: ["3", "4", "5"],
+  correct: 1
+};
 
-REQUIRES 
+const mountElement = document.getElementById('quiz-container');
+const handle = MCQContract.implementation.renderer(mountElement, quizData);
+```
 
-fontawesome5 (go to fontawesome.com to get your own code and add the script link as an external script).
+## Available Quiz Types
+
+### Multiple Choice Questions (MCQ)
+- Standard multiple choice with single correct answer
+- Configurable options and styling
+
+### Matching Exercises
+- **Original Matching**: Connect related items
+- **Wheels Matching**: Circular matching interface
+- **Single Matching**: One-to-one matching
+- **True/False**: Binary choice questions
+- **Concepts Definition**: Match concepts to definitions
+
+### Fill-in-the-Blanks
+- **Single Blanks**: One missing word/phrase
+- **Multiple Blanks**: Multiple missing elements
+- **Reading Blanks**: Text comprehension with blanks
+
+### Categorization
+- **Color Categorize**: Sort items by color
+- **Single Categorize**: Basic categorization exercise
+
+### Manual Input
+- Free-form text input exercises
+
+## Custom Components
+
+The library includes specialized web components:
+
+- **Letter Picker**: ASCII letter selection component
+- **Color Picker**: Simple color selection with limited palette
+- **EduMCQ**: Enhanced multiple choice component
+
+## Architecture
+
+Each quiz type follows a consistent contract structure:
+
+```typescript
+interface ContractType {
+  name: string;
+  description: string;
+  version: number;
+  implementation: {
+    renderer: (mount: HTMLElement, data: any, options?: RendererOptions) => RendererHandle;
+    validator: (data: any) => boolean;
+    parser: (code: string) => any;
+  };
+  html: string;
+  css: string;
+}
+```
+
+## Development
+
+```bash
+# Install dependencies
+pnpm install
+
+# Build library
+pnpm build
+
+# Development mode
+pnpm dev
+
+# Serve demo
+pnpm serve
+```
+
+## Project Structure
+
+```
+src/
+├── elements/          # Custom web components
+├── quizzes/          # Quiz type implementations
+│   ├── mcq/          # Multiple choice
+│   ├── matching/     # Matching exercises
+│   ├── blanks/       # Fill-in-the-blanks
+│   ├── categorize/   # Categorization
+│   └── manual/       # Manual input
+├── services/         # Utility services
+└── utils/           # Helper functions
+```
+
+## Requirements
+
+- **FontAwesome 5**: Required for icons (add the script link from fontawesome.com)
+
+## Browser Support
+
+Modern browsers with ES2020 support. The library is bundled for browser environments and uses ES modules.
+
+## License
+
+Private package - see package.json for details.
