@@ -1,5 +1,7 @@
 dist/
 public-dist/
+public/app.js
+public/app.js.map
 
 experiments/
 tools/
