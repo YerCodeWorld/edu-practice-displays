@@ -10,8 +10,8 @@ import {
   splitPipes,
   dedupe, 
   shuffle,
+  getResultEl,
   EduMCQData,
-  getResultEl
 } from "../../utils/utils";
 
 import { RendererOptions, RendererHandle, ContractType, RendererResult } from '../types';
@@ -74,6 +74,7 @@ function mcqRenderer(
   // variables   
   let correct = 0;
   let score: number = 0;
+
   // let wrong: Record<string, string[]> = {}; 
   let wrong: string[] = [];
   let ids: string[] = [];  
