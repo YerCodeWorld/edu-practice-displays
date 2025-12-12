@@ -1,7 +1,7 @@
 // MANUAL
 
 import { injectStyle, createSection, getResultEl } from '../../utils/utils';
-import { RendererOptions, RendererHandle, ContractType, Result } from '../types';
+import { RendererOptions, RendererHandle, ContractType, RendererResult } from '../types';
 
 import baseHTML from './index.html';
 import baseCSS from './style.css';
@@ -192,9 +192,9 @@ function manualExerciseRenderer(
   function finish() {     
       const timestamp = ((Date.now() - startTime) / 1000).toFixed(1);
       const score = (correct / total) * 100;
-                
-      const result: Result = { 
-        detail: { correct: correct, total: total, score: score }, 
+
+      const result: RendererResult = {
+        detail: { correct: correct, total: total, score: score },
         timestamp: timestamp,
         winningEl: getResultEl(score, correct, total, timestamp, wrong)
       };

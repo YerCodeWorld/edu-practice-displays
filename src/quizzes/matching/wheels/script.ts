@@ -2,7 +2,7 @@
 
 import { injectStyle, shuffle, createSection } from "../../../utils";
 import { Pair, MatchData } from '../types';
-import { RendererOptions, RendererHandle, ContractType, Result } from '../../types';
+import { RendererOptions, RendererHandle, ContractType, RendererResult } from '../../types';
 import { items, distractors, answerKey, parseMatching } from '../utils';
 
 import baseHTML from "./index.html";
@@ -172,7 +172,7 @@ export function matchingWheelsRenderer(
         const el = document.createElement('div');
         el.textContent = 'You have finished!';
                     
-        const result: Result = { 
+        const result: RendererResult = { 
         detail: { 
             correct: 0, 
             total: 0, 

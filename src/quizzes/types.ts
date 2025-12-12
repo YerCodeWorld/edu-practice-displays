@@ -1,4 +1,4 @@
-export type Result = {
+export type RendererResult = {
     detail: {
         correct: number;
         total: number;
@@ -11,9 +11,9 @@ export type Result = {
 export type RendererOptions = {
     shuffle?: boolean;
     allowRetry?: boolean;
-    resultHandler?: (r: Result) => void;
+    resultHandler?: (r: RendererResult) => void;
     ariaLabel?: string;
-    checkBtn?: boolean; // some use cases might prefer to manually do the checking 
+    checkBtn?: boolean; // some use cases might prefer to manually do the checking
 }
 
 export type RendererHandle = {

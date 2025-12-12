@@ -1,7 +1,7 @@
 // BLANKS SINGLE 
 
 import { injectStyle, createSection, getResultEl } from "./../../../utils/utils";
-import { RendererOptions, RendererHandle, ContractType, Result } from '../../types';
+import { RendererOptions, RendererHandle, ContractType, RendererResult } from '../../types';
 
 import baseHTML from './index.html';
 import baseCSS from './styles.css';  
@@ -228,7 +228,7 @@ function blanksSingleRenderer(
     // blanks (let's say 4.7 from 6), we just divide 4.7 * 6 and multiply by 100.
     score = (score / total) * 100;
                   
-    const result: Result = { 
+    const result: RendererResult = { 
       detail: { 
         correct: correct, 
         total: total, 

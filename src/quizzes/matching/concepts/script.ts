@@ -3,7 +3,7 @@ import {
 } from "../../../utils/utils";
 
 import {    
-  RendererOptions, RendererHandle, ContractType, Result
+  RendererOptions, RendererHandle, ContractType, RendererResult
 } from '../../types';
 
 import {
@@ -139,7 +139,7 @@ export function conceptsExerciseRenderer(
         
         const timestamp = ((Date.now() - startTime) / 1000).toFixed(1);        
 
-        const result: Result = { 
+        const result: RendererResult = { 
           detail: { 
             correct: correct, 
             total: total, 

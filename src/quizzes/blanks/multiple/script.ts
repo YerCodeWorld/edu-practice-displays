@@ -9,7 +9,7 @@ import {
   getResultEl
 } from "./../../../utils/utils";
 
-import { RendererOptions, RendererHandle, ContractType, Result } from '../../types';
+import { RendererOptions, RendererHandle, ContractType, RendererResult } from '../../types';
 import { createDSLParser } from "../parser";
 
 import baseHTML from './index.html';
@@ -150,7 +150,7 @@ function blanksMultipleRenderer(
     const timestamp = ((Date.now() - startTime) / 1000).toFixed(1);
     score = score / total;    
                   
-    const result: Result = { 
+    const result: RendererResult = { 
       detail: { 
         correct: correct, 
         total: total, 

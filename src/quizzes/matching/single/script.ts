@@ -2,7 +2,7 @@
 
 import { injectStyle, shuffle, createSection, getResultEl } from "../../../utils/utils";
 import { Pair, MatchData } from "../types";
-import { RendererOptions, RendererHandle, ContractType, Result } from '../../types';
+import { RendererOptions, RendererHandle, ContractType, RendererResult } from '../../types';
 import { items, distractors, answerKey, parseMatching } from "../utils";
 
 import baseHTML from "./index.html";
@@ -258,7 +258,7 @@ export function matchingSingleRenderer(
         
         const timestamp = ((Date.now() - startTime) / 1000).toFixed(1);        
                 
-        const result: Result = { 
+        const result: RendererResult = { 
             detail: { 
                 correct: state.correct, 
                 total: state.total, 

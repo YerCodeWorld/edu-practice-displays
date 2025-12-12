@@ -1,7 +1,7 @@
 // BLANKS READING 
 
 import { injectStyle, createSection, getResultEl } from "./../../../utils/utils";
-import { RendererOptions, RendererHandle, ContractType, Result } from '../../types';
+import { RendererOptions, RendererHandle, ContractType, RendererResult } from '../../types';
 
 import { createDSLParser } from "../parser";
 
@@ -109,7 +109,7 @@ function blanksReadingRenderer(
   function finish() {        
     const timestamp = ((Date.now() - startTime) / 1000).toFixed(1);    
               
-    const result: Result = { 
+    const result: RendererResult = { 
       detail: { 
         correct: correct, 
         total: total, 

@@ -1,6 +1,6 @@
 import { MatchData } from '../types';
 import { injectStyle, shuffle, createSection, getResultEl } from "../../../utils";
-import { RendererOptions, RendererHandle, Result, ContractType } from '../../types';
+import { RendererOptions, RendererHandle, RendererResult, ContractType } from '../../types';
 import { items, distractors, answerKey, parseMatching } from "../utils";
 import { playSound } from "../../../services";
 
@@ -290,7 +290,7 @@ export function matchingPageRenderer(
         const timestamp = ((Date.now() - startTime) / 1000).toFixed(1);
         const score = (state.score / total) * 100;
 
-        const result: Result = {
+        const result: RendererResult = {
             detail: {
                 correct: state.score,
                 total: total,

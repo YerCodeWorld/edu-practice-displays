@@ -1,7 +1,7 @@
 // TRUE/FALSE 
 
 import { injectStyle, shuffle, createSection, getResultEl } from "../../../utils/utils";
-import { RendererOptions, RendererHandle, ContractType, Result } from '../../types';
+import { RendererOptions, RendererHandle, ContractType, RendererResult } from '../../types';
 
 import baseHTML from "./index.html";
 import baseCSS from "./styles.css";
@@ -164,7 +164,7 @@ export function trueFalseRenderer(
 
       const timestamp = ((Date.now() - startTime) / 1000).toFixed(1);      
 
-      const result: Result = { 
+      const result: RendererResult = { 
         detail: { 
           correct: correct, 
           total: total, 

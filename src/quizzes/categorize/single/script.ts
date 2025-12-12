@@ -1,7 +1,7 @@
 // CATEGORIZE SINGLE 
 
 import { injectStyle, createSection, removeDistractors, shuffle, getResultEl } from "./../../../utils/utils";
-import { RendererOptions, RendererHandle, ContractType, Result } from '../../types';
+import { RendererOptions, RendererHandle, ContractType, RendererResult } from '../../types';
 import { CategorizeData, categorizeParser } from "../utils";
 
 import baseHTML from './index.html';
@@ -318,7 +318,7 @@ function singleCategorizeRenderer(
   function finish() {
     const timestamp = ((Date.now() - startTime) / 1000).toFixed(1);    
     
-    const result: Result = { 
+    const result: RendererResult = { 
       detail: { 
         correct: correct, 
         total: total, 
