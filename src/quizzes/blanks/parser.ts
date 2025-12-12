@@ -27,18 +27,18 @@ export function createDSLParser() {
 
   // grammar builders (close over ctx)
   const buildGrammar = (ctx: Ctx) => {
-    function parseTX(content: string, pos: number): string {
+    function parseTX(content: string, pos: number, blocksCounter?: number): string {
       const tokens = splitPipes(content);
       if (tokens.length === 0 || tokens.some(t => !t)) {
         throw new Error(`@tx: provide at least one non-empty answer. Pos ${pos}.`);
       }
       const answers = dedupe(tokens);
-      const id = `id-${ctx.elsCounter++}`;
+      const id = `id-${ctx.elsCounter++ + blocksCounter}`;
       ctx.answerMap.set(id, answers);
       return `<input type="text" id="${id}" autocomplete="off">`;
     }
 
-    function parseNM(content: string, pos: number): string {
+    function parseNM(content: string, pos: number, blocksCounter?: number): string {
       const tokens = splitPipes(content);
       if (tokens.length === 0) throw new Error(`@nm: empty content. Pos ${pos}.`);
 
@@ -62,12 +62,12 @@ export function createDSLParser() {
         }
       }
 
-      const id = `id-${ctx.elsCounter++}`;
+      const id = `id-${ctx.elsCounter++ + blocksCounter}`;
       ctx.answerMap.set(id, { single: dedupe(values), ranges });
       return `<input type="number" id="${id}">`;
     }
 
-    function parseSL(content: string, pos: number): string {
+    function parseSL(content: string, pos: number, blocksCounter?: number): string {
       const bracketMatches = [...content.matchAll(/\[([^\]]+)\]/g)];
       const correct = bracketMatches.flatMap(m => splitPipes(m[1]));
       const cleaned = content.replace(/\[|\]/g, "");
@@ -79,13 +79,13 @@ export function createDSLParser() {
         if (!options.includes(c)) throw new Error(`@sl: correct '${c}' not present among options. Pos ${pos}.`);
       }
 
-      const id = `id-${ctx.elsCounter++}`;
+      const id = `id-${ctx.elsCounter++ + blocksCounter}`;
       ctx.answerMap.set(id, { correct, options: options.filter(o => !correct.includes(o)) });
       const optsHTML = options.map(o => `<option>${o}</option>`).join("");
       return `<select id="${id}">${optsHTML}</select>`;
     }
 
-    function parseIMG(content: string, pos: number): string {
+    function parseIMG(content: string, pos: number, blocksCounter?: number): string {
       const [rawUrl, rawAlt] = splitPipes(content);
       const url = (rawUrl ?? "").trim().replace(/^["']|["']$/g, "");
       const altRaw = (rawAlt ?? "image").trim();
@@ -105,7 +105,8 @@ export function createDSLParser() {
   };
 
   // public parse
-  function parse(code: string): ParseResult {
+  function parse(code: string, blocksCounter?: number): ParseResult {
+    
     const ctx: Ctx = { elsCounter: 0, answerMap: new Map<string, any>() };
     const grammar = buildGrammar(ctx);
 
@@ -157,7 +158,7 @@ export function createDSLParser() {
       }
 
       try {
-        textBuf += parser(content.trim(), currentPos);
+        textBuf += parser(content.trim(), currentPos, blocksCounter);
       } catch (e: any) {
         errors.push({ pos: currentPos, msg: String(e?.message ?? e) });
         textBuf += `@${fn}(${content})`;

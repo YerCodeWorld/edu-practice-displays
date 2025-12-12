@@ -7,7 +7,7 @@
     display:grid; 
     gap:30px; 
     counter-reset: bm; 
-    border: 10px dashed rgb(var(--edu-first-accent) / 0.20);
+    border: 1px solid rgb(var(--edu-first-accent) / 0.20);
     padding: 5%;
 }
 

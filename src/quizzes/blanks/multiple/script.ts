@@ -43,7 +43,8 @@ function blanksMultipleRenderer(
   const {    
     allowRetry = true,
     resultHandler,
-    ariaLabel = 'Blanks Multiple Exercise'
+    ariaLabel = 'Blanks Multiple Exercise',
+    checkButtonEnabled = false
   } = options; 
 
   const root = createSection('blanks-multiple', ariaLabel);
@@ -58,7 +59,7 @@ function blanksMultipleRenderer(
   let $title: HTMLHeadingElement;
   let $instruction: HTMLParagraphElement;    
   let $container: HTMLElement;    
-  let $finish: HTMLButtonElement;  
+  let $checkBtn: HTMLButtonElement;  
 
   // CONSTANTS 
   // ---------------------
@@ -81,13 +82,17 @@ function blanksMultipleRenderer(
     $title = $("#bm-title-id");
     $instruction = $("#bm-instruction-id");        
     $container = $("#bm-main-id");
-    $finish = $("#bm-check-id");
+
+    if (!options.checkButtonEnabled) {
+	const $footer = $("#bm-footer");
+	$footer.style.display = 'none';
+    } else {
+	$checkBtn = $("#bm-check-id");
+        $checkBtn.addEventListener('click', check);
+    }
 
     $title.textContent = data.instruction ?? 'Fill Blanks Exercise';        
     createBlocks();
-
-    $finish.addEventListener('click', check);
-    
   }
     
   function createBlocks() {    
@@ -112,24 +117,12 @@ function blanksMultipleRenderer(
   // ---------------------
 
   function check() {        
-  
     data.blocks.forEach(block => {
     
       const r = dsl.checkAnswers(block.answerMap);             
 
       if (r.correct === r.total) correct++;
-
-      console.log(`
-        THE AMOUNT FOR BLOCK ${block.label} is:
-
-        CORRECT: ${r.correct}
-        TOTAL: ${r.total}
-
-        CORRECT ANSWER VALUE (100 / total): ${100 / r.total}
-        POINTS FOR THIS BLOCK: ${((100 / r.total) * r.correct) / 100}
-        
-      `);                  
-
+     
       // convert to decimal 
       score += r.correct / r.total * 100;
 
@@ -195,14 +188,14 @@ function blanksMultipleParser(code: string, parse = dsl.parse): {
   const rawBlocks = splitBlocksOutsideParens(rest);
 
   const blocks: BlanksMultipleData["blocks"] = [];
-
-  for (const raw of rawBlocks) {
+  for (let i = 0; i < rawBlocks.length; i++) {
+    const raw = rawBlocks[i];
     const trimmed = raw.trim();
     if (!trimmed) continue;
 
     const { label, cleaned } = takeOptionalLabel(trimmed);
 
-    const r = parse(cleaned);
+    const r = parse(cleaned, i);
     if (!r || !r.ok) continue;
 
     blocks.push({
