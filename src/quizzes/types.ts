@@ -5,15 +5,28 @@ export type RendererResult = {
         score: number; 
     };
     timestamp: string; 
+    
+    // TODO: please refactor to 'winningScreen'
     winningEl?: HTMLElement | null;
 }
     
 export type RendererOptions = {
     shuffle?: boolean;
-    allowRetry?: boolean;
+    
+    // not needed, let whatever implementation is being used manage this
+    allowRetry?: boolean;  
+
     resultHandler?: (r: RendererResult) => void;
+
     ariaLabel?: string;
-    checkBtn?: boolean; // some use cases might prefer to manually do the checking
+
+    // legacy
+    checkBtn?: boolean; 
+
+    instructionsEnabled?: boolean;
+    checkButtonEnabled?: boolean;
+    animationsEnabled?: boolean;
+    soundEffectsEnabled?: boolean;
 }
 
 export type RendererHandle = {
@@ -36,7 +49,6 @@ export interface ContractType {
 
     name: string;
     description: string;
-    image?: string; // URL 
 
     version: number;
     parserVersion: number;
@@ -45,8 +57,9 @@ export interface ContractType {
     tags: string[];
 
     usage: string[];
-    wrong: string[];
+    wrong: string[]; // wrong usage
 
+    // please refactor to just 'example'
     grammarExample: string[];
     defaultOptions?: any;
 
@@ -57,6 +70,7 @@ export interface ContractType {
 
     html: string;
     css: string;
-
+    
+    instructionsRemovable?: boolean; 
 }
 
