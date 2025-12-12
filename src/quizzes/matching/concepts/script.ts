@@ -65,7 +65,10 @@ export function conceptsExerciseRenderer(
       $main = root.querySelector("#conceptsContainer");
       $btn = root.querySelector("#conceptsCheck");
 
-      if (!options.checkBtn) $btn.style.display = "none";
+      if (!options.checkButtonEnabled) {
+          const $footer = root.querySelector("#conceptsFooter");	
+          $footer.style.display = "none";
+      }
 
       for (let i = 0; i < left.length; i++) {        
           $main.appendChild(createConceptSection(i, left[i], createSelect(right)));
