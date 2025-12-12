@@ -14,7 +14,7 @@ import {
   getResultEl
 } from "../../utils/utils";
 
-import { RendererOptions, RendererHandle, ContractType, Result } from '../types';
+import { RendererOptions, RendererHandle, ContractType, RendererResult } from '../types';
 
 import baseHTML from './index.html';
 import baseCSS from './styles.css';
@@ -138,7 +138,7 @@ function mcqRenderer(
     const timestamp = ((Date.now() - startTime) / 1000).toFixed(1);
     score = (score / total) * 100;
 
-    const result: Result = { 
+    const result: RendererResult = { 
       detail: { 
         correct: correct, 
         total: total, 
@@ -235,11 +235,11 @@ function mcqValidator(data: MCQRendererData): boolean { return true; }
 const exs = `
 @TITLE = Complete the coding questions; 
 
+<https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3Gkx_Z-wbYJRu5xdneezYCSvDO5pbfJOrDw&s>
 # Think: compilers or interpreters exist for them
 Which of this are programming languages? = 
 CSS | HTML | QML | [Typescript | Python];
 
-<https://pixabay.com/get/gae95e5da62e6f8b77c076bf3df6264f18998a4338d56f97841208742e7cce419ab2ec250cd10471cd25d0a456e9f45ae3b5e7f4863781e1eeceed900de233af6_640.png>
 What language of the following is best for micro-controllers? =
 C# | Java | Lua | [C | C++]; 
 
@@ -247,7 +247,6 @@ C# | Java | Lua | [C | C++];
 What is Javascript best for? = 
 OS development | Desktop Linux Applications | [Web Development];
 
-<https://pixabay.com/get/g85c11ca9c972371d19aa5dd5afe4165b11b16deef90b0cd002717873a5ecd9428e628dca988789b32b9aee9777c0166e_640.png>
 What is one markup language in the options? = 
 [XAML] | CSS | Rust | React;  
 `;
