@@ -82,7 +82,7 @@ function manualExerciseRenderer(
     const $btnContainer = $("#manual-check-container") as HTMLElement;
     if (!options.checkBtn) $btnContainer.style.display = "none";        
 
-    $instruction.textContent = data.$instruction ?? 'No Instruction';
+    $instruction.textContent = data.instruction ?? 'No Instruction';
 
     /* event listeners */
     $input.addEventListener('keydown', e => { if (e.key === 'Enter') addChip(); });    
