@@ -1,15 +1,3 @@
-.edu-manual {
-  --maxw:min(100%, 720px);
-  
-  background-image: url('https://promova.com/_next/image?url=https%3A%2F%2Fpromova.com%2Fcontent%2Fdays_of_the_week_in_chinese_b0bfc416b0.png&w=1920&q=75&dpl=dpl_9gd2o8tjy6xfifwZT6VFAnGNRiow');  
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-attachment: fixed;
-
-  height: 80dvh;
-}
-
 .manual-wrap { 
   display: flex;
   height: 80dvh;

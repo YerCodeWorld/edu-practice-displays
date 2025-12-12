@@ -1,5 +1,4 @@
-/* ROOT SECTION NOT STYLED, UNNECESSARY */
-
+/* Check out a nice gradient where the two colors meet */
 .matching-wrap {
   background: linear-gradient(to right, rgb(var(--edu-first-accent) / 0.50) 50%, rgb(var(--edu-ink) / 0.50) 50%);
 }

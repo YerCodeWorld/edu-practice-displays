@@ -1,9 +1,3 @@
-.blanks-single {
-  background-image:url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdGMmkyax8_nzanbfOGadHC03Nu_DqzJAQxQ&s');
-  font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;
-  color: rgb(var(--edu-ink));
-}
-
 .blanks-single-card {
   border: 2px solid rgb(var(--edu-border));
   background-color: rgb(var(--edu-card) / 0.98);

@@ -1,18 +1,3 @@
-.mtc-wheels-wrap {    
-    background-image: url('https://media.licdn.com/dms/image/v2/D5612AQFZcZCOD6olCw/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1700549159934?e=2147483647&v=beta&t=F30JEd72k-HOGg4ryPedv7FKad-gZSK5fXYWF5imL5A');  
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-attachment: fixed;           
-}
-
-.mtc-wheels-card {
-    background-color: rgb(var(--edu-bg) / 0.95);    
-    box-shadow: 0 10px 30px rgba(0,0,0,.18);
-    color: rgb(var(--edu-ink));
-    padding:min(4.5vw,28px);    
-}
-
 /** ================== CUSTOM BUTTON ============================ **/
 
 .mtc-wheels-btn {

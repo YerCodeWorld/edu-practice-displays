@@ -1,10 +1,3 @@
-.categorize-single-root {
-  background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReJJGdJqQVoB3WIpCK8rCwCUm88juBFtiQgQ&s");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-}
-
 .categorize-single { 
   display:grid; 
   gap:20px; 
