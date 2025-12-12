@@ -1,5 +1,5 @@
 {
-  "name": "eduscript",
+  "name": "eduquizz",
   "version": "0.1.0",
   "author": "Yahir Adolfo de los Santos Beras",
   "license": "MIT",
@@ -33,7 +33,6 @@
     "rimraf": "^6.0.0",
     "serve": "^14.2.3",
     "typescript": "^5.6.3"
-    "inotifywait": "^1.8.3"
   },
   "dependencies": {}
 }

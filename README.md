@@ -1,30 +1,30 @@
-# EduScript
+# EduQuizz
 
 An interactive educational quiz and exercise framework for creating engaging learning experiences.
 
 ## Overview
 
-EduScript is a TypeScript-based library that provides customizable quiz components and interactive educational exercises. The library offers a variety of quiz types including multiple choice, matching, categorization, fill-in-the-blanks, and more.
+'eduquizz' is a TypeScript-based library that provides customizable quiz components and interactive educational exercises. The library offers a variety of quiz types including standards like multiple choice, matching, categorization, fill-in-the-blanks, and new, creative types that may catch anybody's eye. Each varierty has its own set of variation that can make the quizz like a completely different thing as well.
 
 ## Features
 
 - **Multiple Quiz Types**: MCQ, matching, categorization, blanks, true/false, and manual input
 - **Custom Web Components**: Letter picker, color picker, and global input components
-- **Themeable**: Customizable CSS themes and styling
-- **Framework Agnostic**: Works with any frontend framework
+- **Themeable**: Accepts CSS variables for dynamic theming 
+- **Framework Agnostic**: Uses vanilla HTML/CSS + Typescript, works anywhere with simple wrappers 
 - **TypeScript Support**: Full type definitions included
 - **Audio Feedback**: Built-in sound effects for interactions
 
 ## Installation
 
 ```bash
-npm install eduscript
+npm install eduquizz 
 ```
 
 ## Quick Start
 
 ```typescript
-import { MCQContract, LetterPicker } from 'eduscript';
+import { MCQContract, LetterPicker } from 'eduquizz';
 
 // Use a quiz contract
 const quizData = {
@@ -33,6 +33,7 @@ const quizData = {
   correct: 1
 };
 
+// Asuming you have something like <div id="quiz-container"/>
 const mountElement = document.getElementById('quiz-container');
 const handle = MCQContract.implementation.renderer(mountElement, quizData);
 ```
@@ -51,8 +52,8 @@ const handle = MCQContract.implementation.renderer(mountElement, quizData);
 - **Concepts Definition**: Match concepts to definitions
 
 ### Fill-in-the-Blanks
-- **Single Blanks**: One missing word/phrase
-- **Multiple Blanks**: Multiple missing elements
+- **Single Blanks**: Indented for vocabulary practice or word guessing quizzes 
+- **Multiple Blanks**: Have users fill blanks boxes with a variety of inputs 
 - **Reading Blanks**: Text comprehension with blanks
 
 ### Categorization
@@ -66,13 +67,13 @@ const handle = MCQContract.implementation.renderer(mountElement, quizData);
 
 The library includes specialized web components:
 
-- **Letter Picker**: ASCII letter selection component
-- **Color Picker**: Simple color selection with limited palette
+- **Letter Picker**: ASCII letter selection component, solves unnecessary full-keyboard loading for simple inputs
+- **Color Picker**: Simple color selection with limited palette, more optimal than built-in API
 - **EduMCQ**: Enhanced multiple choice component
 
 ## Architecture
 
-Each quiz type follows a consistent contract structure:
+Each quiz type returns a contract structure:
 
 ```typescript
 interface ContractType {
@@ -86,12 +87,25 @@ interface ContractType {
   };
   html: string;
   css: string;
+  // ... 
 }
 ```
 
-## Development
+And follows a specific structure:
+```
+- Imports
+- Renderer
+- - Root creation/Variables declaratioln
+- - Component Specific functions
+- - Initializer
+- - Check Function
+- - Return
+- Parser
+- Validator
+- Contract
+```
 
-```bash
+## If cloning from GITHUB: ```bash
 # Install dependencies
 pnpm install
 
@@ -122,7 +136,7 @@ src/
 
 ## Requirements
 
-- **FontAwesome 5**: Required for icons (add the script link from fontawesome.com)
+- **FontAwesome 5 (cdn)**: Required for icons (add the script link from fontawesome.com)
 
 ## Browser Support
 
@@ -130,4 +144,4 @@ Modern browsers with ES2020 support. The library is bundled for browser environm
 
 ## License
 
-Private package - see package.json for details.
+MIT License. Please do attribute credits, would be really appreciated.
