@@ -6,9 +6,6 @@ export interface EduMCQData {
   correctOptions: string[];
 }
 
-export const $ = <T extends Element>(sel: string, r: HTMLElement): T | null => 
-  r.querySelector<T>(sel);
-
 /**
  * Different than applying a theme, this one creates a style element directly into the
  * target element
@@ -215,3 +212,4 @@ export function getResultEl(
     return winningContainer;
     
 }
+
