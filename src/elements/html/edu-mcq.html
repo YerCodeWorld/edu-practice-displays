@@ -1,8 +1,6 @@
 <style>
   :host {
     --_radius: var(--edu-radius, .5rem);
-    --_shadow: 0 4px 14px rgb(var(--edu-shadow-color) / 0.15);
-    --_shadow-hover: 0 8px 24px rgb(var(--edu-shadow-color) / 0.25);
 
     display: block;
     color: rgb(var(--edu-ink));
@@ -11,15 +9,11 @@
   }
   
   .mcq {
-    background: linear-gradient(145deg, rgb(var(--edu-card)), rgb(var(--edu-first-accent) / 0.20));
+    background: linear-gradient(45deg, rgb(var(--edu-card)), rgb(var(--edu-first-accent) / 0.10));
     border: 1px solid rgb(var(--edu-border, 51 65 85));
     border-radius: var(--_radius);
-    box-shadow: var(--_shadow);
     overflow: hidden;
-    transition: box-shadow .2s ease;
-  }
-  .mcq:hover {
-    box-shadow: var(--_shadow-hover);
+    transition: background .2s ease;
   }
   
   header {
