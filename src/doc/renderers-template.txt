@@ -81,18 +81,13 @@ export const ComponentContract: ContractType = {
 
     usage: [
         "...",
-        "...",
-        "..."
     ],
     wrong: [
         "...",
-        "...",
-        "..."
     ],
 
     grammarExample: [
       `
-                
      `
     ],
 
