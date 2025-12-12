@@ -1,0 +1,10 @@
+src/
+public/ 
+node_modules/
+
+package.json
+tsconfig.json
+
+README.md 
+vercel.json 
+pnpm-lock.yaml 

@@ -1,0 +1,1 @@
+export { CategorizeSingleContract } from "./script";
