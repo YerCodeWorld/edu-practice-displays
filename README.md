@@ -4,11 +4,11 @@ An interactive educational quiz and exercise framework for creating engaging lea
 
 ## Overview
 
-'eduquizz' is a TypeScript-based library that provides customizable quiz components and interactive educational exercises. The library offers a variety of quiz types including standards like multiple choice, matching, categorization, fill-in-the-blanks, and new, creative types that may catch anybody's eye. Each varierty has its own set of variation that can make the quizz like a completely different thing as well.
+'Eduquizz' is a TypeScript-based library that provides quiz components and interactive educational exercises. The library offers a variety of quiz types including standards like multiple choice, matching, categorization, fill-in-the-blanks and much, much more. Each variety has its own set of variations, which each feels like its own unique thing. 
 
 ## Features
 
-- **Multiple Quiz Types**: MCQ, matching, categorization, blanks, true/false, and manual input
+- **Multiple Quiz Types**: MCQ, matching, categorization, blanks, true/false, manual input, etc
 - **Custom Web Components**: Letter picker, color picker, and global input components
 - **Themeable**: Accepts CSS variables for dynamic theming 
 - **Framework Agnostic**: Uses vanilla HTML/CSS + Typescript, works anywhere with simple wrappers 
@@ -24,7 +24,7 @@ npm install eduquizz
 ## Quick Start
 
 ```typescript
-import { MCQContract, LetterPicker } from 'eduquizz';
+import { MCQContract } from 'eduquizz';
 
 // Use a quiz contract
 const quizData = {
@@ -38,26 +38,31 @@ const mountElement = document.getElementById('quiz-container');
 const handle = MCQContract.implementation.renderer(mountElement, quizData);
 ```
 
-## Available Quiz Types
+## Variations Overview
+
+Even when a variations seems unrelated, it usually means the grammar used to create this exercise
+is the same, thus falling into the same category. The fact that two quizz types have the same grammar
+also strongly suggests that the way they interact with the brain is pretty much similar, even though
+it is displayed in completely different ways.
 
 ### Multiple Choice Questions (MCQ)
-- Standard multiple choice with single correct answer
-- Configurable options and styling
+- Text question/instruction
+- Settable number of correct answers 
 
 ### Matching Exercises
-- **Original Matching**: Connect related items
-- **Wheels Matching**: Circular matching interface
-- **Single Matching**: One-to-one matching
+- **Matching Original**: Connect related items in two colunms
+- **Matching Wheels**: Circular matching interface
+- **Matching Single**: One-to-one matching
 - **True/False**: Binary choice questions
 - **Concepts Definition**: Match concepts to definitions
 
 ### Fill-in-the-Blanks
-- **Single Blanks**: Indented for vocabulary practice or word guessing quizzes 
-- **Multiple Blanks**: Have users fill blanks boxes with a variety of inputs 
-- **Reading Blanks**: Text comprehension with blanks
+- **Blanks Single**: Indented for vocabulary practice or word guessing quizzes 
+- **Blanks Multiple**: Have users fill text boxes with blanks formed from a variety of inputs 
+- **Blanks Reading**: Text comprehension with blanks
 
 ### Categorization
-- **Color Categorize**: Sort items by color
+- **Color Categorize**: Sort items with colors
 - **Single Categorize**: Basic categorization exercise
 
 ### Manual Input
@@ -87,8 +92,9 @@ interface ContractType {
   };
   html: string;
   css: string;
-  // ... 
 }
+
+// actual object is larger than shown here
 ```
 
 And follows a specific structure:
@@ -105,7 +111,9 @@ And follows a specific structure:
 - Contract
 ```
 
-## If cloning from GITHUB: ```bash
+## If cloning from GITHUB: 
+
+```bash
 # Install dependencies
 pnpm install
 
