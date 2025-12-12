@@ -6,6 +6,8 @@ An interactive educational quiz and exercise framework for creating engaging lea
 
 'eduquizz' is a TypeScript-based library that provides customizable quiz components and interactive educational exercises. The library offers a variety of quiz types including standards like multiple choice, matching, categorization, fill-in-the-blanks, and new, creative types that may catch anybody's eye. Each varierty has its own set of variation that can make the quizz like a completely different thing as well.
 
+<img width="822" height="811" alt="image" src="https://github.com/user-attachments/assets/b57e945b-35f8-4a15-92c6-beafdb18dfb8" />
+
 ## Features
 
 - **Multiple Quiz Types**: MCQ, matching, categorization, blanks, true/false, and manual input
