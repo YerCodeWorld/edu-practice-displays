@@ -7,10 +7,6 @@ settings:
 importers:
 
   .:
-    dependencies:
-      inotifywait:
-        specifier: ^1.8.3
-        version: 1.8.3
     devDependencies:
       esbuild:
         specifier: ^0.23.0
@@ -330,9 +326,6 @@ packages:
   ini@1.3.8:
     resolution: {integrity: sha512-JV/yugV2uzW5iMRSiZAyDtQd+nxtUnjeLt0acNdw98kKLrvuRVyB80tsREOE7yvGVgalhZ6RNXCmEHkUKBKxew==}
 
-  inotifywait@1.8.3:
-    resolution: {integrity: sha512-7D0PPEc7uqucLURTkSoLl971ONvLEfniEmzGLfuy8xZXBw3a4GMmVHIq9EqlmhMb97m0HDsz/coHCIKTnTjx8w==}
-
   is-docker@2.2.1:
     resolution: {integrity: sha512-F+i2BKsFrH66iaUFc0woD8sLy8getkwTwtOBjvs56Cx4CgJDeKQeqfz8wAYiSb8JOprWhHH5p77PbmYCvvUuXQ==}
     engines: {node: '>=8'}
@@ -359,10 +352,6 @@ packages:
 
   json-schema-traverse@1.0.0:
     resolution: {integrity: sha512-NM8/P9n3XjXhIZn1lLhkFaACTOURQXjWhV4BA/RnOv8xvgqtqpAX9IO4mRQxSx1Rlo4tqzeqb0sOlruaOy3dug==}
-
-  lazy@1.0.11:
-    resolution: {integrity: sha512-Y+CjUfLmIpoUCCRl0ub4smrYtGGr5AOa2AKOaWelGHOGz33X/Y/KizefGqbkwfz44+cnq/+9habclf8vOmu2LA==}
-    engines: {node: '>=0.2.0'}
 
   lru-cache@11.2.4:
     resolution: {integrity: sha512-B5Y16Jr9LB9dHVkh6ZevG+vAbOsNOYCX+sXvFWFu7B3Iz5mijW3zdbMyhsh8ANd2mSWBYdJgnqi+mL7/LrOPYg==}
@@ -796,10 +785,6 @@ snapshots:
 
   ini@1.3.8: {}
 
-  inotifywait@1.8.3:
-    dependencies:
-      lazy: 1.0.11
-
   is-docker@2.2.1: {}
 
   is-fullwidth-code-point@3.0.0: {}
@@ -815,8 +800,6 @@ snapshots:
   isexe@2.0.0: {}
 
   json-schema-traverse@1.0.0: {}
-
-  lazy@1.0.11: {}
 
   lru-cache@11.2.4: {}
 
