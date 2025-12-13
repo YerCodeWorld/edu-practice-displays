@@ -1,8 +1,5 @@
-import {
-  Pair,
-  GeneralContent,
-  ParseResult
-} from "../types";
+import { Pair, GeneralContent, ParseResult } from "../types";
+import { removeDistractors } from "../../../utils"; 
 
 /**
  * General parser, works for most variations
@@ -49,39 +46,5 @@ export function parseMatching(exs: string): ParseResult {
     }
 
     return { ok: true, content: { content: pairs, distractors: distractors }};
-}
-
-/**
- * Example expected string:
- * ...
- * @EXTRA = [I | am | you];
- */
-function removeDistractors(s: string): {
-    ok: boolean,
-    distractors?: string[],
-    resultString?: string,
-    errors?: string
-} {
-    const reSingle: RegExp = /@EXTRA\s*(?:=|::)\s*\[(.*?)\]/;
-    const reGlobal: RegExp = /@EXTRA\s*(?:=|::)\s*\[(.*?)\]/g;
-
-    let distractors: string[] = [];
-    let replaced: string = "";
-
-    const m = Array.from(s.matchAll(reGlobal), m => m[1]);
-
-    if (m.length === 0) return { ok: true, resultString: s, errors: "no matches for @EXTRA distractors in the provided string" };
-    if (m.length > 1) return { ok: false, resultString: s, errors: "More than one @EXTRA distractors identifier found." };
-
-    console.log(m);
-
-    distractors = m[0]
-        .split("|")
-        .map(x => x.trim())
-        .filter(x => x.length > 0);
-
-    const resultString = s.replace(reSingle, "");
-
-    return { ok: true, distractors: distractors, resultString: resultString };
 }
 

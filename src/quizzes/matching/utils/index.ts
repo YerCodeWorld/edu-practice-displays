@@ -1,7 +1,4 @@
-import {
-    Pair,
-    MatchData
-} from "../types";
+import { Pair, MatchData } from "../types";
 
 // Build data helpers
 export const items = (data: MatchData, column: 'right' | 'left') => data.content.map(i => column === 'right' ? i.right : i.left);
