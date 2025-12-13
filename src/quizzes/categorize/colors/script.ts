@@ -24,7 +24,7 @@ function colorsCategorizeRenderer(
     allowRetry = true,
     resultHandler,
     ariaLabel = 'Color Categorizer Exercise',
-    checkBtn = false 
+    checkButtonEnabled = false
   } = options; 
 
   const root = createSection('colors-categorize', ariaLabel);
@@ -87,7 +87,10 @@ function colorsCategorizeRenderer(
 
     $checkBtn = $("#cca-check");
     $checkBtn.addEventListener("click", () => check());
-    if (!options.checkBtn) $checkBtn.style.display = "none";
+    if (!options.checkButtonEnabled) {
+	const $footer = $("#edc-footer"); 
+  	$footer.style.display = "none";
+    } 
     
     $resetBtn = $("#cca-reset");
     $resetBtn.addEventListener("click", () => reset());
