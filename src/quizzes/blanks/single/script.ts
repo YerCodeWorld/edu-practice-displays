@@ -29,7 +29,7 @@ function blanksSingleRenderer(
     allowRetry = true,
     resultHandler,
     ariaLabel = 'Blanks Single Exercise',
-    checkBtn = false 
+    checkButtonEnabled = false 
   } = options; 
 
   const root = createSection('blanks-single', ariaLabel);
@@ -202,7 +202,7 @@ function blanksSingleRenderer(
     $checkBtn.disabled = true;        
 
     // only add the event listener if we are going to use the button
-    if (!options.checkBtn) {
+    if (!options.checkButtonEnabled) {
       const $container = $("#bls-check-container") as HTMLDivElement;
       $container.style.display = "none";
     } else $checkBtn.addEventListener('click', check);

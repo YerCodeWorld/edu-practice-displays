@@ -28,7 +28,8 @@ function blanksReadingRenderer(
   const {    
     allowRetry = true,
     resultHandler,
-    ariaLabel = 'Blanks Reading Exercise'
+    ariaLabel = 'Blanks Reading Exercise',
+    checkButtonEnabled = false
   } = options; 
 
   const root = createSection('blanks-reading', ariaLabel);
@@ -42,7 +43,7 @@ function blanksReadingRenderer(
   
   let $instruction: HTMLElement;
   let $container: HTMLElement;  
-  let $finish: HTMLButtonElement;  
+  let $checkButton: HTMLButtonElement;  
 
   let $p: HTMLParagraphElement | null = document.createElement('p');;
 
@@ -67,18 +68,20 @@ function blanksReadingRenderer(
             
     $instruction = $("#blanks-reading-label");
     $container = $("#blanks-reading-container");
-    $finish = $("#blanks-reading-check");
+    $checkButton = $("#blanks-reading-check");
+    
+    if (!options.checkButtonEnabled) {
+        $checkButton.style.display = 'none'; 
+    }
     
     $p.className = 'exercise-paragraph';
     $p.ariaLabel = ariaLabel;    
     $p.innerHTML = data.html;           
 
     $instruction.textContent = data.instruction ?? 'Complete the reading';
-    $finish.addEventListener('click', check);
+    $checkButton.addEventListener('click', check);
     $container.appendChild($p);    
 
-    console.log(total);
-    console.log(correct);
   }
 
   // CHECK FUNCTION  
@@ -86,9 +89,6 @@ function blanksReadingRenderer(
 
   function check() {
     const r = dsl.checkAnswers(data.answerMap, root);
-
-    console.log(r.total);
-    console.log(r.correct);
 
     total = r.total;
     correct = r.correct;

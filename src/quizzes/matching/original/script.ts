@@ -20,7 +20,7 @@ export function matchingPageRenderer(
         allowRetry = true,
         resultHandler,
         ariaLabel = "Matching Exercise",
-        checkBtn = true
+        checkButtonEnabled = true
     } = options;
 
     const root = createSection("edu-matching", ariaLabel)    
@@ -256,7 +256,7 @@ export function matchingPageRenderer(
         const $checkBtn = root.querySelector("#check-btn") as HTMLButtonElement;
         if ($checkBtn) {
             $checkBtn.addEventListener("click", check);            
-            if (!options.checkBtn) $checkBtn.style.display = "none";
+            if (!options.checkButtonEnabled) $checkBtn.style.display = "none";
         }
 
         const leftContainer = root.querySelector("#left-items");

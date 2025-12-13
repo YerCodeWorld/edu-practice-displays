@@ -26,7 +26,7 @@ export function matchingSingleRenderer(
         allowRetry = true,
         resultHandler,
         ariaLabel = "Matching Single Exercise",
-        checkBtn = false
+        checkButtonEnabled = false
     } = options;
 
     const root = createSection("mtc-single", ariaLabel);
@@ -89,7 +89,7 @@ export function matchingSingleRenderer(
         $prev = $("#mtc-single-prevBtn");;
         $next = $("#mtc-single-nextBtn");
         $checkBtn = $("#mtc-single-check");
-        if (!options.checkBtn) $checkBtn.style.display = "none";
+        if (!options.checkButtonEnabled) $checkBtn.style.display = "none";
 
         $hintText.textContent = 'Yahir was here';
 

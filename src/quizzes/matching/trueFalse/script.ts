@@ -29,7 +29,7 @@ export function trueFalseRenderer(
         allowRetry = false,
         resultHandler,
         ariaLabel = "True False Exercise",
-        checkBtn = false
+        checkButtonEnabled = false
     } = options;
 
     const root = createSection("tnf-root", ariaLabel);
@@ -76,7 +76,7 @@ export function trueFalseRenderer(
       $list = root.querySelector("#list");
       $picker = root.querySelector("#picker");
       $checkAll = root.querySelector("#checkAll");
-      if (!options.checkBtn) $checkAll.style.display = "none";
+      if (!options.checkButtonEnabled) $checkAll.style.display = "none";
       
       $dialogLabel = root.querySelector("#dialog-text");
 

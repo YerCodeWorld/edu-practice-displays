@@ -30,7 +30,7 @@ function manualExerciseRenderer(
     allowRetry = true, 
     resultHandler,
     ariaLabel = 'Manual Exercise',
-    checkBtn = true
+    checkButtonEnabled = false
   } = options;  
 
   const root = createSection('edu-manual', ariaLabel);      
@@ -54,6 +54,7 @@ function manualExerciseRenderer(
   const total = data.words.length;
   const startTime = Date.now();
   
+  // Maybe refactor to 'chipsPalette'? 
   const palette: string[] = ["#8b5cf6","#d946ef","#9333ea","#facc15","#c084fc","#a855f7","#eab308","#f97316","#14b8a6","#f59e0b"];
   const answers: string[] = data.words;  
 
@@ -77,10 +78,10 @@ function manualExerciseRenderer(
     $checkBtn = $('#manual-check');
     $instruction = $('#manual-instruction');
     $containerMessage = $("#manual-container-message");    
-    $counter = $('#manual-counter');
+    $counter = $('#manual-counter'); 
 
-    const $btnContainer = $("#manual-check-container") as HTMLElement;
-    if (!options.checkBtn) $btnContainer.style.display = "none";        
+    const $btnContainer = $("#manual-check-container") as HTMLDivElement;
+    if (!options.checkButtonEnabled) $btnContainer.style.display = "none";        
 
     $instruction.textContent = data.instruction ?? 'No Instruction';
 

@@ -24,7 +24,7 @@ function singleCategorizeRenderer(
     allowRetry = true,
     resultHandler,
     ariaLabel = 'Single Categorize Exercise',
-    checkBtn = false 
+    checkButtonEnabled = false 
   } = options; 
 
   const root = createSection('categorize-single-root', ariaLabel);
@@ -103,7 +103,7 @@ function singleCategorizeRenderer(
     $dialogBody = root.querySelector('#cats-dialog-body');    
     $dialogClose = root.querySelector('#cats-dialog-close');     
         
-    if (!options.checkBtn) { 
+    if (!options.checkButtonEnabled) { 
       const $footer = $("#ccs-footer") as HTMLElement; 
       $footer.style.display = "none"; 
     };
