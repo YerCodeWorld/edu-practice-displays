@@ -94,7 +94,7 @@
 .bank{ margin-top:.5rem; }
 .bank h5 { margin:10px 0 8px; color:rgb(var(--edu-ink)); }
 
-.bank-grid{5
+.bank-grid{
     display: grid;
     grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
     gap:10px;
