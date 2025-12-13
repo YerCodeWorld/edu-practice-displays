@@ -1,5 +1,11 @@
-import { Pair, GeneralContent, ParseResult } from "../types";
+import { Pair } from "../types";
 import { removeDistractors } from "../../../utils"; 
+
+export interface ParseResult {
+    ok: boolean;
+    content?: MatchData;
+    errors?: string;
+}
 
 /**
  * General parser, works for most variations

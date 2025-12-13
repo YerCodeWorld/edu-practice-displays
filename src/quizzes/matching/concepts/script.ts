@@ -1,23 +1,10 @@
-import {
-    injectStyle, shuffle, createSection, getResultEl
-} from "../../../utils/utils";
+// matching: concepts
 
-import {    
-  RendererOptions, RendererHandle, ContractType, RendererResult
-} from '../../types';
+import { injectStyle, shuffle, createSection, getResultEl } from "../../../utils/utils";
+import { RendererOptions, RendererHandle, ContractType, RendererResult } from '../../types';
+import { items, answerKey, parseMatching, Pair, MatchData as Match } from '../utils';
 
-import {
-    items, answerKey, parseMatching
-} from '../utils';
-
-type Pair = {
-    left: string;
-    right: string;    
-}
-
-type MatchData = {
-    content: Pair[];
-    distractors?: string[];
+interface MatchData extends Match {
     leftColumnName?: string;
     rightColumnName?: string;
 }
@@ -37,7 +24,7 @@ export function conceptsExerciseRenderer(
         allowRetry = true,
         resultHandler,
         ariaLabel = "concept-definition",
-        checkBtn = false
+        checkButtonEnabled = false
     } = options;
 
     const root = createSection("concepts-root", ariaLabel);
@@ -189,16 +176,8 @@ export const ConceptsDefinitionContract: ContractType = {
     category: "open",
     tags: ["relation-mapping", "...", "binary-choice"],
 
-    usage: [
-        "...",
-        "...",
-        "..."
-    ],
-    wrong: [
-        "...",
-        "...",
-        "..."
-    ],
+    usage: ["..."],
+    wrong: ["..."],
 
     grammarExample: [      
         `

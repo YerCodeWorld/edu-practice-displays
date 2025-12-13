@@ -1,7 +1,8 @@
-import { MatchData } from '../types';
+// Matching: Original
+
 import { injectStyle, shuffle, createSection, getResultEl } from "../../../utils";
 import { RendererOptions, RendererHandle, RendererResult, ContractType } from '../../types';
-import { items, distractors, answerKey, parseMatching } from "../utils";
+import { items, distractors, answerKey, parseMatching, MatchData } from "../utils";
 import { playSound } from "../../../services";
 
 import baseHTML from "./index.html";
@@ -20,7 +21,8 @@ export function matchingPageRenderer(
         allowRetry = true,
         resultHandler,
         ariaLabel = "Matching Exercise",
-        checkButtonEnabled = true
+        checkButtonEnabled = true,
+	soundEffectsEnabled = true
     } = options;
 
     const root = createSection("edu-matching", ariaLabel)    
@@ -64,7 +66,13 @@ export function matchingPageRenderer(
 
         item.textContent = text;
 
-        item.addEventListener("click", () => { handleItemClick(id, type); playSound('click'); });
+        item.addEventListener("click", () => {
+		handleItemClick(id, type); 
+		if (options.soundEffectsEnabled) {
+			playSound('click'); 
+		} 
+	});
+
         item.addEventListener("keydown", (e) => {            
             if (e.key === "Enter" || e.key === " ") {
                 e.preventDefault();
@@ -339,7 +347,6 @@ function matchingValidator(data: MatchData): boolean { return true; }
 // ===================================================================// 
 //                           CONTRACT                         
 // ===================================================================//
-
 const exs = `
 apple = red;
 pear = green;
@@ -350,15 +357,15 @@ banana = yellow;
 
 export const MatchingContract: ContractType = {
     name: "Matching",
-    description: "...",       
+    description: "",       
     version: 1.1,
     parserVersion: 1.0,
 
     category: "open",
-    tags: ["relation-mapping", "...", "binary-choice"],
+    tags: ["relation-mapping", "binary-choice"],
 
-    usage: ["...", "..."],
-    wrong: ["...", "..."],
+    usage: [""],
+    wrong: [""],
 
     // reminder to support naming the columns
     grammarExample: [exs],

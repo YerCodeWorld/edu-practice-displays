@@ -1,9 +1,8 @@
 // MATCHING SINGLE 
 
 import { injectStyle, shuffle, createSection, getResultEl } from "../../../utils/utils";
-import { Pair, MatchData } from "../types";
 import { RendererOptions, RendererHandle, ContractType, RendererResult } from '../../types';
-import { items, distractors, answerKey, parseMatching } from "../utils";
+import { items, distractors, answerKey, parseMatching, Pair, MatchData  } from "../utils";
 
 import baseHTML from "./index.html";
 import baseCSS from "./styles.css";
