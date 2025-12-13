@@ -195,7 +195,7 @@ function blanksMultipleParser(code: string, parse = dsl.parse): {
 
     const { label, cleaned } = takeOptionalLabel(trimmed);
 
-    const r = parse(cleaned, i);
+    const r = parse(cleaned);
     if (!r || !r.ok) continue;
 
     blocks.push({

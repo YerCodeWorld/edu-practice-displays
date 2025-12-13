@@ -33,7 +33,7 @@ export function createDSLParser() {
         throw new Error(`@tx: provide at least one non-empty answer. Pos ${pos}.`);
       }
       const answers = dedupe(tokens);
-      const id = `id-${ctx.elsCounter++ + blocksCounter}`;
+      const id = "el_" + Math.random().toString(36).slice(2);
       ctx.answerMap.set(id, answers);
       return `<input type="text" id="${id}" autocomplete="off">`;
     }
@@ -62,12 +62,12 @@ export function createDSLParser() {
         }
       }
 
-      const id = `id-${ctx.elsCounter++ + blocksCounter}`;
+      const id = "el_" + Math.random().toString(36).slice(2);
       ctx.answerMap.set(id, { single: dedupe(values), ranges });
       return `<input type="number" id="${id}">`;
     }
 
-    function parseSL(content: string, pos: number, blocksCounter?: number): string {
+    function parseSL(content: string, pos: number): string {
       const bracketMatches = [...content.matchAll(/\[([^\]]+)\]/g)];
       const correct = bracketMatches.flatMap(m => splitPipes(m[1]));
       const cleaned = content.replace(/\[|\]/g, "");
@@ -79,7 +79,7 @@ export function createDSLParser() {
         if (!options.includes(c)) throw new Error(`@sl: correct '${c}' not present among options. Pos ${pos}.`);
       }
 
-      const id = `id-${ctx.elsCounter++ + blocksCounter}`;
+      const id = "el_" + Math.random().toString(36).slice(2);
       ctx.answerMap.set(id, { correct, options: options.filter(o => !correct.includes(o)) });
       const optsHTML = options.map(o => `<option>${o}</option>`).join("");
       return `<select id="${id}">${optsHTML}</select>`;
@@ -105,7 +105,7 @@ export function createDSLParser() {
   };
 
   // public parse
-  function parse(code: string, blocksCounter?: number): ParseResult {
+  function parse(code: string): ParseResult {
     
     const ctx: Ctx = { elsCounter: 0, answerMap: new Map<string, any>() };
     const grammar = buildGrammar(ctx);
@@ -149,7 +149,7 @@ export function createDSLParser() {
         textBuf += `@${fn}({$content})`;
         continue;
       }
-
+     
       const parser = (grammar as any)[fn];
       if (!parser) {
         errors.push({ pos: currentPos, msg: `Unknown input type '@${fn}'. Allowed: ${Object.keys(grammar).join(", ")}.` });
@@ -158,7 +158,8 @@ export function createDSLParser() {
       }
 
       try {
-        textBuf += parser(content.trim(), currentPos, blocksCounter);
+	ctx.elsCounter++;
+        textBuf += parser(content.trim(), currentPos);
       } catch (e: any) {
         errors.push({ pos: currentPos, msg: String(e?.message ?? e) });
         textBuf += `@${fn}(${content})`;
@@ -187,7 +188,6 @@ export function createDSLParser() {
       total++;
       const el = getEl(id);
       if (!el) { details[id] = { ok: false, error: "Element not found" }; return; }
-
       let ok = false, got: any;
 
       if (Array.isArray(spec)) {
@@ -201,12 +201,14 @@ export function createDSLParser() {
         const isInt = Number.isInteger(v);
         const inSingles = isInt && spec.single.includes(v);
         const inRanges = isInt && spec.ranges.some((r: any) => v >= r.min && v <= r.max);
+
         ok = inSingles || inRanges;
         details[id] = { type: "nm", ok, expected: spec, got };
       } else if ("correct" in spec) {
         const v = (el as HTMLSelectElement).value;
         got = v;
         ok = spec.correct.includes(v);
+
         details[id] = { type: "sl", ok, expectedAnyOf: spec.correct, got };
       } else {
         details[id] = { ok: false, error: "Unknown spec shape" };
