@@ -2,12 +2,8 @@
 [@src/quizzes/categorize/single]
 CSS Not loading; Shows unstyled component.
 
-#2 
-[@src/quizzes/blanks/multiple]
-Broken grades: Does not properly give feedback or shows result of the play.
-
 #3
-[@src/quizzes/blanks/singe]
+[@src/quizzes/blanks/single]
 Needs a layout redesign 
 
 #4
@@ -30,9 +26,5 @@ Add a 'instructionsRemovable: true' flag to the components, and a
 'instructionsEnabled' setter to determine if rendering the instructions as well.
 The removable flag indicates if the component itself has some sort of instructions
 area, as some like @matching-wheels or @blanks-single do not.
-
-#7
-[@ALL]
-Remove background images, leave component backgroundless.
 
 
