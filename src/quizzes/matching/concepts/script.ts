@@ -167,7 +167,7 @@ export function conceptsExerciseRenderer(
 function validateConceptsDefinition(data: any): boolean { return true; }
 
 export const ConceptsDefinitionContract: ContractType = {
-    name: "Concepts Defintion",
+    name: "Concepts Definition",
     description: "In a matching-style way, place the right defition to the concepts.",
     
     version: 1.0,
