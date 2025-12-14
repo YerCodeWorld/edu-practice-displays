@@ -88,7 +88,7 @@ function colorsCategorizeRenderer(
     $checkBtn = $("#cca-check");
     $checkBtn.addEventListener("click", () => check());
     if (!options.checkButtonEnabled) {
-	const $footer = $("#edc-footer"); 
+	const $footer = $("#edc-footer") as HTMLElement; 
   	$footer.style.display = "none";
     } 
     

@@ -53,7 +53,7 @@ export function conceptsExerciseRenderer(
       $btn = root.querySelector("#conceptsCheck");
 
       if (!options.checkButtonEnabled) {
-          const $footer = root.querySelector("#conceptsFooter");	
+          const $footer = root.querySelector("#conceptsFooter") as HTMLElement;	
           $footer.style.display = "none";
       }
 

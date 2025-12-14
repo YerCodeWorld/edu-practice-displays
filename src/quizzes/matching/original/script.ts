@@ -8,9 +8,14 @@ import { playSound } from "../../../services";
 import baseHTML from "./index.html";
 import baseCSS from "./styles.css";
 
+interface MatchOriginalData extends MatchData {
+	leftColumnName: string;
+	rightColumnName: string;
+}
+
 export function matchingPageRenderer(
     mount: HTMLElement,
-    data: MatchData,
+    data: MatchOriginalData,
     options: RendererOptions = {}    
 ): RendererHandle {
 
@@ -341,7 +346,7 @@ export function matchingPageRenderer(
 
 // parser -> parseMatching (imported)
 
-function matchingValidator(data: MatchData): boolean { return true; }
+function matchingValidator(data: MatchOriginalData): boolean { return true; }
 
 
 // ===================================================================// 

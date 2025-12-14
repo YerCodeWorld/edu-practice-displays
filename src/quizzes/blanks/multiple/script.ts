@@ -84,7 +84,7 @@ function blanksMultipleRenderer(
     $container = $("#bm-main-id");
 
     if (!options.checkButtonEnabled) {
-	const $footer = $("#bm-footer");
+	const $footer = $("#bm-footer") as HTMLElement;
 	$footer.style.display = 'none';
     } else {
 	$checkBtn = $("#bm-check-id");

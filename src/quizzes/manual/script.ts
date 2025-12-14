@@ -7,7 +7,7 @@ import baseHTML from './index.html';
 import baseCSS from './style.css';
 
 interface ManualData {
-  $instruction: string;
+  instruction: string;
   words: string[]
 }
 
